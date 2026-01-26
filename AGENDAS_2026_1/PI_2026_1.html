@@ -63,8 +63,8 @@
         
         .agenda-grid {
             display: block;
-            column-count: 1;   
-            column-gap: 15px;  
+            column-count: 1;    
+            column-gap: 15px;   
             padding: 25px;
         }
         
@@ -81,7 +81,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             break-inside: avoid;        
             page-break-inside: avoid;
-            margin-bottom: 15px;      
+            margin-bottom: 15px;       
             width: 100%;
         }
         .card:hover {
@@ -124,6 +124,31 @@
             color:var(--texto-escuro);
             font-weight: 700;
         }
+
+        /* --- CSS DOS BOTÕES (Adicionado para funcionalidade) --- */
+        .btn-card-acao {
+            display: inline-block;
+            margin-top: 8px; 
+            background-color: var(--cor-laranja); 
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: 1px solid transparent;
+            line-height: 1.2;
+        }
+        .btn-card-acao:hover {
+            background-color: #fff;
+            color: var(--cor-laranja);
+            border-color: var(--cor-laranja);
+            transform: scale(1.05);
+        }
+        .oculto { display: none !important; }
 
         /* Rodapé */
         footer {
@@ -169,9 +194,17 @@
             <div class="info-texto">Início das aulas</div>
         </div>
 
-        <div class="card">
+        <div class="card avaliacao">
             <div class="data-badge">23/02</div>
-            <div class="info-texto">Início do Projeto Integrador (PI)</div>  <!-- INCLUIR BOTÃO DINAMICO -->
+            <div class="info-texto">
+                Início do Projeto Integrador (PI)
+                <br>
+                <a id="btnpi" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="23/01" 
+                   data-fim="31/03">
+                   CLIQUE AQUI PARA ACESSAR
+                </a>
+            </div> 
         </div>
 
         <div class="card">
@@ -239,7 +272,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        // --- DETECTAR O ANO (Mantido do modelo base para consistência) ---
+        // --- 1. DETECTAR O ANO ---
         const h2Element = document.getElementById('tituloAno');
         let anoDetectado = new Date().getFullYear(); 
         
@@ -252,11 +285,51 @@
         }
         console.log("Ano Base detectado:", anoDetectado);
         
-        // O script de botões foi removido pois esta agenda não possui links externos de prova.
+        // --- 2. CONFIGURAR HOJE ---
+        const hoje = new Date();
+        hoje.setHours(0,0,0,0);
+
+        function criarDataComAno(diaMesStr, ano) {
+            const partes = diaMesStr.split('/');
+            const dia = parseInt(partes[0]);
+            const mes = parseInt(partes[1]) - 1; 
+            return new Date(ano, mes, dia);
+        }
+
+        // --- 3. LÓGICA DO BOTÃO ---
+        function verificarBotao(idBotao, parametroUrl) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const linkDestino = urlParams.get(parametroUrl);
+            const botao = document.getElementById(idBotao);
+
+            if (!botao) return;
+
+            // Se o link NÃO veio da URL, não faz nada (botão continua oculto)
+            if (!linkDestino) return;
+
+            const inicioStr = botao.getAttribute('data-inicio');
+            const fimStr = botao.getAttribute('data-fim');
+
+            if (inicioStr && fimStr) {
+                const dataInicio = criarDataComAno(inicioStr, anoDetectado);
+                const dataFim = criarDataComAno(fimStr, anoDetectado);
+                dataFim.setHours(23, 59, 59, 999);
+
+                // Verificação de Data
+                if (hoje >= dataInicio && hoje <= dataFim) {
+                    botao.href = linkDestino;
+                    botao.classList.remove('oculto');
+                    console.log(`Botão ${idBotao} ATIVADO.`);
+                } else {
+                    console.log(`Botão ${idBotao} OCULTO.`);
+                }
+            }
+        }
+
+        // Ativação do botão PI
+        verificarBotao('btnpi', 'pi');
     });
 </script>
 
 </body>
-
 </html>
-
