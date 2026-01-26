@@ -158,10 +158,10 @@
             background-color: var(--cor-laranja);
             color: white;
         }
-        /* AQUI ESTÁ A REGRA QUE DEIXA NEGRITO SEM USAR TAG STRONG */
+        /* REGRA: Negrito visual sem trocar a fonte (sem tag strong) */
         .card.avaliacao .info-texto {
             color: var(--texto-escuro);
-            font-weight: 700; /* Negrito via CSS */
+            font-weight: 700; 
         }
         
         footer {
@@ -222,7 +222,7 @@
             <img src="https://cdn.jsdelivr.net/gh/Klebolt/logounisa@main/logounisaagenda.png" alt="Logo Unisa">
         </div>
         <h1>Agenda Geral da Disciplina</h1>
-        <h2 id="tituloAno">EAD - 2026/1</h2>
+        <h2 id="tituloAno">EAD PI SD - 2026/1</h2>
     </header>
 
     <div class="agenda-grid">
@@ -234,12 +234,20 @@
 
         <div class="card">
             <div class="data-badge">23/02</div>
-            <div class="info-texto">Início do Projeto Integrador (PI)</div> <!-- INCLUIR BOTÃO DINAMICO -->
+            <div class="info-texto">
+                Início do período de entrega do Projeto Integrador (PI)
+                <br>
+                <a id="btnpi" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="23/02" 
+                   data-fim="31/03">
+                   CLIQUE AQUI PARA ACESSAR
+                </a>
+            </div>
         </div>
 
         <div class="card avaliacao">
             <div class="data-badge">09/03</div>
-            <div class="info-texto">Prazo limite da 1° Entrega do PI</div>
+            <div class="info-texto">Prazo limite da 1ª entrega</div>
         </div>
 
         <div class="card">
@@ -249,7 +257,7 @@
 
         <div class="card avaliacao">
             <div class="data-badge">30/03</div>
-            <div class="info-texto">Entrega Final do PI</div>
+            <div class="info-texto">Entrega final do Projeto</div>
         </div>
 
         <div class="card avaliacao">
@@ -264,12 +272,13 @@
             <span>● DATAS EM LARANJA INDICAM AVALIAÇÕES E DIVULGAÇÕES DE NOTAS</span>
         </div>
     </footer>
+
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        // --- 1. DETECTAR O ANO (Filtra "EAD - " e pega só 2026) ---
+        // --- 1. DETECTAR O ANO (Filtra "WEB PI - " e pega só 2026) ---
         const h2Element = document.getElementById('tituloAno');
         let anoDetectado = new Date().getFullYear(); 
         
@@ -327,9 +336,11 @@
         verificarBotao('btnAVC', 'avc');
         verificarBotao('btnAVG', 'avg');
         verificarBotao('btnAVI', 'avi');
+        
+        // Ativação do botão PI solicitado
+        verificarBotao('btnpi', 'pi');
     });
 </script>
 
 </body>
-
 </html>
