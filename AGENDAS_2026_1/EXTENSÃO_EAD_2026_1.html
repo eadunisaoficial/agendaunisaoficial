@@ -238,8 +238,16 @@
         </div>
 
         <div class="card avaliacao">
-            <div class="data-badge">23/02 à 30/03</div>  <!-- ADICIONAR BOTÃO DINAMICO -->
-            <div class="info-texto">Período de realização do Projeto de Extensão</div>   <!-- ADICIONAR BOTÃO DINAMICO -->
+            <div class="data-badge">23/02 à 30/03</div> 
+            <div class="info-texto">
+                Período de realização do Projeto de Extensão
+                <br>
+                <a id="btnPE" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="23/02" 
+                   data-fim="31/03">
+                   CLIQUE AQUI PARA ACESSAR
+                </a>
+            </div> 
         </div>
 
         <div class="card">
@@ -274,12 +282,28 @@
 
         <div class="card avaliacao">
             <div class="data-badge">24/03 à 30/03</div>
-            <div class="info-texto">Período de realização da Avaliação Integrada (AVI)</div>  <!-- ADICIONAR BOTÃO DINAMICO -->
+            <div class="info-texto">
+                Período de realização da Avaliação Integrada (AVI)
+                <br>
+                <a id="btnAVI" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="24/03" 
+                   data-fim="31/03">
+                   CLIQUE AQUI PARA REALIZAR A PROVA
+                </a>
+            </div> 
         </div>
 
         <div class="card avaliacao">
             <div class="data-badge">20/03 à 07/04</div>
-            <div class="info-texto">Período de realização da AVG</div>  <!-- ADICIONAR BOTÃO DINAMICO -->
+            <div class="info-texto">
+                Período de realização da AVG
+                <br>
+                <a id="btnAVG" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="20/03" 
+                   data-fim="07/04">
+                   CLIQUE AQUI PARA REALIZAR A PROVA
+                </a>
+            </div>
         </div>
 
         <div class="card avaliacao">
@@ -401,9 +425,9 @@
         verificarBotao('btnAVC', 'avc');
         verificarBotao('btnAVG', 'avg');
         verificarBotao('btnAVI', 'avi');
+        verificarBotao('btnPE', 'pe');
     });
 </script>
 
 </body>
-
 </html>
