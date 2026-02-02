@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambiente de Aulas - NitroCode</title>
+    <style>
+        /* ==========================================================================
+           1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+           ========================================================================== */
+        :root {
+            --cor-fundo-pagina: #ffffff;
+            --cor-container-azul: #9ebdd6;
+            --cor-azul-escuro: #005487;
+            --cor-azul-tabela-linha: #eef6fb;
+            --cor-texto-branco: #ffffff;
+            --cor-laranja-destaque: #ff8533;
+            --cor-borda-suave: #dbe4ea;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: var(--cor-fundo-pagina); padding: 20px; }
+        .container-disciplina { max-width: 1200px; margin: 0 auto; width: 100%; }
+
+        /* ==========================================================================
+           2. CABEÇALHO
+           ========================================================================== */
+        .disciplina-header {
+            background-color: var(--cor-container-azul);
+            padding: 15px 20px; border-radius: 6px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: center; 
+            position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .botao-voltar {
+            position: absolute; left: 15px; color: white; text-decoration: none;
+            font-weight: bold; background-color: var(--cor-azul-escuro);
+            padding: 8px 20px; border-radius: 4px; font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .botao-voltar:hover { background-color: #003f66; }
+
+        .disciplina-header h1 { 
+            font-size: 20px; color: white; font-weight: 500; 
+            text-align: center; letter-spacing: 0.5px; max-width: 80%;
+        }
+
+        /* ==========================================================================
+           3. CONTAINER PRINCIPAL
+           ========================================================================== */
+        .main-content-wrapper {
+            background-color: var(--cor-container-azul); padding: 20px;
+            border-radius: 6px; margin-bottom: 30px;
+        }
+        .titulo-secao-topo {
+            text-align: center; color: white; font-size: 18px; margin-bottom: 20px;
+            text-transform: uppercase; position: relative; padding-bottom: 10px;
+        }
+        .titulo-secao-topo::after {
+            content: ''; display: block; width: 100%; height: 1px;
+            background-color: rgba(255,255,255,0.5); position: absolute; bottom: 0; left: 0;
+        }
+
+        /* ==========================================================================
+           4. CALENDÁRIO
+           ========================================================================== */
+        .container-cronograma {
+            background: white; padding: 30px 20px; border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;
+        }
+        .container-cronograma h2 { 
+            color: var(--cor-azul-escuro); text-align: center; margin-bottom: 25px; 
+            font-size: 1.4rem; font-weight: 500;
+        }
+        .tabela-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        
+        th:first-child, td:first-child { width: 25%; min-width: 220px; }
+        th { background-color: var(--cor-azul-escuro); color: white; padding: 15px; font-size: 15px; font-weight: 600; }
+        td { padding: 12px 10px; text-align: center; border: none; vertical-align: middle; color: #555; font-size: 14px; }
+        
+        tbody tr:nth-child(odd) { background-color: var(--cor-azul-tabela-linha); }
+        tbody tr:nth-child(even) { background-color: white; }
+
+        tr.linha-destaque td {
+            background-color: #fff8e1; color: var(--cor-azul-escuro);
+            font-weight: 600; border-bottom: 2px solid var(--cor-laranja-destaque);
+        }
+
+        .celula-aula { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; }
+        .numero-aula { font-weight: bold; font-size: 1.1em; z-index: 2; }
+
+        .btn-gravacao-tabela {
+            position: absolute; left: 50%; margin-left: 20px; top: 50%; transform: translateY(-50%);
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 5px 10px; background-color: var(--cor-laranja-destaque);
+            color: white; text-decoration: none; font-size: 10px; font-weight: bold;
+            border-radius: 4px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            transition: 0.2s; white-space: nowrap; 
+        }
+        .btn-gravacao-tabela:hover { background-color: #e6762d; transform: translateY(-50%) scale(1.05); }
+
+        /* ==========================================================================
+           5. BLOCO DE ORIENTAÇÕES
+           ========================================================================== */
+        .bloco-orientacao {
+            background-color: #fff; border-left: 5px solid var(--cor-laranja-destaque);
+            padding: 20px; margin-bottom: 20px; border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 15px; border: 1px solid #eee;
+        }
+        .icone-info { font-size: 24px; margin-top: -2px; }
+        .texto-orientacao h3 { color: var(--cor-azul-escuro); font-size: 1.1em; margin-bottom: 5px; }
+        .texto-orientacao p { color: #666; font-size: 0.9em; line-height: 1.5; margin: 0; }
+
+        /* ==========================================================================
+           6. CARDS (GRID)
+           ========================================================================== */
+        #botoes-gravacoes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+        
+        .card-curso {
+            background: white; border: 1px solid var(--cor-borda-suave); border-top: none;
+            border-radius: 4px; padding: 0; display: flex; flex-direction: column; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s ease; height: fit-content; overflow: hidden;
+        }
+        .card-curso:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        /* --- ALTERAÇÃO AQUI: Título do card com fundo azul escuro e texto branco --- */
+        .titulo-card {
+            background-color: var(--cor-azul-escuro); /* Fundo azul escuro */
+            padding: 15px; 
+            font-weight: 600; 
+            text-align: center; 
+            color: white; /* Texto branco */
+            font-size: 1rem; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;
+        }
+        .titulo-card::after { content: '▼'; font-size: 0.8em; color: var(--cor-laranja-destaque); transition: transform 0.3s; }
+        
+        /* Mantém o fundo azul escuro quando aberto */
+        .card-curso.aberto .titulo-card { 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+        }
+        .card-curso.aberto .titulo-card::after { transform: rotate(180deg); }
+
+        .lista-botoes { 
+            display: none; grid-template-columns: 1fr; gap: 10px; 
+            animation: fadeIn 0.4s ease; padding: 15px; background-color: #fff;
+        }
+        .card-curso.aberto .lista-botoes { display: grid; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .item-aula { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
+        .label-aula { 
+            font-size: 11px; font-weight: 700; color: #000000; text-align: center; text-transform: uppercase; margin-bottom: 4px; 
+        }
+        
+        .btn-aula {
+            background-color: var(--cor-azul-tabela-linha); color: var(--cor-azul-escuro);
+            border: 1px solid var(--cor-borda-suave); padding: 10px 0; width: 100%; border-radius: 4px; text-decoration: none;
+            font-size: 12px; font-weight: bold; display: inline-block; text-align: center; transition: 0.2s;
+        }
+        .btn-aula:hover { background-color: var(--cor-azul-escuro); color: white; }
+        .btn-aula.bloqueado { background-color: #f9f9f9; color: #ccc; border-color: #eee; cursor: not-allowed; pointer-events: none; }
+
+        @media (max-width: 992px) { #botoes-gravacoes { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { 
+            body { padding: 10px; }
+            .disciplina-header { flex-direction: column; gap: 15px; padding: 15px; text-align: center; }
+            .botao-voltar { position: static; align-self: center; margin-bottom: 5px; width: 100%; text-align: center;}
+            .disciplina-header h1 { font-size: 18px; max-width: 100%; }
+            .container-cronograma { padding: 15px; }
+            #botoes-gravacoes { grid-template-columns: 1fr; gap: 15px; }
+            .bloco-orientacao { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+            .btn-gravacao-tabela { position: static; transform: none; display: block; margin: 5px auto 0 auto; width: fit-content; }
+            .celula-aula { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-disciplina">
+    <header class="disciplina-header">
+        <a href="#" class="botao-voltar">‹ Voltar</a>
+        <h1>Análise do Discurso e da Conversação</h1>
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="titulo-secao-topo">AULA AO VIVO</div>
+        <div class="container-cronograma">
+            <h2>Calendário de aulas ao vivo</h2>
+            <div class="tabela-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Aula</th><th>Data</th><th>Horário</th><th>Professor(a)</th></tr>
+                    </thead>
+                    <tbody id="corpo-tabela"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="bloco-orientacao">
+        <div class="icone-info">💡</div>
+        <div class="texto-orientacao">
+            <h3>Conteúdos Gravados</h3>
+            <p><strong>Clique no card do seu curso</strong> para expandir. Aulas com botão colorido estão disponíveis.</p>
+        </div>
+    </div>
+
+    <div id="botoes-gravacoes"></div>
+</div>
+
+<script>
+    /* ==========================================================================
+       === ÁREA DE CONFIGURAÇÃO ===
+       ========================================================================== */
+
+    // 1. DADOS DO CALENDÁRIO
+    const DADOS_CALENDARIO = [
+        { aula: 1, data: "10/02", hora: "19:00", prof: "Prof. Alberto", link: "https://exemplo.com/aula1" },
+        { aula: 2, data: "12/02", hora: "19:00", prof: "Prof. Maria",   link: "" },
+        { aula: 3, data: "15/02", hora: "20:00", prof: "Prof. Ricardo", link: "" },
+        { aula: 4, data: "18/02", hora: "19:30", prof: "Prof. Ana",     link: "" },
+        { aula: 5, data: "22/02", hora: "19:00", prof: "Prof. Carlos",  link: "https://exemplo.com/aula5" },
+        { aula: 6, data: "25/02", hora: "20:00", prof: "Prof. Julia",   link: "" }
+    ];
+
+    // 2. TÍTULOS DOS CARDS (NOMES DOS CURSOS)
+    const TITULOS_CURSOS = {
+        1: "CURSO INTRODUTÓRIO", 2: "CURSO DE MARKETING", 3: "CURSO DE VENDAS",
+        4: "GESTÃO DE PESSOAS", 5: "FINANÇAS BÁSICAS", 6: "LIDERANÇA AVANÇADA"
+    };
+
+    // 3. NOMES INDIVIDUAIS DAS AULAS (TÍTULOS ACIMA DO BOTÃO)
+    const NOMES_DAS_AULAS = {
+        1: { 1: "Introdução ao Tema", 2: "Conceitos Básicos", 3: "Estudo de Caso", 4: "Revisão", 5: "Prova", 6: "Encerramento" },
+        2: { 1: "Marketing Digital", 2: "SEO Básico", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
+    };
+
+    // 4. LINKS DOS BOTÕES
+    const LINKS_BOTOES_CARDS = {
+        1: { 1: "https://exemplo.com/aula5", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1: "#", 2: "#", 3: "#", 4: "https://exemplo.com/aula5", 5: "#", 6: "#" },
+        3: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
+    };
+
+    /* ==========================================================================
+       === LÓGICA DO SISTEMA ===
+       ========================================================================== */
+    
+    function parseDate(dateStr) {
+        if(!dateStr.includes('/')) return null;
+        const [day, month] = dateStr.split('/');
+        const currentYear = new Date().getFullYear();
+        return new Date(currentYear, month - 1, day);
+    }
+
+    function toggleDropdown(element) {
+        element.classList.toggle('aberto');
+    }
+
+    function renderizarLayout() {
+        const tabela = document.getElementById('corpo-tabela');
+        const grid = document.getElementById('botoes-gravacoes');
+        const hoje = new Date();
+        hoje.setHours(0,0,0,0); 
+
+        let proximaAulaEncontrada = false;
+
+        DADOS_CALENDARIO.forEach(item => {
+            const tr = document.createElement('tr');
+            const dataAula = parseDate(item.data);
+            
+            if (dataAula && !proximaAulaEncontrada && dataAula >= hoje) {
+                tr.classList.add('linha-destaque'); 
+                proximaAulaEncontrada = true; 
+            }
+
+            const btnGravacaoHTML = (item.link && item.link !== "") 
+                ? `<a href="${item.link}" target="_blank" class="btn-gravacao-tabela" title="Acessar Gravação">▶ Ver Gravação</a>` 
+                : ""; 
+
+            tr.innerHTML = `
+                <td><div class="celula-aula"><span class="numero-aula">${item.aula}</span>${btnGravacaoHTML}</div></td>
+                <td>${item.data}</td>
+                <td>${item.hora}</td>
+                <td>${item.prof}</td>
+            `;
+            tabela.appendChild(tr);
+        });
+
+        for (let idCard = 1; idCard <= 6; idCard++) {
+            const card = document.createElement('div');
+            card.className = 'card-curso';
+            card.setAttribute('data-card-id', idCard);
+            card.setAttribute('onclick', 'toggleDropdown(this)');
+
+            const tituloDoCurso = TITULOS_CURSOS[idCard] || `CURSO ${idCard}`;
+            const linksDesteCard = LINKS_BOTOES_CARDS[idCard] || {};
+            const nomesDesteCard = NOMES_DAS_AULAS[idCard] || {};
+
+            let htmlBotoesInternos = '';
+            
+            for (let idBotao = 1; idBotao <= 6; idBotao++) {
+                const linkDestino = linksDesteCard[idBotao];
+                const nomeDaAula = nomesDesteCard[idBotao] ? nomesDesteCard[idBotao] : `Aula ${idBotao}`;
+                const temLink = linkDestino && linkDestino !== "#" && linkDestino !== "";
+                const classeExtra = temLink ? "" : "bloqueado";
+                const textoBotao = temLink ? "▶ ACESSAR" : "🔒 AGUARDE";
+                const href = temLink ? `href="${linkDestino}" target="_blank"` : ""; 
+
+                htmlBotoesInternos += `
+                    <div class="item-aula">
+                        <span class="label-aula">${nomeDaAula}</span>
+                        <a ${href} class="btn-aula ${classeExtra}" onclick="event.stopPropagation()">${textoBotao}</a>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `<div class="titulo-card">${tituloDoCurso}</div><div class="lista-botoes">${htmlBotoesInternos}</div>`;
+            grid.appendChild(card);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', renderizarLayout);
+</script>
+</body>
+</html>
