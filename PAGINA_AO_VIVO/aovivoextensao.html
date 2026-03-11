@@ -475,11 +475,6 @@
     <div class="conteudo-popup">
         <h2>💡 Informações Importantes</h2>
         
-        <!-- <div class="item-orientacao-pop">
-            <strong>📺 Aulas Ao Vivo</strong>
-            O calendário principal e o botão "🔴 Acesso Aula ao Vivo" referem-se às aulas gerais da <b>disciplina de EXTENSÃO</b>.
-        </div> -->
-
         <div class="item-orientacao-pop">
             <strong>🎓 Conteúdo por Área de Conhecimento</strong>
             As <b>informações/cards</b> localizados <b>abaixo </b>do calendário das aulas de extensão são direcionados especificamente à <b>ÁREA DE CADA CURSO</b>.
@@ -497,13 +492,7 @@
         <a href="https://extensaodigital.unisa.br/course/view.php?id=50#section-0" class="botao-voltar"> Voltar</a>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <h1></h1>
-            <!-- <div class="aviso-extensao">
-                ⚠️ <strong>Calendário de Aulas Ao Vivo:</strong> 
-Esse calendário refere-se às aulas gerais da disciplina de <b>EXTENSÃO.</b><br>
-<b>🎓  Área de Conhecimento:</b>
-As informações/cards localizados <strong>abaixo do calendário das aulas de extensão</strong> são direcionados especificamente à <b>ÁREA DE CADA CURSO.</b>
-            </div> -->
-        </div>
+            </div>
     </header>
 
     <div class="main-content-wrapper">
@@ -589,7 +578,7 @@ As informações/cards localizados <strong>abaixo do calendário das aulas de ex
 
     const DATAS_AULAS = {
         1: { 1: "25/03/2026 - 18:00", 2: "18/03/2026 - 21:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "25/02/2026 - 21:00", 2: "11/03/2026 - 17:00", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1: "25/02/2026 - 21:00", 2: "11/03/2026 - 21:00", 3: "#", 4: "#", 5: "#", 6: "#" },
         3: { 1: "25/02/2026 - 20:00", 2: "11/03/2026 - 20:00", 3: "#", 4: "#", 5: "#", 6: "#" },
         4: { 1: "11/03/2026 - 18:00", 2: "18/03/2026 - 19:00", 3: "#", 4: "#", 5: "#", 6: "#" },
         5: { 1: "25/02/2026 - 19:00", 2: "11/03/2026 - 19:00", 3: "#", 4: "#", 5: "#", 6: "#" },
@@ -679,7 +668,8 @@ As informações/cards localizados <strong>abaixo do calendário das aulas de ex
                 let temLink = (linkDestino && linkDestino !== "#" && linkDestino !== "");
                 if (dataObj) {
                     const diffHoras = (agora - dataObj) / (1000 * 60 * 60);
-                    if (diffHoras > -1 && diffHoras < 3 && temLink) {
+                    // AQUI FOI ALTERADO: diffHoras >= 0 no lugar de diffHoras > -1
+                    if (diffHoras >= 0 && diffHoras < 3 && temLink) {
                         statusClass = "status-aovivo";
                         textoBotao = "🔴 AO VIVO AGORA";
                         href = `href="${linkDestino}" target="_blank"`;
@@ -728,12 +718,4 @@ As informações/cards localizados <strong>abaixo do calendário das aulas de ex
     document.addEventListener('DOMContentLoaded', renderizarLayout);
 </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
