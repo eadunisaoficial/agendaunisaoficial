@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gravação de Aula</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    a.button {
+      display: inline-block;
+      background-color: #005d99;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Gravação da Aula - 19/02/2025</h2>
+  <p>Clique no botão abaixo para assistir à gravação:</p>
+
+  <a href="https://us02web.zoom.us/rec/share/dl07ceNcU-q_lyasjaA2FmRnYNh78AAjywlgtblPl_U4jENrii35FpNOrzXP8Jfz.sOzN-pAD5fseP8TS"
+     class="button"
+     onclick="return abrirLinkCorreto(this.href);">
+    Assistir Gravação
+  </a>
+
+  <script>
+    function abrirLinkCorreto(url) {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      
+      if (!isMobile) {
+        // No desktop, abrir nova aba
+        window.open(url, '_blank', 'noopener');
+        return false; // Impede navegação padrão no desktop
+      }
+
+      // No mobile, deixa o link funcionar normalmente
+      return true;
+    }
+  </script>
+
+</body>
+</html>
