@@ -63,8 +63,8 @@
         
         .agenda-grid {
             display: block;
-            column-count: 1;   
-            column-gap: 15px;  
+            column-count: 1;    
+            column-gap: 15px;   
             padding: 25px;
         }
         
@@ -81,7 +81,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             break-inside: avoid;        
             page-break-inside: avoid;
-            margin-bottom: 15px;      
+            margin-bottom: 15px;       
             width: 100%;
         }
         .card:hover {
@@ -125,6 +125,31 @@
             font-weight: 700;
         }
 
+        /* --- CSS DOS BOTÕES (Adicionado para funcionalidade) --- */
+        .btn-card-acao {
+            display: inline-block;
+            margin-top: 8px; 
+            background-color: var(--cor-laranja); 
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: 1px solid transparent;
+            line-height: 1.2;
+        }
+        .btn-card-acao:hover {
+            background-color: #fff;
+            color: var(--cor-laranja);
+            border-color: var(--cor-laranja);
+            transform: scale(1.05);
+        }
+        .oculto { display: none !important; }
+
         /* Rodapé */
         footer {
             background-color: #f9f9f9;
@@ -159,68 +184,79 @@
             <img src="https://cdn.jsdelivr.net/gh/Klebolt/logounisa@main/logounisaagenda.png" alt="Logo Unisa">
         </div>
         <h1>Agenda Geral da Disciplina</h1>
-        <h2 id="tituloAno">EAD - 2025/1</h2>
+        <h2 id="tituloAno">EAD PI - 2026/2</h2>
     </header>
 
     <div class="agenda-grid">
 
         <div class="card">
-            <div class="data-badge">03/02</div>
+            <div class="data-badge">14/04</div>
             <div class="info-texto">Início das aulas</div>
         </div>
 
         <div class="card">
-            <div class="data-badge">10/02</div>
-            <div class="info-texto">Início do Projeto Integrador (PI)</div>
-        </div>
-
-        <div class="card">
-            <div class="data-badge">17/02 à 22/02</div>
+            <div class="data-badge">22/04 à 30/04</div>
             <div class="info-texto"><strong>1ª Aula ao Vivo</strong></div>
         </div>
 
         <div class="card">
-            <div class="data-badge">24/02 à 01/03</div>
+            <div class="data-badge">04/05 à 09/05</div>
             <div class="info-texto"><strong>2ª Aula ao Vivo</strong></div>
         </div>
 
         <div class="card">
-            <div class="data-badge">10/03 à 15/03</div>
+            <div class="data-badge">11/05 à 10/05</div>
             <div class="info-texto"><strong>3ª Aula ao Vivo</strong></div>
         </div>
 
         <div class="card avaliacao">
-            <div class="data-badge">12/03</div>
+            <div class="data-badge">12/05</div>
+            <div class="info-texto">
+                Início do Projeto Integrador (PI)
+                <br>
+                <a id="btnpi" href="#" class="btn-card-acao oculto" target="_blank" 
+                   data-inicio="12/05" 
+                   data-fim="18/06">
+                   CLIQUE AQUI PARA ACESSAR
+                </a>
+            </div> 
+        </div>
+
+          
+
+        <div class="card">
+            <div class="data-badge">18/05 à 23/05</div>
+            <div class="info-texto"><strong>4ª Aula ao vivo</strong></div>
+        </div>
+
+
+        <div class="card">
+            <div class="data-badge">25/05 à 30/05</div>
+            <div class="info-texto"><strong>5ª Aula ao vivo</strong></div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">26/05</div>
             <div class="info-texto">Prazo limite da 1° Entrega do PI</div>
         </div>
 
         <div class="card">
-            <div class="data-badge">17/03 à 22/03</div>
-            <div class="info-texto"><strong>4ª Aula ao vivo</strong></div>
-        </div>
-
-        <div class="card">
-            <div class="data-badge">22/03</div>
-            <div class="info-texto">Devolução do feedback do tutor para o aluno</div>
-        </div>
-
-        <div class="card">
-            <div class="data-badge">24/03 à 29/03</div>
-            <div class="info-texto"><strong>5ª Aula ao vivo</strong></div>
-        </div>
-
-        <div class="card">
-            <div class="data-badge">31/03 à 05/04</div>
+            <div class="data-badge">01/06 à 11/06</div>
             <div class="info-texto"><strong>6ª Aula ao vivo</strong></div>
         </div>
 
+        <div class="card">
+            <div class="data-badge">03/06</div>
+            <div class="info-texto">Devolução do feedback do tutor para o aluno</div>
+        </div>
+
         <div class="card avaliacao">
-            <div class="data-badge">31/03</div>
+            <div class="data-badge">17/06</div>
             <div class="info-texto">Entrega Final do PI</div>
         </div>
 
         <div class="card avaliacao">
-            <div class="data-badge">17/04</div>
+            <div class="data-badge">30/06</div>
             <div class="info-texto">Divulgação das notas do PI</div>
         </div>
 
@@ -239,7 +275,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        // --- DETECTAR O ANO (Mantido do modelo base para consistência) ---
+        // --- 1. DETECTAR O ANO ---
         const h2Element = document.getElementById('tituloAno');
         let anoDetectado = new Date().getFullYear(); 
         
@@ -252,9 +288,53 @@
         }
         console.log("Ano Base detectado:", anoDetectado);
         
-        // O script de botões foi removido pois esta agenda não possui links externos de prova.
+        // --- 2. CONFIGURAR HOJE ---
+        const hoje = new Date();
+        hoje.setHours(0,0,0,0);
+
+        function criarDataComAno(diaMesStr, ano) {
+            const partes = diaMesStr.split('/');
+            const dia = parseInt(partes[0]);
+            const mes = parseInt(partes[1]) - 1; 
+            return new Date(ano, mes, dia);
+        }
+
+        // --- 3. LÓGICA DO BOTÃO ---
+        function verificarBotao(idBotao, parametroUrl) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const linkDestino = urlParams.get(parametroUrl);
+            const botao = document.getElementById(idBotao);
+
+            if (!botao) return;
+
+            // Se o link NÃO veio da URL, não faz nada (botão continua oculto)
+            if (!linkDestino) return;
+
+            const inicioStr = botao.getAttribute('data-inicio');
+            const fimStr = botao.getAttribute('data-fim');
+
+            if (inicioStr && fimStr) {
+                const dataInicio = criarDataComAno(inicioStr, anoDetectado);
+                const dataFim = criarDataComAno(fimStr, anoDetectado);
+                dataFim.setHours(23, 59, 59, 999);
+
+                // Verificação de Data
+                if (hoje >= dataInicio && hoje <= dataFim) {
+                    botao.href = linkDestino;
+                    botao.classList.remove('oculto');
+                    console.log(`Botão ${idBotao} ATIVADO.`);
+                } else {
+                    console.log(`Botão ${idBotao} OCULTO.`);
+                }
+            }
+        }
+
+        // Ativação do botão PI
+        verificarBotao('btnpi', 'pi');
     });
 </script>
 
 </body>
 </html>
+
+
