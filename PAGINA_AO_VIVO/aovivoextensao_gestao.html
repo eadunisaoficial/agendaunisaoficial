@@ -538,13 +538,13 @@
        === ÁREA DE CONFIGURAÇÃO ===
        ========================================================================== */
     const CONFIG_VISIBILIDADE = {
-        7: { exibir_card: true, aulas_ocultas: [6] }, 
-        1: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
-        2: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
-        3: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
-        4: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
-        5: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
-        6: { exibir_card: true, aulas_ocultas: [3,4,5,6] }
+        7: { exibir_card: false, aulas_ocultas: [6] }, 
+        1: { exibir_card: true, aulas_ocultas: [4,5,6] },
+        2: { exibir_card: true, aulas_ocultas: [4,5,6] },
+        3: { exibir_card: true, aulas_ocultas: [4,5,6] },
+        4: { exibir_card: true, aulas_ocultas: [4,5,6] },
+        5: { exibir_card: true, aulas_ocultas: [4,5,6] },
+        6: { exibir_card: true, aulas_ocultas: [4,5,6] }
     };
 
     const DADOS_CALENDARIO = [
@@ -567,33 +567,54 @@
     };
 
     const NOMES_DAS_AULAS = {
-        1: { 1: "Rastro Digital: O Desafio do Lixo Eletrônico e do Plástico Tecnológico.", 2: "Inteligência Verde: IoT e Big Data no Monitoramento de Resíduos Urbanos.", 3: "Estudo de Caso", 4: "Revisão", 5: "Prova", 6: "Encerramento" },
-        2: { 1: "Além da Reciclagem: Diagnóstico do Consumo e Conscientização nas Escolas.", 2: "A Escola como Agente: Metodologias Ativas para a Mudança de Hábito.", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
-        3: { 1: "O Entulho Invisível: Impactos Técnicos e Ambientais dos Polímeros na Obra.", 2: "Engenharia Lixo Zero: Novos Materiais e Economia Circular na Construção.", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
-        4: { 1: "O Custo do Desperdício: Passivos Ambientais do Plástico.", 2: "Lucro com Propósito: ESG e Logística Reversa como Diferencial Competitivo.", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
-        5: { 1: "O Peso da Conveniência: Diagnóstico do Descarte no Setor de Hospitalidade.", 2: "Experiência de Valor: Design de Serviço e a Transição para o Zero Plástico.", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
-        6: { 1: "Saúde de Elite: Estratégias de Gestão para um Cuidado Ético e Sustentável", 2: "O Peso da Conveniência: Diagnóstico do Descarte no Setor de Hospitalidade.", 3: "Redes Sociais", 4: "Tráfego Pago", 5: "Email Marketing", 6: "Analytics" },
-        7: { 1: "Conexão Sustentável: Como o Desafio dos Resíduos Plásticos Transforma Todas as Profissões", 2: "Ponto de Virada: O Seu Papel na Resolução dos Desafios Socioambientais Contemporâneos.", 3: "Voz e Impacto: Comunicação Estratégica para a Mudança Socioambiental", 4: "Profissionais do Amanhã: Como Liderar Soluções em um Mundo Saturado de Plástico", 5: "Master Class: Protagonistas da Mudança: Apresentação dos Projetos que Transformaram a Comunidade", 6: "#" }
+        //CARD 1 --> "COMPUTAÇÃO E TIC"
+        1: { 1: "Olhando para o Vizinho: Como enxergar o que o empreendedor não vê em si mesmo", 2: "Qual caminho eu escolho? Decidindo sob pressão, custo e incerteza", 3: "Você construiu - agora convence: como comunicar o valor da sua solução e provar que ela funcionou", 4: "a", 5: "a", 6: "a" },
+        //CARD 2 --> "EDUCAÇÃO"
+        2: { 1: "A Escola no Mapa do Bairro: Como Diagnosticar o Potencial de Inovação de uma Instituição Educacional", 2: "O Dilema do Professor Inovador: Como Escolher a Metodologia Certa para o Contexto Certo", 3: "O Impacto que Fica: Como Documentar, Comunicar e Medir o Legado do Seu Projeto Educacional", 4: "#", 5: "#", 6: "#" },
+        //CARD 3 --> "ENGENHARIA, PRODUÇÃO E CONSTRUÇÃO"
+        3: { 1: "Engenharia de Campo: Como Diagnosticar Ineficiências Operacionais em Pequenos Empreendimentos", 2: "Engenharia de Solução: Como Escolher a Inovação Certa para o Tamanho Certo do Problema", 3: "Engenharia de Impacto: Como Implementar, Monitorar e Comunicar Resultados de Projetos de Inovação", 4: "#", 5: "#", 6: "#" },
+        //CARD 4 --> "NEGÓCIOS E ADM"
+        4: { 1: "Radiografia do Negócio: Como Diagnosticar Maturidade Digital e Oportunidades em Pequenos Empreendimentos", 2: "O Dilema do Gestor: Inovar ou Esperar? Como Tomar Decisões Estratégicas com Dados e Responsabilidade", 3: "O Plano que Funciona: Como Implementar, Comunicar e Medir o Impacto do Plano de Negócios", 4: "#", 5: "#", 6: "#" },
+        //CARD 5 --> "SERVIÇOS"
+        5: { 1: "O Serviço sob a Lupa: Como Diagnosticar Oportunidades de Inovação em Pequenos Empreendimentos de Serviços", 2: "O Dilema da Experiência: Escolhendo a Inovação Certa para Transformar um Negócio de Serviços", 3: "A Experiência que Transforma: Como Implementar, Medir e Comunicar o Impacto de Projetos de Inovação em Serviços", 4: "#", 5: "#", 6: "#" },
+        //CARD 6 --> "SAÚDE E BEM ESTAR"
+        6: { 1: "Saúde em Diagnóstico: Como Identificar Oportunidades de Inovação em Serviços e Empreendimentos de Saúde", 2: "O Dilema do Cuidado Digital: Como Escolher a Tecnologia Certa para Transformar Serviços de Saúde", 3: "Impacto Que Cura: Como Medir, Comunicar e Ampliar o Impacto de Projetos de Inovação em Saúde", 4: "#", 5: "#", 6: "#" },
+        //CARD 7 -->  "TODAS AS AREAS"
+        7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }  
     };
 
     const DATAS_AULAS = {
-        1: { 1: "25/03/2026 - 18:00", 2: "18/03/2026 - 21:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "25/02/2026 - 21:00", 2: "11/03/2026 - 21:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "25/02/2026 - 20:00", 2: "11/03/2026 - 20:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "11/03/2026 - 18:00", 2: "18/03/2026 - 19:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "25/02/2026 - 19:00", 2: "11/03/2026 - 19:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "18/03/2026 - 18:00", 2: "18/03/2026 - 20:00", 3: "#", 4: "#", 5: "#", 6: "#" },
-        7: { 1: "11/02/2026 - 19:00", 2: "11/02/2026 - 20:00", 3: "11/02/2026 - 21:00", 4: "25/03/2026 - 19:00", 5: "01/04/2026 - 20h00", 6: "--/-- - --:--" }
+        //DATAS CARD 1 --> "COMPUTAÇÃO E TIC"
+        1: { 1: "23/04/2026 - 19:00", 2: "08/05/2026 - 19:00", 3: "26/05/2026 - 20:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 2 --> "EDUCAÇÃO"
+        2: { 1: "24/04/2026 - 19:00", 2: "12/05/2026 - 21:00", 3: "26/05/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 3 --> "ENGENHARIA, PRODUÇÃO E CONSTRUÇÃO"
+        3: { 1: "28/04/2026 - 21:00", 2: "15/05/2026 - 19:00", 3: "29/05/2026 - 19:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 4 --> "NEGÓCIOS E ADM"
+        4: { 1: "30/04/2026 - 19:00", 2: "19/05/2026 - 20:00", 3: "02/06/2026 - 20:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 5 --> "SERVIÇOS"
+        5: { 1: "07/05/2026 - 19:00", 2: "22/05/2026 - 19:00", 3: "03/06/2026 - 19:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 6 --> "SAÚDE E BEM ESTAR"
+        6: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
+        //DATAS CARD 7 --> "TODAS AS AREAS"
+        7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#"}
     };
 
     const LINKS_BOTOES_CARDS = {
-        1: { 1: "https://us02web.zoom.us/rec/share/87LX_1UPv9klOno1VWP-n3dl_gzdVzBlbKUg_jGdzYd5PCKGHolDgmLrBv0zFKJJ.fjWJl6aZftn8-1A1", 2: "https://us02web.zoom.us/rec/share/qeD0yqfs7QbwCPnxwg8GBL0IBon4-llYvx24f2BBQ5ocUsF2tB6Pq98ebSqvANQF.LcdBELWc27idjJ2k", 3: "#", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "https://us02web.zoom.us/rec/share/K0PzmWDQjr042Wlb8hxwKqGYGoZI2qEKZHVvgimdBqABvILejSoFHOL5S1wKsAjp._iF9hVOSFt-lYejW", 2: "https://us02web.zoom.us/rec/share/Sz-_t0Rdp0N-8iDPWEYKxXkz70mnjldi7NuAa2aRdLEbo59TvRXEcljBsFveNEQ8.05S6hbxRThMqCBVc", 3: "#", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "https://us02web.zoom.us/rec/share/ZbQ8dAIlop2FnjtTEoamUi-iQrCfrc3Jd2wjwHtp3jA0m1gv_c0XsDCpDrBdp2a1.zxnIX7YWLK2iYwlt", 2: "https://us02web.zoom.us/rec/share/BzIFumGBOQYRNFghSMv6KQAX8KfnbialDGKpgu__WfAD0rAC0LgspO_6enC3b2k0.FZD7jhQC7FXWN2O4", 3: "#", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "https://us02web.zoom.us/rec/share/2EnfnV_zAav0M6_eiKiwOS66o8z9VB_qp7R6SNzEhfy5gEf6ZW1541tqVM7rgsHa.LQ_6Rq-ZzMR-C_iU", 2: "https://us02web.zoom.us/rec/share/yLQgg2hUuE9lD-psxhlEkrobrxnMIkiA_Lt_GHDEyEKdPbvc5c4YhP721HP45Rq6.cSx0tBwqVnrFJYfN", 3: "#", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "https://us02web.zoom.us/rec/share/mZtD4pOJKA2QMN02PspPEPAwepK2Iwobt02h8yAkx9RpWwax6FhaTAwVBUF5baGj._ZhJFfir5B5ynxYW", 2: "https://us02web.zoom.us/rec/share/wliDmMFa4pwM_lqIvLGjz4SzACAa1XxI8zh6_QDk1vnxFdsgcJUMIrrOxK8AEUyr.75u6BYuXTwiumNSR", 3: "#", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "https://us02web.zoom.us/rec/share/3R6A24V-oAH97aX5YcbIoO26yNWVQxHmFi47AnAM5s6NV58yJvb4GQB11YC_YV3N.TlHPQVV9AGb1gwQs", 2: "https://us02web.zoom.us/rec/share/qN5enbaaTLWyoTUOfTsSpjTVr8soH6iCXmRq57sk95Buyyrhap8cwv2MofDfBU51.D-Giisfh3oGlXeYc", 3: "#", 4: "#", 5: "#", 6: "#" }, 
-        7: { 1: "https://us02web.zoom.us/rec/share/B0_6cpIIqfR55WEcuTcsMmz6NcyJfF9Nly0B-DVjRQ0vATdFhfmjtlfupMmzm6gW.wXMUsAQic6eOkPAZ", 2: "https://us02web.zoom.us/rec/share/zKCPQfkgiSmY0qfd_FaQw24SzO6I_NQ9ulEN8GpMq-y1nf_CAV_pLSHvx5NXLvEo.6OP2uZTANk5XaKcM", 3: "https://us02web.zoom.us/rec/share/HOF0yU0pKKilby01axTkDPDst_U955dkWiqbeVuv9cKcBwNUmhV2h_jPIRa0rv3j.M-q4VzTgduBqqNYM", 4: "https://us02web.zoom.us/rec/share/eQ0WfjdkFD2yfJnx5SO8F4dgpVSMSP3cO8O2Q8AB6QO6tAVJnH1aanpquScxar9I.tFLmm52bK9bbN5aZ", 5: "https://us02web.zoom.us/j/83429218741?pwd=lPhVLPQgEdZ46jwBobnw03EDCJylJf.1", 6: "#" }  // LINKS DO CARD DE TODAS AS AULAS GERAIS 
+        //LINK DAS GRAVAÇÕES CARD 1 --> "COMPUTAÇÃO E TIC"
+        1: { 1: "https://us02web.zoom.us/j/81270819771?pwd=bMxeoh7IlRqcovNVEwLEEte9ZQ98f4.1", 2: "https://us02web.zoom.us/j/86373323986?pwd=kyG56aQ6eUu37wRCgSbjIBPE13Tuum.1", 3: "https://us02web.zoom.us/j/87102835027?pwd=MXYeryRaQN1k35jPJgnB0kqN77B8FV.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 2 --> "EDUCAÇÃO"
+        2: { 1: "https://us02web.zoom.us/j/84119118993?pwd=eXARlfKFewAL8PZSmaJr6Ah0Z4ygNl.1", 2: "https://us02web.zoom.us/j/83734662577?pwd=zYzNO9mNTu9oVs0wu490vp01z8HKEC.1", 3: "https://us02web.zoom.us/j/81620635576?pwd=kUgcVfdFva9idEJE588ac7oe86RGVn.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 3 --> "ENGENHARIA, PRODUÇÃO E CONSTRUÇÃO"
+        3: { 1: "https://us02web.zoom.us/j/81249550792?pwd=KegjsDa1akwVabiE6vBBSUEbYua6iM.1", 2: "https://us02web.zoom.us/j/84203378908?pwd=kfGhPjRovIYjFe3idSDp4P678ooVwV.1", 3: "https://us02web.zoom.us/j/88025725855?pwd=Icutg1jBdbauOFlpXNrvap9bvZqn5a.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 4 --> "NEGÓCIOS E ADM"
+        4: { 1: "https://us02web.zoom.us/j/88218307582?pwd=9RBfsRc2RsGSFxxqRzxTx08AQrpH0b.1", 2: "https://us02web.zoom.us/j/88469145356?pwd=Qi44bFu3ATuimc7ja1mEMwlHP2zOhi.1", 3: "https://us02web.zoom.us/j/88635647430?pwd=itrY3ljNcAUq5nfYPRVkcbZ5gkgaof.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 5 --> "SERVIÇOS"
+        5: { 1: "https://us02web.zoom.us/j/85283760929?pwd=6Ja78Hf8qC83Vg7Cx8gWkPvxHtgaBT.1", 2: "https://us02web.zoom.us/j/86864998839?pwd=FGrgg5PMQ6UbQjGRa3kdZ8nx1ELmQV.1", 3: "https://us02web.zoom.us/j/89111079054?pwd=fi17GxpUVYScSJbf5bpA6Hpx8842gH.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
+        6: { 1: "https://us02web.zoom.us/j/87220831669?pwd=n0VK6g8AKaZbna73Xpacwo33JoQzJk.1", 2: "https://us02web.zoom.us/j/83438397502?pwd=kr5tzcZuhvjVfguLLWs7YNaNRBCxzT.1", 3: "https://us02web.zoom.us/j/87572521016?pwd=QjalZtFrnyASY98Qpx1QqBOR38E3Mr.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 7 --> "TODAS AS AREAS"
+        7: { 1: "", 2: "", 3: "", 4: "", 5: "", 6: "#"}
     };
 
     function converterDataString(dataStr) {
@@ -722,3 +743,4 @@
 
 
 
+R    
