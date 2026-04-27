@@ -538,7 +538,7 @@
        === ÁREA DE CONFIGURAÇÃO ===
        ========================================================================== */
     const CONFIG_VISIBILIDADE = {
-        7: { exibir_card: false, aulas_ocultas: [6] }, 
+        7: { exibir_card: true, aulas_ocultas: [] }, 
         1: { exibir_card: true, aulas_ocultas: [4,5,6] },
         2: { exibir_card: true, aulas_ocultas: [4,5,6] },
         3: { exibir_card: true, aulas_ocultas: [4,5,6] },
@@ -580,7 +580,7 @@
         //CARD 6 --> "SAÚDE E BEM ESTAR"
         6: { 1: "Saúde em Diagnóstico: Como Identificar Oportunidades de Inovação em Serviços e Empreendimentos de Saúde", 2: "O Dilema do Cuidado Digital: Como Escolher a Tecnologia Certa para Transformar Serviços de Saúde", 3: "Impacto Que Cura: Como Medir, Comunicar e Ampliar o Impacto de Projetos de Inovação em Saúde", 4: "#", 5: "#", 6: "#" },
         //CARD 7 -->  "TODAS AS AREAS"
-        7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }  
+        7: { 1: "Projeto Integrador Aula 1", 2: "Projeto Integrador Aula 2", 3: "Projeto Integrador Aula 3", 4: "Projeto Integrador Aula 4", 5: "Projeto Integrador Aula 5", 6: "Projeto Integrador Aula 6" }  
     };
 
     const DATAS_AULAS = {
@@ -597,7 +597,7 @@
         //DATAS CARD 6 --> "SAÚDE E BEM ESTAR"
         6: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
         //DATAS CARD 7 --> "TODAS AS AREAS"
-        7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#"}
+        7: { 1: "27/04/2026 - 22:00", 2: "05/05/2026 - 22:00", 3: "12/05/2026 - 22:00", 4: "19/05/2026 - 22:00", 5: "26/05/2026 - 22:00", 6: "02/06/2026 - 22:00"}
     };
 
     const LINKS_BOTOES_CARDS = {
@@ -614,7 +614,7 @@
         //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
         6: { 1: "https://us02web.zoom.us/j/87220831669?pwd=n0VK6g8AKaZbna73Xpacwo33JoQzJk.1", 2: "https://us02web.zoom.us/j/83438397502?pwd=kr5tzcZuhvjVfguLLWs7YNaNRBCxzT.1", 3: "https://us02web.zoom.us/j/87572521016?pwd=QjalZtFrnyASY98Qpx1QqBOR38E3Mr.1", 4: "#", 5: "#", 6: "#" },
         //LINK DAS GRAVAÇÕES CARD 7 --> "TODAS AS AREAS"
-        7: { 1: "", 2: "", 3: "", 4: "", 5: "", 6: "#"}
+        7: { 1: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 2: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 3: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 4: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 5: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 6: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1"}
     };
 
     function converterDataString(dataStr) {
