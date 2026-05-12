@@ -435,8 +435,9 @@
         <h2>💡 Informações Importantes</h2>
         
         <div class="item-orientacao-pop">
-            <strong>🎓 Conteúdo por Área de Conhecimento</strong>
+            <strong>🎓 Conteúdo por Grupo de Cursos </strong>
             As <b>informações/cards</b> são direcionados especificamente à <b>ÁREA DE CADA CURSO</b>.
+            Para acessar as aulas ao vivo será necessário utilizar a <b>senha</b> disponibilizada através do <b>coordenador do seu curso.</b> Fique atento aos fóruns de notícias e ao e-mail institucional!
         </div>
 
         <H3>Não deixe de assistir nenhuma aula!</H3>
@@ -452,8 +453,8 @@
         <div style="display: flex; flex-direction: column; align-items: center;">
             <h1 id="titulo-disciplina">NOME DA DISCIPLINA</h1><br>
             <div class="aviso-extensao">
-<b>🎓  Área de Conhecimento:</b>
-As informações/cards localizados <strong>abaixo</strong> são direcionados especificamente à <b>ÁREA DE CADA CURSO.</b>
+<b>🎓  Informação Importante:</b>
+Para acessar as aulas ao vivo será necessário utilizar a <strong>senha</strong> disponibilizada através do coordenador do seu <b> CURSO.</b> Fique atento aos fóruns de notícias e ao e-mail institucional!
             </div>
         </div>
         
@@ -467,14 +468,14 @@ As informações/cards localizados <strong>abaixo</strong> são direcionados esp
         <div class="icone-info">‼️</div>
         <div class="texto-orientacao">
             <h3><b>Conteúdo por Área de Conhecimento</b></h3>
-            <p>Os cards listados abaixo contêm as aulas ao vivo direcionadas à <b>ÁREA ESPECÍFICA DE CADA CURSO</b>. Clique para conferir as datas e horário das suas aulas e <b>NÃO PERCA NENHUMA AULA AO VIVO.</b></p>
+            <p>Os cards listados abaixo contêm as aulas ao vivo da Web Coordenação direcionadas à <b>ÁREA ESPECÍFICA DE CADA CURSO</b>. Clique para conferir as datas e horário das suas aulas e <b>NÃO PERCA NENHUMA AULA AO VIVO.</b></p>
         </div>
     </div>
 
     <div class="bloco-orientacao">
         <div class="icone-info">💡</div>
         <div class="texto-orientacao">
-            <h3><b>Fique Atento: Instruções de Estudo</b></h3>
+            <h3><b>Fique Atento às Instruções</b></h3>
             <ul class="lista-orientacao">
                 <!-- <li>1️⃣ 2️⃣<strong>MÓDULO GERAL <span class="destaque-Laranja">LARANJA</span>:</strong> Aulas comuns a <span class="destaque-Laranja">TODAS AS ÁREAS</span> </li> -->
                 <li>1️⃣<strong>MÓDULO ESPECÍFICO <span class="destaque-verde">VERDE</span>:</strong> Aulas exclusivas da <span class="destaque-verde">SUA ÁREA</span></li>
@@ -502,142 +503,152 @@ As informações/cards localizados <strong>abaixo</strong> são direcionados esp
        ========================================================================== */
     const CONFIG_VISIBILIDADE = {
         7: { exibir_card: false, aulas_ocultas: [] }, 
-        1: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        2: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        3: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        4: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        5: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        6: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        8: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        9: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        10: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        11: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        12: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        13: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        14: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        15: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        16: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        17: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        18: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        19: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        20: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        21: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        22: { exibir_card: true, aulas_ocultas: [4,5,6] },
-        23: { exibir_card: true, aulas_ocultas: [4,5,6] }
+        1: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        2: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        3: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        4: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        5: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        6: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        8: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        9: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        10: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        11: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        12: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        13: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        14: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        15: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        16: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        17: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        18: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        19: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        20: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        21: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        22: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        23: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        24: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        25: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] }
 
     };
 
     const TITULOS_CURSOS = {
-        1: "Computação e TIC", 2: "Educação", 3: "Engenharia, Produção e Construção",
-        4: "Negócios e ADM", 5: "Serviços", 6: "Saúde e Bem estar", /*7: "TODAS AS ÁREAS",*/ 
-        8: "card 8", 9: "card 9", 10: "card 10", 11: "card 11",
-        12: "card 12", 13: "card 13", 14: "card 14", 15: "card 15",
-        16: "card 16", 17: "card 17", 18: "card 18", 19: "card 19",
-        20: "card 20", 21: "card 21", 22: "card 22", 23: "card 23",
+        1: "Administração", 2: "Análise e Desenvolvimento de Sistemas e Gestão da Tecnologia da Informação", 3: "Arquitetura e Urbanismo",
+        4: "Artes Visuais", 5: "Ciências Contábeis, Econômicas e Gestão Pública", 6: "Design de interiores", /*7: "TODAS AS ÁREAS",*/ 
+        8: "Gastronomia", 9: "Educação Física", 10: "Engenharia Elétrica, Mecânica e Mecatrônica", 11: "Engenharia Química e de Produção, Gestão da Qualidade, Produção Industrial e Segurança do Trabalho",
+        12: "Engenharia Civil", 13: "Engenharia da Computação", 14: "Engenharia de Software", 15: "Fisioterapia",
+        16: "Gestão de Recursos Humanos, Gestão Financeira, Logística, Gestão Comercial, Processos Gerenciais, Marketing", 17: "Gestão Hospitalar", 18: "História, Geografia, Filosofia", 19: "Letras",
+        20: "Nutrição", 21: "Pedagogia", 22: "Psicopedagogia", 23: "Serviço Social",24: "Teologia",25: "Ciências Biológicas",
     };
 
     const NOMES_DAS_AULAS = {
-        1: { 1: "Olhando para o Vizinho: Como enxergar o que o empreendedor não vê em si mesmo", 2: "Qual caminho eu escolho? Decidindo sob pressão, custo e incerteza", 3: "Você construiu - agora convence: como comunicar o valor da sua solução e provar que ela funcionou", 4: "a", 5: "a", 6: "a" },
-        2: { 1: "A Escola no Mapa do Bairro: Como Diagnosticar o Potencial de Inovação de uma Instituição Educacional", 2: "O Dilema do Professor Inovador: Como Escolher a Metodologia Certa para o Contexto Certo", 3: "O Impacto que Fica: Como Documentar, Comunicar e Medir o Legado do Seu Projeto Educacional", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "Engenharia de Campo: Como Diagnosticar Ineficiências Operacionais em Pequenos Empreendimentos", 2: "Engenharia de Solução: Como Escolher a Inovação Certa para o Tamanho Certo do Problema", 3: "Engenharia de Impacto: Como Implementar, Monitorar e Comunicar Resultados de Projetos de Inovação", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "Radiografia do Negócio: Como Diagnosticar Maturidade Digital e Oportunidades em Pequenos Empreendimentos", 2: "O Dilema do Gestor: Inovar ou Esperar? Como Tomar Decisões Estratégicas com Dados e Responsabilidade", 3: "O Plano que Funciona: Como Implementar, Comunicar e Medir o Impacto do Plano de Negócios", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "O Serviço sob a Lupa: Como Diagnosticar Oportunidades de Inovação em Pequenos Empreendimentos de Serviços", 2: "O Dilema da Experiência: Escolhendo a Inovação Certa para Transformar um Negócio de Serviços", 3: "A Experiência que Transforma: Como Implementar, Medir e Comunicar o Impacto de Projetos de Inovação em Serviços", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "Saúde em Diagnóstico: Como Identificar Oportunidades de Inovação em Serviços e Empreendimentos de Saúde", 2: "O Dilema do Cuidado Digital: Como Escolher a Tecnologia Certa para Transformar Serviços de Saúde", 3: "Impacto Que Cura: Como Medir, Comunicar e Ampliar o Impacto de Projetos de Inovação em Saúde", 4: "#", 5: "#", 6: "#" },
-        /*7: { 1: "Projeto de Extensão Aula 1", 2: "Projeto de Extensão Aula 2", 3: "Projeto de Extensão Aula 3", 4: "Projeto de Extensão Aula 4", 5: "Projeto de Extensão Aula 5", 6: "Projeto de Extensão Aula 6" }*/  
-        8: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        9: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        10: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        11: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        12: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        13: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        14: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        15: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        16: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        17: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        18: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        19: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        20: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        21: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        22: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        23: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
-        
+        1: { 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1: "Web Coordenação com a Coordenadora Amanda Ferreira", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        3: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1: "Web Coordenação com a Coordenadora Roberta Bernardo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        /*7{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }, Extensão Aula 2", 3: "Projeto de Extensão Aula 3", 4: "Projeto de Extensão Aula 4", 5: "Pr{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },Aula 6" }*/  
+        8: { 1: "Web Coordenação com o Coordenador Pedro Inojosa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        9: { 1: "Web Coordenação com o Coordenador Bruno Pinheiro", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        10: { 1: "Web Coordenação com o Coordenador Antonio José do Couto Pitta", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        11: { 1: "Web Coordenação com o Coordenador Cláudio Monico Innocencio", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        12: { 1: "Web Coordenação com a Coordenadora Daniele Cafange", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        13: { 1: "Web Coordenação com a Coordenadora Olinda Rizzo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        14: { 1: "Web Coordenação com a Coordenadora Olinda Rizzo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        15: { 1: "Web Coordenação com a Coordenadora Alessa Castro Ribeiro", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        16: { 1: "Web Coordenação com o Coordenador Rodrigo Médici Cândido", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        17: { 1: "Web Coordenação com a Coordenadora Denise A. Costa Lorencette", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        18: { 1: "Web Coordenação com o Coordenador Fabio Fetz", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        19: { 1: "Web Coordenação com a Coordenadora Juliana Borges", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        20: { 1: "Web Coordenação com a Coordenadora Lucy A. Tchakmakian", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        21: { 1: "Web Coordenação com o Coordenador Jovino José Balbinot", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        22: { 1: "Web Coordenação com a Coordenadora Vera L O Ponciano", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        23: { 1: "Web Coordenação com o Coordenador Henrique Manoel Carvalho Silva", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        24: { 1: "Web Coordenação com a Coordenadora Fabio Fetz", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        25: { 1: "Web Coordenação com a Coordenadora Marco Aurélio Sivero Mayworm", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }        
         
     };
 
     const DATAS_AULAS_C1 = {
-        1: { 1: "23/04/2026 - 19:00", 2: "08/05/2026 - 19:00", 3: "26/05/2026 - 20:00", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "24/04/2026 - 19:00", 2: "12/05/2026 - 21:00", 3: "26/05/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "28/04/2026 - 21:00", 2: "15/05/2026 - 19:00", 3: "29/05/2026 - 19:00", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "30/04/2026 - 19:00", 2: "19/05/2026 - 20:00", 3: "02/06/2026 - 20:00", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "07/05/2026 - 19:00", 2: "22/05/2026 - 19:00", 3: "03/06/2026 - 19:00", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
+        1: { 1: "11/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1: "15/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        3: { 1: "11/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1: "11/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1: "12/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1: "11/05/2026 - 21:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         /*7: { 1: "27/04/2026 - 22:00", 2: "05/05/2026 - 22:00", 3: "12/05/2026 - 22:00", 4: "19/05/2026 - 22:00", 5: "26/05/2026 - 22:00", 6: "02/06/2026 - 22:00"}*/
-        8: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        9: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        10: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        11: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        12: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        13: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        14: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        15: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        16: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        17: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        18: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        19: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        20: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        21: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        22: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" },
-        23: { 1: "05/05/2026 - 21:00", 2: "19/05/2026 - 21:00", 3: "02/06/2026 - 21:00", 4: "#", 5: "#", 6: "#" }
+        8: { 1: "15/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        9: { 1: "14/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        10: { 1: "14/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        11: { 1: "15/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        12: { 1: "15/05/2026 - 22:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        13: { 1: "14/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        14: { 1: "14/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        15: { 1: "12/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        16: { 1: "11/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        17: { 1: "14/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        18: { 1: "12/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        19: { 1: "12/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        20: { 1: "13/05/2026 - 19:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        21: { 1: "11/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        22: { 1: "14/05/2026 - 22:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        23: { 1: "12/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        24: { 1: "12/05/2026 - 20:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        25: { 1: "08/05/2026 - 18:00", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
+
     };
 
     const LINKS_BOTOES_CARDS = {
-        //LINK DAS GRAVAÇÕES CARD 1 --> "COMPUTAÇÃO E TIC"
-        1: { 1: "https://us02web.zoom.us/rec/share/dy0qp3AvEXc7VqOLCocY5VhEXG4qaqi1aJcWL_lh_homH2I0hYVl0HwmLcfOvizS.2EC5a2ulcNKFcZTo", 2: "https://us02web.zoom.us/rec/share/nDjfpsdqVNQ84kRFYYc7fiTzjahOgoEc4wd8XnFEf1YWnG9FAbnL6qDmQm7IyN8B.XW-YO5eqJiuPIal_", 3: "https://us02web.zoom.us/j/87102835027?pwd=MXYeryRaQN1k35jPJgnB0kqN77B8FV.1", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 2 --> "EDUCAÇÃO"
-        2: { 1: "https://us02web.zoom.us/rec/share/0A9ibk3YYN-1NH4m0rkA8Jy1qZHh45JkUkYD1qmDNHV6uexztrpJZuGjPnEOtSI.dXwVFBUepkrKnQ4x", 2: "https://us02web.zoom.us/j/83734662577?pwd=zYzNO9mNTu9oVs0wu490vp01z8HKEC.1", 3: "https://us02web.zoom.us/j/81620635576?pwd=kUgcVfdFva9idEJE588ac7oe86RGVn.1", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 3 --> "ENGENHARIA, PRODUÇÃO E CONSTRUÇÃO"
-        3: { 1: "https://us02web.zoom.us/rec/share/4xF2ohA71Mh8zzzEL-_JNtwd8cMmaHY4lWUY-UIjLQ42pApGqhYgcM-iqCLdfKWS.NR2rmgeGd4NUDuCV", 2: "https://us02web.zoom.us/j/84203378908?pwd=kfGhPjRovIYjFe3idSDp4P678ooVwV.1", 3: "https://us02web.zoom.us/j/88025725855?pwd=Icutg1jBdbauOFlpXNrvap9bvZqn5a.1", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 4 --> "NEGÓCIOS E ADM"
-        4: { 1: "https://us02web.zoom.us/rec/share/vIDipA8YTs3OT0J4I2zUjt9eDSB0_jYz4hBp9_DOGLTXbYjYF_F-yc7tbNjapFMr.iRQ-XbYkcYZFH22L", 2: "https://us02web.zoom.us/j/88469145356?pwd=Qi44bFu3ATuimc7ja1mEMwlHP2zOhi.1", 3: "https://us02web.zoom.us/j/88635647430?pwd=itrY3ljNcAUq5nfYPRVkcbZ5gkgaof.1", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 5 --> "SERVIÇOS"
-        5: { 1: "https://us02web.zoom.us/rec/share/i0X1-4ItF0Kl8hRB7ZjeTaBa38_fptJ6cNLegs46ETw0VkAHHS7yXNKh_GobzpoO.2_r56aRYtVOSaU4g", 2: "https://us02web.zoom.us/j/86864998839?pwd=FGrgg5PMQ6UbQjGRa3kdZ8nx1ELmQV.1", 3: "https://us02web.zoom.us/j/89111079054?pwd=fi17GxpUVYScSJbf5bpA6Hpx8842gH.1", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        6: { 1: "https://us02web.zoom.us/rec/share/yBsPQlZHPzcU4YkHFvXby5eWTpZ0zMw8jz834leYCf_K-YGw7C0OpDrCSVsrCJ5g.XRKZ8XObKhI0KfTH", 2: "https://us02web.zoom.us/j/83438397502?pwd=kr5tzcZuhvjVfguLLWs7YNaNRBCxzT.1", 3: "https://us02web.zoom.us/j/87572521016?pwd=QjalZtFrnyASY98Qpx1QqBOR38E3Mr.1", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 1 --> "Administração"
+        1: { 1: "https://us02web.zoom.us/rec/share/pk-RE5ie1iGnAboSNo66cjaqBUQlqoBuk5sXPbKyG8tDHy5acuDZGAKYVVpxd1OW.mtQEE6y1kuAA5elP", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 2 --> "ADS e GTI"
+        2: { 1: "https://us02web.zoom.us/rec/share/68IZ6TcA_cRlY-RFB3o6xIiw2enJ_pwnnY3jSEd_f3od4Cz_FEGSMushjWlMf1yA.j_fLq5FyoeEuvkf5", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 3 --> "Arquitetura e Urbanismo"
+        3: { 1: "https://us02web.zoom.us/j/85792674939", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 4 --> "Artes Visuais"
+        4: { 1: "https://us02web.zoom.us/rec/share/e8UHCU0iwql3Yfrz2x4KXuFBjNgy6RWm8DfnHDOO4fGBdA6rRlWVNGLUJWk8bXqr.hfMZPYfppCTNQEwD", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 5 --> "Contábeis, Econômicas e CST em Gestão Pública"
+        5: { 1: "https://us02web.zoom.us/j/89771299085", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Design de interiores"
+        6: { 1: "https://us02web.zoom.us/rec/share/og1HyY4wF9oSKyNA7mJgGhGG_YEayH3JVGPPZh966MbZJ9MVJXN0OoirNobHLln2.YSrp035CSosZQNEm", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         //LINK DAS GRAVAÇÕES CARD 7 --> "TODAS AS AREAS"
-        7: { 1: "https://us02web.zoom.us/rec/share/TIAZw6ftfBt0vB_dS7YGSTVvAKs-s-JV5ccJAxEtJBh63ZIyemg-Kll_0ZyS5LH9.EA6iQ3yV5AZGRxp5", 2: "https://us02web.zoom.us/rec/share/j5_rrx6hTtGbQ-wJmAWySf5ZtYwpdQgVBw6z9zVCYeDyajdPH-Ytbb0-NhoOPn1W.K74UxOdwxhai-m6G", 3: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 4: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 5: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1", 6: "https://us02web.zoom.us/j/89690876649?pwd=FJeFBW5avcvGgTVsVGlcDsmSkEHYto.1"},
+        //7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
 
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        8: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        9: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        10: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        11: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        12: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        13: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        14: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        15: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        16: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        17: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        18: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        19: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        20: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        21: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        22: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "SAÚDE E BEM ESTAR"
-        23: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Gastronomia"
+        8: { 1: "https://us02web.zoom.us/j/84014051610", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Educação Física"
+        9: { 1: "https://us02web.zoom.us/j/89472000528", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Eng. Elétrica, Mecânica e Mecatrônica"
+        10: { 1: "https://us02web.zoom.us/j/84746750928", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Eng. Química e de Produção, Gestão da Qualidade, Produção Industrial e Segurança do Trabalho"
+        11: { 1: "https://us02web.zoom.us/j/82373750764", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia Civil"
+        12: { 1: "https://us02web.zoom.us/j/81182553043", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia da Computação"
+        13: { 1: "https://us02web.zoom.us/j/89200913461", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia de Software"
+        14: { 1: "https://us02web.zoom.us/j/83722021073", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Fisioterapia"
+        15: { 1: "https://us02web.zoom.us/j/88445888526", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Gest. de RH, Gest. Financ., Logística, Gest. Comerc., Proc. Gerenc., Marketing"
+        16: { 1: "https://us02web.zoom.us/rec/share/nnprn72CizCSbNKVceWQwRt16A2uZMtp_CO4UmzTr0rgMhqIUHXcD0vQwwp0JHeu.NS5UHlptvcGqq8gU", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Gestão Hospitalar"
+        17: { 1: "https://us02web.zoom.us/j/85833377696", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "História, Geografia, Filosofia"
+        18: { 1: "https://us02web.zoom.us/j/89926836112", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Letras"
+        19: { 1: "https://us02web.zoom.us/j/89232567147", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Nutrição"
+        20: { 1: "https://us02web.zoom.us/j/85127218297", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Pedagogia"
+        21: { 1: "https://us02web.zoom.us/rec/share/hpyF8r0AjBQj9IOMz3oXwL2YKn051Jvye5eDmr2LJdeHdaJvfNOq0rYHNanTOk0y.iKx21qfBTc9DN9va", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Psicopedagogia"
+        22: { 1: "https://us02web.zoom.us/j/81621960797", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 6 --> "Serviço Social"
+        23: { 1: "https://us02web.zoom.us/j/88394847199", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 24 -> "Teologia"
+        24: { 1: "https://us02web.zoom.us/j/89710841194", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        //LINK DAS GRAVAÇÕES CARD 25 -> "Biologia"
+        25: { 1: "https://us02web.zoom.us/rec/share/gnzaWWTYU__KiQX1b7u_Vs5GpXMcNCoYA08vkkowEBLYIf2HnQt8rPhSoT6djco1.wTxIOXhZgyx6bejn", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
 
     };
 
@@ -674,7 +685,7 @@ As informações/cards localizados <strong>abaixo</strong> são direcionados esp
         const grid = document.getElementById('botoes-gravacoes');
         const agora = new Date();
         
-        const ordemIds = [7, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+        const ordemIds = [7, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
         ordemIds.forEach(idCard => {
             const config = CONFIG_VISIBILIDADE[idCard];
             if (!config || config.exibir_card === false) return;
