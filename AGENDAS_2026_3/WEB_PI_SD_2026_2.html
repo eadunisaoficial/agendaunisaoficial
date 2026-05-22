@@ -6,7 +6,7 @@
     <title>Agenda da Disciplina - UNISA</title>
     <style>
         /* ============================================================
-           CONFIGURAÇÃO DE CORES E ESTILOS (BASE)
+           CONFIGURAÇÃO DE CORES E ESTILOS
            ============================================================ */
         :root {
             --cor-azul-forte: #1C3B70;
@@ -36,7 +36,16 @@
             overflow: hidden;
             border: 1px solid #e1e1e1;
         }
-        
+        .span2{ font-size: 13px; }
+        .container2 {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--fundo-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e1e1e1;
+        }
         /* Cabeçalho */
         header {
             background-color: var(--cor-azul-forte);
@@ -45,11 +54,26 @@
             text-align: center;
             border-bottom: 6px solid var(--cor-verde-lima);
         }
-        
-        .logo-area {
+        .header2{
+            background-color: var(--cor-azul-forte);
+            color: var(--texto-claro);
+            padding: 10px 10px;
+            text-align: center;
+            border-bottom: 9px solid var(--cor-verde-lima);
+        }
+        .logo-area, .logo-area2 {
             display: block;
             text-align: center;
             margin-bottom: 15px;
+        }
+        .logo-area2 h2 {
+            display: block;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+        .logo-area2 .frase-impacto {
+            margin-top: 0;
+            margin-bottom: 8px; 
         }
         .logo-area img {
             height: auto;
@@ -60,14 +84,18 @@
         }
         header h1 { margin: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; }
         header h2 { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; font-weight: 400; }
-        
         .agenda-grid {
             display: block;
             column-count: 1;    
             column-gap: 15px;   
             padding: 25px;
         }
-        
+        .agenda-grid2 {
+            display: block;
+            column-count: 2;    
+            column-gap: 15px;   
+            padding: 25px;
+        }
         /* Cards */
         .card {
             background: var(--fundo-card);
@@ -88,8 +116,7 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-        .data-badge {
-            background-color: var(--cor-azul-forte);
+        .data-badge, .data-badge2 {
             color: var(--texto-claro);
             padding: 8px 10px;
             border-radius: 6px;
@@ -102,6 +129,11 @@
             justify-content: center;
             line-height: 1.2;
         }
+        .data-badge { background-color: var(--cor-azul-forte); }
+        .data-badge2 { 
+            background-color: var(--cor-verde-lima); 
+            color: var(--texto-escuro);
+        }
         .info-texto {
             font-size: 0.99rem;  
             line-height: 1.0;
@@ -109,23 +141,47 @@
             color: var(--texto-escuro);
             width: 100%; 
         }
+        .frase-impacto{ font-size: 15px; padding: 0px 0px; }
         
-        /* Card de AVALIAÇÃO (Laranja) */
+        /* Card de AVALIAÇÃO */
         .card.avaliacao {
             border: 1px solid var(--cor-laranja);
             border-left: 6px solid var(--cor-laranja);
             background-color: #fffbf7;
         }
+        .card.avaliacao2 {
+            border: 1px solid var(--cor-verde-lima);
+            border-left: 6px solid var(--cor-verde-lima);
+            background-color: #fff;
+        }
         .card.avaliacao .data-badge {
             background-color: var(--cor-laranja);
             color: white;
         }
+        /* REGRA: Negrito visual sem trocar a fonte (sem tag strong) */
         .card.avaliacao .info-texto {
-            color:var(--texto-escuro);
-            font-weight: 700;
+            color: var(--texto-escuro);
+            font-weight: 700; 
         }
-
-        /* --- CSS DOS BOTÕES (Adicionado para funcionalidade) --- */
+        
+        footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.90rem;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        .legenda {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--cor-laranja);
+        }
+        
+        /* --- CSS DOS BOTÕES --- */
         .btn-card-acao {
             display: inline-block;
             margin-top: 8px; 
@@ -149,25 +205,7 @@
             transform: scale(1.05);
         }
         .oculto { display: none !important; }
-
-        /* Rodapé */
-        footer {
-            background-color: #f9f9f9;
-            padding: 20px;
-            text-align: center;
-            font-size: 0.90rem;
-            color: #666;
-            border-top: 1px solid #eee;
-        }
-        .legenda {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--cor-laranja);
-        }
-
+        
         @media (max-width: 600px) {
             .agenda-grid { column-count: 1; }
             .card { flex-direction: column; align-items: flex-start; text-align: left; }
@@ -184,82 +222,68 @@
             <img src="https://cdn.jsdelivr.net/gh/Klebolt/logounisa@main/logounisaagenda.png" alt="Logo Unisa">
         </div>
         <h1>Agenda Geral da Disciplina</h1>
-        <h2 id="tituloAno">WEB PI - 2026/1</h2>
+        <h2 id="tituloAno">WEB PI SD - 2026/2</h2>
     </header>
 
     <div class="agenda-grid">
 
         <div class="card">
-            <div class="data-badge">09/03</div>
+            <div class="data-badge">07/09</div>
             <div class="info-texto">Início das aulas</div>
         </div>
 
-        <div class="card avaliacao">
-            <div class="data-badge">06/04</div>
-            <div class="info-texto">
-                Início do Projeto Integrador (PI)
-                <br>
-                <a id="btnpi" href="#" class="btn-card-acao oculto" target="_blank" 
-                   data-inicio="06/04" 
-                   data-fim="26/05">
-                   CLIQUE AQUI PARA ACESSAR
-                </a>
-            </div> 
-        </div>
 
         <!-- <div class="card">
-            <div class="data-badge">01/04 a 10/04</div>
-            <div class="info-texto">1ª Aula ao Vivo</div>
+            <div class="data-badge">15/09 a 24/09</div>
+            <div class="info-texto"><strong>1ª Aula ao Vivo</strong></div>
         </div>
 
         <div class="card">
-            <div class="data-badge">11/04 a 19/04</div>
-            <div class="info-texto">2ª Aula ao Vivo</div>
-        </div>
-
-        <div class="card">
-            <div class="data-badge">22/04 a 30/04</div>
-            <div class="info-texto">3ª Aula ao Vivo</div>
+            <div class="data-badge">25/09 a 03/10</div>
+            <div class="info-texto"><strong>2ª Aula ao Vivo</strong></div>
         </div> -->
 
-        <div class="card avaliacao">
-            <div class="data-badge">27/04</div>
-            <div class="info-texto">Prazo limite da 1° Entrega do PI</div>
+        <div class="card">
+            <div class="card avaliacao">05/10</div>
+            <div class="info-texto">Início do período de entrega do Projeto</div>
         </div>
 
+
+        <!-- <div class="card">
+            <div class="data-badge">06/10 a 15/10</div>
+            <div class="info-texto"><strong>3ª Aula ao Vivo</strong></div>
+        </div> -->
+
+        
+        <div class="card avaliacao">
+            <div class="data-badge">26/10</div>
+            <div class="info-texto">Prazo limite da 1ª entrega</div>
+        </div>
 
         <div class="card">
-            <div class="data-badge">04/05</div>
-            <div class="info-texto">Devolução do feedback do tutor para o aluno</div>
-        </div>
-
-
-        <div class="card avaliacao">
-            <div class="data-badge">25/05</div>
-            <div class="info-texto">Entrega Final do PI</div>
+            <div class="data-badge">02/11</div>
+            <div class="info-texto">Devolução do feedback do mediador para o aluno</div>
         </div>
 
         <div class="card avaliacao">
-            <div class="data-badge">Aguardar</div>
-            <div class="info-texto">Divulgação das notas do PI</div>
+            <div class="data-badge">23/11</div>
+            <div class="info-texto">Entrega final do Projeto</div>
         </div>
 
-    </div>
+    </div> 
 
     <footer>
         <div class="legenda">
             <span>● DATAS EM LARANJA INDICAM AVALIAÇÕES E DIVULGAÇÕES DE NOTAS</span>
         </div>
-        <br>
-        <p><b>PARTICIPE DE TODAS AS AULAS AO VIVO. AS DATAS ESTÃO INDICADAS NO BOTÃO "AULA AO VIVO".</b></p>
-    </footer>
+        </footer>
 
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
-        // --- 1. DETECTAR O ANO ---
+        // --- 1. DETECTAR O ANO (Filtra "WEB PI - " e pega só 2026) ---
         const h2Element = document.getElementById('tituloAno');
         let anoDetectado = new Date().getFullYear(); 
         
@@ -270,8 +294,9 @@
                 anoDetectado = parseInt(matchAno[0]);
             }
         }
-        console.log("Ano Base detectado:", anoDetectado);
         
+        console.log("Ano Base:", anoDetectado);
+
         // --- 2. CONFIGURAR HOJE ---
         const hoje = new Date();
         hoje.setHours(0,0,0,0);
@@ -283,7 +308,7 @@
             return new Date(ano, mes, dia);
         }
 
-        // --- 3. LÓGICA DO BOTÃO ---
+        // --- 3. LÓGICA PRINCIPAL ---
         function verificarBotao(idBotao, parametroUrl) {
             const urlParams = new URLSearchParams(window.location.search);
             const linkDestino = urlParams.get(parametroUrl);
@@ -313,12 +338,11 @@
             }
         }
 
-        // Ativação do botão PI
-        verificarBotao('btnpi', 'pi');
+        verificarBotao('btnAVC', 'avc');
+        verificarBotao('btnAVG', 'avg');
+        verificarBotao('btnAVI', 'avi');
     });
 </script>
 
 </body>
 </html>
-
-
