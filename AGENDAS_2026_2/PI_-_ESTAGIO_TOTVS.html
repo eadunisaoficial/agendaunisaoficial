@@ -1,139 +1,323 @@
-<div class="well" style="margin:0; width:100%;">
-<style type="text/css">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda da Disciplina - UNISA</title>
+    <style>
+        /* ============================================================
+           CONFIGURAÇÃO DE CORES E ESTILOS
+           ============================================================ */
+        :root {
+            --cor-azul-forte: #1C3B70;
+            --cor-verde-lima: #99BD2E;
+            --cor-laranja:    #D97828;
+            --fundo-pagina:   #f4f6f9;
+            --fundo-card:     #ffffff;
+            --texto-escuro:   #333333;
+            --texto-claro:    #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--fundo-pagina);
+            margin: 0;
+            padding: 20px;
+            color: var(--texto-escuro);
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--fundo-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e1e1e1;
+        }
+        .span2{ font-size: 13px; }
+        .container2 {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--fundo-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e1e1e1;
+        }
+        /* Cabeçalho */
+        header {
+            background-color: var(--cor-azul-forte);
+            color: var(--texto-claro);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 6px solid var(--cor-verde-lima);
+        }
+        .header2{
+            background-color: var(--cor-azul-forte);
+            color: var(--texto-claro);
+            padding: 10px 10px;
+            text-align: center;
+            border-bottom: 9px solid var(--cor-verde-lima);
+        }
+        .logo-area, .logo-area2 {
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo-area2 h2 {
+            display: block;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+        .logo-area2 .frase-impacto {
+            margin-top: 0;
+            margin-bottom: 8px; 
+        }
+        .logo-area img {
+            height: auto;
+            width: 250px;
+            max-width: 100%;
+            display: inline-block;
+            filter: brightness(0) invert(1); 
+        }
+        header h1 { margin: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; }
+        header h2 { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; font-weight: 400; }
+        .agenda-grid {
+            display: block;
+            column-count: 1;    
+            column-gap: 15px;   
+            padding: 25px;
+        }
+        .agenda-grid2 {
+            display: block;
+            column-count: 2;    
+            column-gap: 15px;   
+            padding: 25px;
+        }
+        /* Cards */
+        .card {
+            background: var(--fundo-card);
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid var(--cor-azul-forte);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            break-inside: avoid;        
+            page-break-inside: avoid;
+            margin-bottom: 15px;       
+            width: 100%;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .data-badge, .data-badge2 {
+            color: var(--texto-claro);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.90rem; 
+            text-align: center;
+            min-width: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+        .data-badge { background-color: var(--cor-azul-forte); }
+        .data-badge2 { 
+            background-color: var(--cor-verde-lima); 
+            color: var(--texto-escuro);
+        }
+        .info-texto {
+            font-size: 0.99rem;  
+            line-height: 1.0;
+            font-weight: 500;
+            color: var(--texto-escuro);
+            width: 100%; 
+        }
+        .frase-impacto{ font-size: 15px; padding: 0px 0px; }
+        
+        /* Card de AVALIAÇÃO */
+        .card.avaliacao {
+            border: 1px solid var(--cor-laranja);
+            border-left: 6px solid var(--cor-laranja);
+            background-color: #fffbf7;
+        }
+        .card.avaliacao2 {
+            border: 1px solid var(--cor-verde-lima);
+            border-left: 6px solid var(--cor-verde-lima);
+            background-color: #fff;
+        }
+        .card.avaliacao .data-badge {
+            background-color: var(--cor-laranja);
+            color: white;
+        }
+        /* REGRA: Negrito visual sem trocar a fonte (sem tag strong) */
+        .card.avaliacao .info-texto {
+            color: var(--texto-escuro);
+            font-weight: 700; 
+        }
+        
+        footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.90rem;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        .legenda {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--cor-laranja);
+        }
+        
+        /* --- CSS DOS BOTÕES --- */
+        .btn-card-acao {
+            display: inline-block;
+            margin-top: 8px; 
+            background-color: var(--cor-laranja); 
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: 1px solid transparent;
+            line-height: 1.2;
+        }
+        .btn-card-acao:hover {
+            background-color: #fff;
+            color: var(--cor-laranja);
+            border-color: var(--cor-laranja);
+            transform: scale(1.05);
+        }
+        .oculto { display: none !important; }
+        
+        @media (max-width: 600px) {
+            .agenda-grid { column-count: 1; }
+            .card { flex-direction: column; align-items: flex-start; text-align: left; }
+            .data-badge { width: 100%; margin-bottom: 8px; flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
 
-.menu1 {
-  position:absolute;
-  z-index:1;
-  left:5%;
-  margin:0px;
-  padding:15px 15px;
-  border:1px solid #2A508D;
-  background-color:#2A508D;
-  width:15%;
-  color:#000000;
-  text-align:center;
-  font-size:medium;
-  line-height:1;
-  border-radius:100px;
-}
-.menu1:hover {
-  color:#fff;
-  background-color:#ff8533;
-  text-shadow:0px 0px 0px grey;
-}
+<div class="container">
 
-.menu2 {
-  position:absolute;
-  z-index:1;
-  width:5%;
-  border-radius:200%;
-  margin:0px;
-}
+    <header>
+        <div class="logo-area">
+            <img src="https://cdn.jsdelivr.net/gh/Klebolt/logounisa@main/logounisaagenda.png" alt="Logo Unisa">
+        </div>
+        <h1>Agenda Geral da Disciplina</h1>
+        <h2 id="tituloAno">PI / ESTÁGIO - 2026/2</h2>
+    </header>
 
-</style>
+    <div class="agenda-grid">
 
-<!-- Imagem -->
-<img src="https://posdigital.unisa.br/mod/resource/view.php?id=84163&redirect=1" style="width: 100%">
-  
-<!-- Descrição ao lado 
-<span style="top:20%; position: absolute; left: 55%; color: red;">
-<b>Observações:</b><br>
-Para saber a data e o horário das Aulas ao Vivo, consulte em <span class="nolink">Agenda.</span><br>
-No dia e horário agendados, acesse esta página e clique no ícone ao lado de Aula ao Vivo.<br>
-Não há senha para acessar a Aula ao Vivo. Basta inserir o seu nome completo.<br>
-As gravações ficarão disponíveis posteriormente nesta área.
-</span>-->
+        <div class="card">
+            <div class="data-badge">18/06</div>
+            <div class="info-texto">Início das aulas</div>
+        </div>
 
-<!--Quadrado azul-->
-<div style="position:absolute; z-index:1; top: 10%; left: 10%; height: 80%; width: 40%; background: #2A508D; opacity: 0.95; border-radius:10px;">
 
-<!-- Ao Vivo -->
-    <h4 style="position:absolute; top:2%; color: #ff8533; font-size: 1.4vw"><b>Aulas ao Vivo</b></h4>
-    <a title="Aula ao Vivo" href="https://us02web.zoom.us/j/87550003430?pwd=7baBxY36sGXOajTckrNCy4wgD85YNd.1" target="_blank"; style="border-radius: 10px" ><h3 class="menu1" style="top:08%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1" style="width: 100%"></h3></a>
 
-    <span style="top:13%; position: absolute; left: 30%; color: white;">Aula ao Vivo</span>
+        <div class="card avaliacao">
+            <div class="data-badge">01/07 a 15/07</div>
+            <div class="info-texto">Período de realização da AVG</div>
+        </div>
 
-<!-- Gravação 1--> 
-    <a title="Aula Narrada" href="https://us02web.zoom.us/rec/share/2Joxs1Y0AJ-uItdlkwVZhoPw9myDRSYMvT5GcSBqYK8s4F-YlZ_R7HBLT3yeBMg.4appmGAv_WaCd-VY" target="_blank"><h3 class="menu1" style="top:21%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1" style="width: 100%"></h3></a>
 
-    <span style="top:25%; position: absolute; left: 30%; color: white;">Gravação do dia 	05/08/2025</span>  
+        <div class="card avaliacao">
+            <div class="data-badge">AGUARDAR</div>
+            <div class="info-texto">Divulgação de notas</div>
+        </div>
 
- 
-<!-- Gravação 2 -->
-    <a title="Aula Narrada" href="https://us02web.zoom.us/rec/share/jGMcoBG0xo7V3oRiewKH3okNiTKfhKrOZ4bvuSh3q_7wjlEDZ1Y1oE8_tsfrvWcH.aKKNE9EbmUGuwCPl"_blank" ><h3 class="menu1" style="top:35%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1"; style="width:100%;"></h3></a>
-    
-    <span style="top:40%; position: absolute; left: 30%; color: white;">Webcoordenação do dia 07/08/2025 - 21h00</span>
+    </div>
 
-<!-- Gravação 3 -->
-
-    <a title="Aula Narrada" href="https://us02web.zoom.us/rec/share/WJTY5f7k-W1j9n9NQ2tPtjJ6vEkvvR011mVvy7mEuBoVpQLSEZ9vFJ4Z1wzvt-8p.jSEGh8HGjdM1bgHz" ><h3 class="menu1" style="top:45%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1"; style="width:100%;"></h3></a>
-    
-    <span style="top:50%; position: absolute; left: 30%; color: white;">Gravação do dia 12/08/2025</span> 
-
-<!-- Gravação 4-->
-    <a title="Aula Narrada" href="https://us02web.zoom.us/rec/share/IUcv1X8gT2d6KZlN7Ua35V5hQY62E11EfbeyDydNmSBKRT6T1o1dom2vCm4M7Zim.ZiCp4QrScfcYiKt_" _blank" ><h3 class="menu1" style="top:55%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1"; style="width:70%;"></h3></a>
-    
-    <span style="top:60%; position: absolute; left: 30%; color: white;">Gravação do dia 19/08/2025</span> 
-
-<!-- Gravação 5
-    <a title="Aula Narrada" href="https://us02web.zoom.us/rec/share/3d8_imAj2ty5m4SVf4pdhSbUbOKUG0LWZHS4A_ZNYU4XTWo3jX2EazIGLuiA9pWJ.At7PQrxy8qcijrRs" ><h3 class="menu1" style="top:65%;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=44&redirect=1"; style="width:70%;"></h3></a>
-    
-    <span style="top:70%; position: absolute; left: 30%; color: white;">Gravação do dia 27/02/2025</span>-->
-
-</div>
-
-<a title="VOLTAR" href="https://posdigital.unisa.br/course/view.php?id=1764">
-    <h4 style="top:5%; left:3%; position:absolute; z-index:1; width:5%;border-radius:200%; margin:0px;"><img src="https://posdigital.unisa.br/mod/resource/view.php?id=110&redirect=1"style="width:70%;"></h4></a>
+    <footer>
+        <div class="legenda">
+            <span>● DATAS EM LARANJA INDICAM AVALIAÇÕES E DIVULGAÇÕES DE NOTAS</span>
+        </div>
+        </footer>
 
 </div>
 
 <script>
-function mouseOver_mudar19() {
-  document.getElementById("mudar19").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar19() {
-  document.getElementById("mudar19").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar20() {
-  document.getElementById("mudar20").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar20() {
-  document.getElementById("mudar20").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar21() {
-  document.getElementById("mudar21").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar21() {
-  document.getElementById("mudar21").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar22() {
-  document.getElementById("mudar22").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar22() {
-  document.getElementById("mudar22").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar24() {
-  document.getElementById("mudar24").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar24() {
-  document.getElementById("mudar24").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar23() {
-  document.getElementById("mudar23").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar23() {
-  document.getElementById("mudar23").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar25() {
-  document.getElementById("mudar25").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar25() {
-  document.getElementById("mudar25").style.borderBottom = "0px solid #004f91";
-}
-function mouseOver_mudar26() {
-  document.getElementById("mudar26").style.borderBottom = "5px solid #004f91";
-}
-function mouseOut_mudar26() {
-  document.getElementById("mudar26").style.borderBottom = "0px solid #004f91";
-}
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- 1. DETECTAR O ANO (Filtra "ADAPTAÇÃO / DEPENDÊNCIA - " e pega só 2026) ---
+        const h2Element = document.getElementById('tituloAno');
+        let anoDetectado = new Date().getFullYear(); 
+        
+        if (h2Element) {
+            const textoH2 = h2Element.innerText;
+            const matchAno = textoH2.match(/\d{4}/);
+            if (matchAno) {
+                anoDetectado = parseInt(matchAno[0]);
+            }
+        }
+        
+        console.log("Ano Base:", anoDetectado);
+
+        // --- 2. CONFIGURAR HOJE ---
+        const hoje = new Date();
+        hoje.setHours(0,0,0,0);
+
+        function criarDataComAno(diaMesStr, ano) {
+            const partes = diaMesStr.split('/');
+            const dia = parseInt(partes[0]);
+            const mes = parseInt(partes[1]) - 1; 
+            return new Date(ano, mes, dia);
+        }
+
+        // --- 3. LÓGICA PRINCIPAL ---
+        function verificarBotao(idBotao, parametroUrl) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const linkDestino = urlParams.get(parametroUrl);
+            const botao = document.getElementById(idBotao);
+
+            if (!botao) return;
+
+            // Se o link NÃO veio da URL, não faz nada (botão continua oculto)
+            if (!linkDestino) return;
+
+            const inicioStr = botao.getAttribute('data-inicio');
+            const fimStr = botao.getAttribute('data-fim');
+
+            if (inicioStr && fimStr) {
+                const dataInicio = criarDataComAno(inicioStr, anoDetectado);
+                const dataFim = criarDataComAno(fimStr, anoDetectado);
+                dataFim.setHours(23, 59, 59, 999);
+
+                // Verificação de Data
+                if (hoje >= dataInicio && hoje <= dataFim) {
+                    botao.href = linkDestino;
+                    botao.classList.remove('oculto');
+                    console.log(`Botão ${idBotao} ATIVADO.`);
+                } else {
+                    console.log(`Botão ${idBotao} OCULTO.`);
+                }
+            }
+        }
+
+        verificarBotao('btnAVC', 'avc');
+        verificarBotao('btnAVG', 'avg');
+        verificarBotao('btnAVI', 'avi');
+    });
 </script>
+
+</body>
+</html>
