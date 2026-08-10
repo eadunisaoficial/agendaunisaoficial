@@ -435,9 +435,9 @@
         <h2>💡 Informações Importantes</h2>
         
         <div class="item-orientacao-pop">
-            <strong>EM BREVE SERÁ DISPONIBILIZADO AS DATAS E HORÁRIOS<!--🎓 Conteúdo por Grupo de Cursos --></strong>
-            <!-- As <b>informações/cards</b> são direcionados especificamente à <b>ÁREA DE CADA CURSO</b>.
-            Para acessar as aulas ao vivo será necessário utilizar a <b>senha</b> disponibilizada através do <b>coordenador do seu curso.</b> Fique atento aos fóruns de notícias e ao e-mail institucional! -->
+            <strong><!--EM BREVE SERÁ DISPONIBILIZADO AS DATAS E HORÁRIOS-->🎓 Conteúdo por Grupo de Cursos</strong>
+            As <b>informações/cards</b> são direcionados especificamente à <b>ÁREA DE CADA CURSO</b>.
+            Para acessar as aulas ao vivo será necessário utilizar a <b>senha</b> disponibilizada através do <b>coordenador do seu curso.</b> Fique atento aos fóruns de notícias e ao e-mail institucional!
         </div>
 
         <H3>Não deixe de assistir nenhuma aula!</H3>
@@ -477,7 +477,7 @@ Para acessar as aulas ao vivo será necessário utilizar a <strong>senha</strong
         <div class="texto-orientacao">
             <h3><b>Fique Atento às Instruções</b></h3>
             <ul class="lista-orientacao">
-                <!-- <li>1️⃣ 2️⃣<strong>MÓDULO GERAL <span class="destaque-Laranja">LARANJA</span>:</strong> Aulas comuns a <span class="destaque-Laranja">TODAS AS ÁREAS</span> </li> -->
+                 <!--<li>1️⃣ 2️⃣<strong>MÓDULO GERAL <span class="destaque-Laranja">LARANJA</span>:</strong> Aulas comuns a <span class="destaque-Laranja">TODAS AS ÁREAS</span> </li> -->
                 <li>1️⃣<strong>MÓDULO ESPECÍFICO <span class="destaque-verde">VERDE</span>:</strong> Aulas exclusivas da <span class="destaque-verde">SUA ÁREA</span></li>
             </ul>
         </div>
@@ -503,153 +503,150 @@ Para acessar as aulas ao vivo será necessário utilizar a <strong>senha</strong
        ========================================================================== */
     const CONFIG_VISIBILIDADE = {
         7: { exibir_card: false, aulas_ocultas: [] }, 
-        1: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        2: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        3: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        4: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        5: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        6: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        8: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        9: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        10: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        11: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        12: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        13: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        14: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        15: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        16: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        17: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        18: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        19: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        20: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        21: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        22: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        23: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
-        24: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
+        1: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        2: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        3: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        4: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
+        5: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        6: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        8: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        9: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        10: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        11: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        12: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        13: { exibir_card: true, aulas_ocultas: [3,4,5,6] },
+        14: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        15: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        16: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        17: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        18: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        19: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        20: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        21: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        22: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        23: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
+        24: { exibir_card: true, aulas_ocultas: [2,3,4,5,6] },
         25: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] },
         26: { exibir_card: false, aulas_ocultas: [2,3,4,5,6] }
 
     };
 
     const TITULOS_CURSOS = {
-        1: "Administração", 2: "Análise e Desenvolvimento de Sistemas e Gestão da Tecnologia da Informação", 3: "Arquitetura e Urbanismo",
-        4: "Artes Visuais", 5: "Ciências Contábeis, Econômicas e Gestão Pública", 6: "Design de interiores", /*7: "TODAS AS ÁREAS",*/ 
-        8: "Gastronomia", 9: "Educação Física", 10: "Engenharia Elétrica, Mecânica e Mecatrônica", 11: "Engenharia Química e de Produção, Gestão da Qualidade, Produção Industrial e Segurança do Trabalho",
-        12: "Engenharia Civil", 13: "Engenharia da Computação", 14: "Engenharia de Software", 15: "Fisioterapia",
-        16: "Gestão de Recursos Humanos, Gestão Financeira, Logística, Gestão Comercial, Processos Gerenciais, Marketing", 17: "Gestão Hospitalar", 18: "História, Geografia, Filosofia", 19: "Letras",
-        20: "Nutrição", 21: "Pedagogia", 22: "Psicopedagogia", 23: "Serviço Social",24: "Teologia",25: "Ciências Biológicas", 26: "Biomedicina",
+        1: "Arquitetura e Urbanismo", 
+        2: "Artes Visuais", 
+        3: "Biomedicina", 
+        4: "Ciências Biológicas", 
+        5: "Ciências Contábeis, Econômicas e Superior de Tecnologia em Gestão Públicas", 
+        6: "Educação Física", 
+        /*7: "TODAS AS ÁREAS",*/
+        8: "Engenharia Ambiental, Agronomia e Superior de Tecnologia em Gestão do Agronegócio.", 
+        9: "Engenharia da Computação", 
+        10: "Engenharia de Produção, Química, Superior de Tecnologia em Gestão da Qualidade, Produção Industrial e Segurança do Trabalho", 
+        11: "Engenharia de Software", 
+        12: "Engenharia Elétrica, Mecânica e Mecatrônica", 
+        13: "Farmácia", 
+        14: "Fisioterapia", 
+        15: "História, Geografia, Letras, Filosofia", 
+        16: "Matemática", 
+        17: "Nutrição", 
+        18: "Pedagogia", 
+        19: "Psicopedagogia", 
+        20: "Superior de Tecnologia em Análise e Desenvolvimento de Sistemas e Gestão da Tecnologia da Informação", 
+        21: "Superior de Tecnologia em Design de Interiores", 
+        22: "Superior de Tecnologia em Gestão de Recursos Humanos, Gestão Financeira, Processos Gerenciais, Gestão Comercial, Logística e Marketing. ", 
+        23: "Superior de Tecnologia em Gestão Hospitalar", 
+        24: "Teologia", 
+        25: "Ciências Biológicas", 
+        26: "Biomedicina",
     };
 
     const NOMES_DAS_AULAS = {
-        1: { 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "Web Coordenação com a Coordenadora Amanda Ferreira", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "Web Coordenação com a Coordenadora Roberta Bernardo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "Web Coordenação com o Coordenador Luis Gustavo Gonçalves Costa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        /*7{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }, Extensão Aula 2", 3: "Projeto de Extensão Aula 3", 4: "Projeto de Extensão Aula 4", 5: "Pr{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },Aula 6" }*/  
-        8: { 1: "Web Coordenação com o Coordenador Pedro Inojosa", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        9: { 1: "Web Coordenação com o Coordenador Bruno Pinheiro", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        10: { 1: "Web Coordenação com o Coordenador Antonio José do Couto Pitta", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        11: { 1: "Web Coordenação com o Coordenador Cláudio Monico Innocencio", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        12: { 1: "Web Coordenação com a Coordenadora Daniele Cafange", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        13: { 1: "Web Coordenação com a Coordenadora Olinda Rizzo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        14: { 1: "Web Coordenação com a Coordenadora Olinda Rizzo", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        15: { 1: "Web Coordenação com a Coordenadora Alessa Castro Ribeiro", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        16: { 1: "Web Coordenação com o Coordenador Rodrigo Médici Cândido", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        17: { 1: "Web Coordenação com a Coordenadora Denise A. Costa Lorencette", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        18: { 1: "Web Coordenação com o Coordenador Fabio Fetz", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        19: { 1: "Web Coordenação com a Coordenadora Juliana Borges", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        20: { 1: "Web Coordenação com a Coordenadora Lucy A. Tchakmakian", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        21: { 1: "Web Coordenação com o Coordenador Jovino José Balbinot", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        22: { 1: "Web Coordenação com a Coordenadora Vera L O Ponciano", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        23: { 1: "Web Coordenação com o Coordenador Henrique Manoel Carvalho Silva", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        24: { 1: "Web Coordenação com o Coordenador Fabio Fetz", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        25: { 1: "Web Coordenação com o Coordenador Marco Aurélio Sivero Mayworm", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        25: { 1: "Web Coordenação com a Coordenadora Celia Aparecida Marques Pimenta", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }        
+        1: { 1:"Web Coordenação com o Coordenador <br>Luis Gustavo Gonçalves Costa",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1:"Web Coordenação com o Coordenador <br>Luis Gustavo Gonçalves Costa",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        3: { 1:"Web Coordenação com a Coordenadora <br>Célia Aparecida Marques Pimenta",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1:"Web Coordenação com o Coordenador <br>Marco Aurélio Sivero Mayworm",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1:"Web Coordenação com a Coordenadora <br>Roberta Auler Bittencourt Bernardo",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1:"Web Coordenação com o Coordenador <br>Bruno de Oliveira Pinheiro",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        8: { 1:"Web Coordenação com o Coordenador <br>Ivan Cardoso Sá",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        /*7{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }, Extensão Aula 2", 3: "Projeto de Extensão Aula 3", 4:        "Projeto de Extensão Aula 4", 5: "Pr{ 1: "Web Coordenação com a Coordenadora Andrea Malanga", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },Aula 6" }*/  
+        9: { 1:"Web Coordenação com as Coordenadoras <br>Amanda Ferreira e Olinda Rizzo",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        10: { 1:"Web Coordenação com o Coordenador <br>Cláudio Monico Innocencio",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        11: { 1:"Web Coordenação com as Coordenadoras <br>Amanda Ferreira e Olinda Rizzo",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        12: { 1:"Web Coordenação com o Coordenador <br>Antonio José do Couto Pitta",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        13: { 1:"Web Coordenação com a Coordenadora <br>Ana Cláudia Pmpeu Raminelli",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        14: { 1:"Web Coordenação com a Coordenadora <br>Alessa Castro Ribeiro ",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        15: { 1:"Web Coordenação com o Coordenador <br>Fabio Fetz de Almeida",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        16: { 1:"Web Coordenação com o Coordenador <br>Ricardo Fernando de Souza",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        17: { 1:"Web Coordenação com a Coordenadora <br>Lucy Aintablian Tchakmakian",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        18: { 1:"Web Coordenação com o Coordenador <br>Jovino José Balbinot",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        19: { 1:"Web Coordenação com a Coordenadora <br>Vera Lúcia de Oliveira Ponciano",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        20: { 1:"Web Coordenação com as Coordenadoras <br>Amanda Ferreira e Olinda Rizzo",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        21: { 1:"Web Coordenação com o Coordenador <br>Luis Gustavo Gonçalves Costa",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        22: { 1:"Web Coordenação com o Coordenador <br>Rodrigo Médici Cândido",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        23: { 1:"Web Coordenação com a Coordenadora <br>Denise Augusto da Costa Lorencette",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        24: { 1:"Web Coordenação com o Coordenador <br>Fabio Fetz de Almeida",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        25: { 1: "", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        26: { 1: "", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }        
         
     };
 
     const DATAS_AULAS_C1 = {
-        1: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        2: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        3: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        4: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        5: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        6: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        1: { 1:"14/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1:"14/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        3: { 1:"10/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1:"10/08/2026 - 21:00",  2: "10/08/2026 - 22:00", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1:"11/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1:"17/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         /*7: { 1: "27/04/2026 - 22:00", 2: "05/05/2026 - 22:00", 3: "12/05/2026 - 22:00", 4: "19/05/2026 - 22:00", 5: "26/05/2026 - 22:00", 6: "02/06/2026 - 22:00"}*/
-        8: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        9: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        10: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        11: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        12: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        13: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        14: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        15: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        16: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        17: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        18: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        19: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        20: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        21: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        22: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        23: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        24: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        8: { 1:"14/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        9: { 1:"10/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        10: { 1:"13/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        11: { 1:"17/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        12: { 1:"11/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        13: { 1:"10/08/2026 - 18:00",  2: "10/08/2026 - 19:00", 3: "#", 4: "#", 5: "#", 6: "#" },
+        14: { 1:"19/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        15: { 1:"17/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        16: { 1:"21/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        17: { 1:"19/08/2026 - 19:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        18: { 1:"19/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        19: { 1:"19/08/2026 - 22:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        20: { 1:"20/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        21: { 1:"14/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        22: { 1:"13/08/2026 - 22:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        23: { 1:"21/08/2026 - 20:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        24: { 1:"17/08/2026 - 18:00",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        
         25: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         26: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" }
 
     };
 
     const LINKS_BOTOES_CARDS = {
-        //LINK DAS GRAVAÇÕES CARD 1 --> "Administração"
-        1: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 2 --> "ADS e GTI"
-        2: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 3 --> "Arquitetura e Urbanismo"
-        3: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 4 --> "Artes Visuais"
-        4: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 5 --> "Contábeis, Econômicas e CST em Gestão Pública"
-        5: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Design de interiores"
-        6: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 7 --> "TODAS AS AREAS"
+        1: { 1:"https://us02web.zoom.us/j/86128039380",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        2: { 1:"https://us02web.zoom.us/j/83932714755",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        3: { 1:"https://us02web.zoom.us/j/86094471837",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        4: { 1:"https://us02web.zoom.us/j/81864002597",  2: "https://us02web.zoom.us/j/81864002597", 3: "#", 4: "#", 5: "#", 6: "#" },
+        5: { 1:"https://us02web.zoom.us/j/81554119950",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        6: { 1:"https://us02web.zoom.us/j/81568490579",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         //7: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        8: { 1:"https://us02web.zoom.us/j/86516310315",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        9: { 1:"https://us02web.zoom.us/j/87004094481",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        10: { 1:"https://us02web.zoom.us/j/81261349520",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        11: { 1:"https://us02web.zoom.us/j/87687525765",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        12: { 1:"https://us02web.zoom.us/j/87535015124",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        13: { 1:"https://us02web.zoom.us/j/81557334891",  2: "https://us02web.zoom.us/j/81557334891", 3: "#", 4: "#", 5: "#", 6: "#" },
+        14: { 1:"https://us02web.zoom.us/j/87419529570",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        15: { 1:"https://us02web.zoom.us/j/89784396685",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        16: { 1:"https://us02web.zoom.us/j/87405444146",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        17: { 1:"https://us02web.zoom.us/j/85622234240",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        18: { 1:"https://us02web.zoom.us/j/82925731759",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        19: { 1:"https://us02web.zoom.us/j/82701330681",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        20: { 1:"https://us02web.zoom.us/j/83679562825",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        21: { 1:"https://us02web.zoom.us/j/81046320751",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        22: { 1:"https://us02web.zoom.us/j/87566685537",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        23: { 1:"https://us02web.zoom.us/j/82874575174",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
+        24: { 1:"https://us02web.zoom.us/j/83325886709",  2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
 
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Gastronomia"
-        8: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Educação Física"
-        9: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Eng. Elétrica, Mecânica e Mecatrônica"
-        10: {1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Eng. Química e de Produção, Gestão da Qualidade, Produção Industrial e Segurança do Trabalho"
-        11: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia Civil"
-        12: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia da Computação"
-        13: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Engenharia de Software"
-        14: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Fisioterapia"
-        15: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Gest. de RH, Gest. Financ., Logística, Gest. Comerc., Proc. Gerenc., Marketing"
-        16: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Gestão Hospitalar"
-        17: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "História, Geografia, Filosofia"
-        18: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Letras"
-        19: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Nutrição"
-        20: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Pedagogia"
-        21: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Psicopedagogia"
-        22: { 1: "2026/2 - Web Coordenação -  Psicopedagogia", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 6 --> "Serviço Social"
-        23: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
-        //LINK DAS GRAVAÇÕES CARD 24 -> "Teologia"
-        24: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         //LINK DAS GRAVAÇÕES CARD 25 -> "Biologia"
         25: { 1: "#", 2: "#", 3: "#", 4: "#", 5: "#", 6: "#" },
         //LINK DAS GRAVAÇÕES CARD 26 -> "Biomedicina"
