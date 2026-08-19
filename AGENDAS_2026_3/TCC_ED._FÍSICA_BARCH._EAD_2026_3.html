@@ -1,156 +1,334 @@
-<div class="menu-container-i">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda da Disciplina - UNISA</title>
+    <style>
+        /* ============================================================
+           CONFIGURAÇÃO DE CORES E ESTILOS
+           ============================================================ */
+        :root {
+            --cor-azul-forte: #1C3B70;
+            --cor-verde-lima: #99BD2E;
+            --cor-laranja:    #D97828;
+            --fundo-pagina:   #f4f6f9;
+            --fundo-card:     #ffffff;
+            --texto-escuro:   #333333;
+            --texto-claro:    #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--fundo-pagina);
+            margin: 0;
+            padding: 20px;
+            color: var(--texto-escuro);
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--fundo-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e1e1e1;
+        }
+        .span2{ font-size: 13px; }
+        .container2 {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--fundo-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e1e1e1;
+        }
+        /* Cabeçalho */
+        header {
+            background-color: var(--cor-azul-forte);
+            color: var(--texto-claro);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 6px solid var(--cor-verde-lima);
+        }
+        .header2{
+            background-color: var(--cor-azul-forte);
+            color: var(--texto-claro);
+            padding: 10px 10px;
+            text-align: center;
+            border-bottom: 9px solid var(--cor-verde-lima);
+        }
+        .logo-area, .logo-area2 {
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo-area2 h2 {
+            display: block;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+        .logo-area2 .frase-impacto {
+            margin-top: 0;
+            margin-bottom: 8px; 
+        }
+        .logo-area img {
+            height: auto;
+            width: 250px;
+            max-width: 100%;
+            display: inline-block;
+            filter: brightness(0) invert(1); 
+        }
+        header h1 { margin: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; }
+        header h2 { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; font-weight: 400; }
+        .agenda-grid {
+            display: block;
+            column-count: 1;    
+            column-gap: 15px;   
+            padding: 25px;
+        }
+        .agenda-grid2 {
+            display: block;
+            column-count: 2;    
+            column-gap: 15px;   
+            padding: 25px;
+        }
+        /* Cards */
+        .card {
+            background: var(--fundo-card);
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid var(--cor-azul-forte);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            break-inside: avoid;        
+            page-break-inside: avoid;
+            margin-bottom: 15px;       
+            width: 100%;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .data-badge, .data-badge2 {
+            color: var(--texto-claro);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.90rem; 
+            text-align: center;
+            min-width: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+        .data-badge { background-color: var(--cor-azul-forte); }
+        .data-badge2 { 
+            background-color: var(--cor-verde-lima); 
+            color: var(--texto-escuro);
+        }
+        .info-texto {
+            font-size: 0.99rem;  
+            line-height: 1.0;
+            font-weight: 500;
+            color: var(--texto-escuro);
+            width: 100%; 
+        }
+        .frase-impacto{ font-size: 15px; padding: 0px 0px; }
+        
+        /* Card de AVALIAÇÃO */
+        .card.avaliacao {
+            border: 1px solid var(--cor-laranja);
+            border-left: 6px solid var(--cor-laranja);
+            background-color: #fffbf7;
+        }
+        .card.avaliacao2 {
+            border: 1px solid var(--cor-verde-lima);
+            border-left: 6px solid var(--cor-verde-lima);
+            background-color: #fff;
+        }
+        .card.avaliacao .data-badge {
+            background-color: var(--cor-laranja);
+            color: white;
+        }
+        /* REGRA PARA NEGRITO VISUAL SEM TAG STRONG */
+        .card.avaliacao .info-texto {
+            color: var(--texto-escuro);
+            font-weight: 700; 
+        }
+        
+        footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.90rem;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        .legenda {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--cor-laranja);
+        }
+        
+        /* --- CSS DOS BOTÕES --- */
+        .btn-card-acao {
+            display: inline-block;
+            margin-top: 8px; 
+            background-color: var(--cor-laranja); 
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: 1px solid transparent;
+            line-height: 1.2;
+        }
+        .btn-card-acao:hover {
+            background-color: #fff;
+            color: var(--cor-laranja);
+            border-color: var(--cor-laranja);
+            transform: scale(1.05);
+        }
+        .oculto { display: none !important; }
+        
+        @media (max-width: 600px) {
+            .agenda-grid { column-count: 1; }
+            .card { flex-direction: column; align-items: flex-start; text-align: left; }
+            .data-badge { width: 100%; margin-bottom: 8px; flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
 
-    <div class="menu-row-i">
-        
-         <a href="https://digital.unisa.br/mod/page/view.php?id=1912978" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644085&redirect=1" alt="Aula ao vivo"> 
-            <p class="menu-text-i">Aula ao vivo</p> 
-        </a> 
-            
-        <!-- <a href="" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707955&redirect=1" alt="Aula de Aprofundamento">
-            <p class="menu-text-i">Aula de Aprofundamento</p>
-        </a> -->
-        
-        <!-- <a href="#" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707953&redirect=1" alt="Orientação e Supervisão">
-            <p class="menu-text-i">Orientação e Supervisão</p>
-        </a> -->
-        
-        <!-- <a href="#" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707952&redirect=1" alt="Entrega de Relatório">
-            <p class="menu-text-i">Entrega de Relatório</p>
-        </a> -->
-        
-        <!-- <a href="#" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707951&redirect=1" alt="Entrega do Projeto Integrador">
-            <p class="menu-text-i">Entrega do Projeto Integrador</p>
-        </a> -->
-        
-        <!-- <a href="#" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707949&redirect=1" alt="Entrega do TCC">
-            <p class="menu-text-i">Entrega do TCC</p>
-        </a> -->
+<div class="container">
 
-        <a href="https://digital.unisa.br/mod/quiz/view.php?id=1912980" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644086&redirect=1" alt="Avaliação Contínua">
-            <p class="menu-text-i">Avaliação Contínua</p>
-        </a>
-        
-        <a href="https://digital.unisa.br/mod/quiz/view.php?id=1912981" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644087&redirect=1" alt="Avaliação Integrada">
-            <p class="menu-text-i">Avaliação Integrada</p>
-        </a>
-        
-        <a href="https://digital.unisa.br/mod/lti/launch.php?id=1912982" class="menu-item-i" target="_blank">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644088&redirect=1" alt="Avaliação Global">
-            <p class="menu-text-i">Avaliação Global</p>
-        </a>
-        
-        <!-- <a href="[whatsapptutor]" class="menu-item-i" target="_blank">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644089&redirect=1" alt="Whatsapp">
-            <p class="menu-text-i">Whatsapp</p>
-        </a> -->
-        
-        <a href="https://digital.unisa.br/mod/page/view.php?id=1912983" class="menu-item-i">
-            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644084&redirect=1" alt="Material de apoio">
-            <p class="menu-text-i">Material de apoio</p>
-        </a>
-    
+    <header>
+        <div class="logo-area">
+            <img src="https://cdn.jsdelivr.net/gh/Klebolt/logounisa@main/logounisaagenda.png" alt="Logo Unisa">
+        </div>
+        <h1>Agenda Geral da Disciplina</h1>
+        <h2 id="tituloAno">TCC - ED. FÍSICA BARCH. EAD - 2026/3</h2>
+    </header>
+
+    <div class="agenda-grid">
+
+        <div class="card avaliacao">
+            <div class="data-badge">21/08</div>
+            <div class="info-texto">ETAPA 1 - ENTREGA ATÉ 21/08</div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">28/08</div>
+            <div class="info-texto">ETAPA 2 - ENTREGA ATÉ 28/08</div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">04/09</div>
+            <div class="info-texto">ETAPA 3 - ENTREGA ATÉ 04/09</div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">11/09</div>
+            <div class="info-texto">ETAPA 4 - ENTREGA ATÉ 11/09</div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">18/09</div>
+            <div class="info-texto">ETAPA 5 - ENTREGA ATÉ 18/09</div>
+        </div>
+
+        <div class="card avaliacao">
+            <div class="data-badge">25/09</div>
+            <div class="info-texto">ETAPA 6 - ENTREGA ATÉ 25/09</div>
+        </div>
+
     </div>
-    
+
+    <footer>
+        <div class="legenda">
+            <span>● DATAS EM LARANJA INDICAM AVALIAÇÕES E DIVULGAÇÕES DE NOTAS</span>
+        </div>
+    </footer>
 </div>
 
-<style>
-    /* Define variáveis CSS globais que podem ser usadas em todo o documento */
-    :root {
-        --cor-fundo-transparente: transparent;    /* Define uma variável para a cor de fundo transparente */
-        --cor-linha: #004f91;                      /* Define uma variável para a cor azul da linha de hover */
-    }
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- 1. DETECTAR O ANO (Filtra "EAD - " e pega só 2026) ---
+        const h2Element = document.getElementById('tituloAno');
+        let anoDetectado = new Date().getFullYear(); 
+        
+        if (h2Element) {
+            const textoH2 = h2Element.innerText;
+            const matchAno = textoH2.match(/\d{4}/);
+            if (matchAno) {
+                anoDetectado = parseInt(matchAno[0]);
+            }
+        }
+        
+        console.log("Ano Base:", anoDetectado);
 
-    /* Estilo para o container principal que agrupa as linhas de botões */
-    .menu-container-i {
-        display: flex;                            /* Ativa o modo de layout flexível (Flexbox) */
-        flex-direction: column;                   /* Organiza os itens filhos (as linhas) em uma coluna, um abaixo do outro */
-        align-items: center;                      /* Centraliza os itens filhos (as linhas) horizontalmente */
-        width: 100%;                              /* Faz o container ocupar 100% da largura do seu elemento pai */
-        max-width: 900px !important;              /* Limita a largura máxima do container a 900 pixels */
-        margin: 0;                                /* MUDANÇA: Remove as margens automáticas para alinhar o container à esquerda */
-        gap: 20px !important;                     /* Define um espaço de 20 pixels entre os itens filhos (entre as duas linhas) */
-        padding: 0 10px;                          /* Adiciona um espaçamento interno de 10 pixels nos lados esquerdo e direito */
-        box-sizing: border-box;                   /* Garante que o padding não aumente a largura total do container */
-        background-color: var(--cor-fundo-transparente) !important; /* Define a cor de fundo como transparente usando a variável */
-    }
-    
-    /* Estilo para cada linha que contém os botões */
-    .menu-row-i {
-        display: flex;                            /* Ativa o Flexbox para alinhar os botões dentro da linha */
-        justify-content: space-around;            /* Distribui os botões uniformemente na linha, com espaço ao redor deles */
-        width: 100%;                              /* Faz a linha ocupar 100% da largura do container pai */
-        gap: 10px;                                /* Define um espaço de 10 pixels entre cada botão na mesma linha */
-    }
+        // --- 2. CONFIGURAR HOJE ---
+        const hoje = new Date();
+        hoje.setHours(0,0,0,0);
 
-    /* Estilo geral para cada item/botão individual */
-    .menu-item-i {
-        background-color: var(--cor-fundo-transparente) !important; /* Define o fundo como transparente */
-        border: none !important;                  /* Remove qualquer borda padrão */
-        padding: 0;                               /* Remove qualquer espaçamento interno padrão */
-        display: flex;                            /* Ativa o Flexbox para o conteúdo interno do botão (imagem e texto) */
-        flex-direction: column;                   /* Organiza o conteúdo interno em uma coluna (imagem em cima, texto embaixo) */
-        align-items: center;                      /* Centraliza o conteúdo interno horizontalmente */
-        justify-content: flex-start;              /* Alinha o conteúdo interno ao topo */
-        text-align: center;                       /* Centraliza o texto */
-        text-decoration: none;                    /* Remove o sublinhado do link */
-        flex: 1;                                  /* Permite que o botão cresça para ocupar o espaço disponível na linha */
-        min-width: 0;                             /* Necessário para que a propriedade 'flex: 1' funcione corretamente em todos os navegadores */
-        transition: transform 0.3s ease-in-out, border-bottom 0.3s ease-in-out; /* Adiciona uma animação suave para transformações e para a borda inferior */
-        color: inherit;                           /* Faz o texto herdar a cor do elemento pai */
-    }
-    
-    /* Estilo para as imagens dentro dos botões */
-    .menu-item-i img {
-        margin: 15px 0 0 0 !important;            /* Adiciona uma margem de 15px no topo da imagem */
-        width: 100px;                             /* Define a largura da imagem como 100 pixels */
-        height: 100px;                            /* Define a altura da imagem como 100 pixels */
-        transition: transform 0.3s ease-in-out;   /* Adiciona uma animação suave para o efeito de zoom */
-    }
-    
-    /* Estilo para o parágrafo de texto dentro dos botões */
-    .menu-item-i .menu-text-i {
-        margin: 15px 1px 1px 1px !important;      /* Define as margens do texto (15px no topo) */
-        padding: 0;                               /* Remove qualquer espaçamento interno */
-        font-size: 16px !important;               /* Define o tamanho da fonte */
-        color: #444;                              /* Define a cor do texto como um cinza escuro */
-        font-weight: bold;                        /* Deixa o texto em negrito */
-        width: 100%;                              /* Faz o texto ocupar 100% da largura do botão */
-        line-height: 1.2;                         /* Define a altura da linha para o texto, melhorando a legibilidade */
-    }
+        function criarDataComAno(diaMesStr, ano) {
+            const partes = diaMesStr.split('/');
+            const dia = parseInt(partes[0]);
+            const mes = parseInt(partes[1]) - 1; 
+            return new Date(ano, mes, dia);
+        }
 
-    /* Estilo para quando o mouse passa por cima de um botão */
-    .menu-item-i:hover {
-        border-bottom: 5px solid var(--cor-linha); /* Adiciona uma borda inferior azul de 5px ao passar o mouse */
-    }
-    
-    /* Estilo para a imagem quando o mouse passa por cima do botão pai */
-    .menu-item-i:hover img {
-        transform: scale(1.2);                    /* Aumenta o tamanho da imagem em 20% (efeito de zoom) */
-    }
+        // --- 3. LÓGICA PRINCIPAL ---
+        function verificarBotao(idBotao, parametroUrl) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const linkDestino = urlParams.get(parametroUrl);
+            const botao = document.getElementById(idBotao);
 
-    /* Estilo base da borda para garantir a transição suave */
-    .menu-item-i {
-        border-bottom: 5px solid transparent !important; /* Cria uma borda invisível para que o botão não "salte" ao aparecer a borda do hover */
-    }
+            if (!botao) return;
 
-    /* Início das regras para telas menores (design responsivo) */
-    @media (max-width: 768px) {
-       /* Estilo da linha para telas com largura máxima de 768px */
-       .menu-row-i {
-           flex-wrap: wrap;                       /* Permite que os botões quebrem para a linha de baixo se não couberem */
-           justify-content: center;               /* Centraliza os botões que quebraram de linha */
-       }
-       /* Estilo do item para telas com largura máxima de 768px */
-       .menu-item-i {
-           flex: 1 1 120px;                       /* Define que o item pode crescer (1), encolher (1) e tem uma largura base de 120px */
-       }
-    }
-</style>
+            // Se o link NÃO veio da URL, não faz nada (botão continua oculto)
+            if (!linkDestino) return;
+
+            const inicioStr = botao.getAttribute('data-inicio');
+            const fimStr = botao.getAttribute('data-fim');
+
+            if (inicioStr && fimStr) {
+                const dataInicio = criarDataComAno(inicioStr, anoDetectado);
+                const dataFim = criarDataComAno(fimStr, anoDetectado);
+                dataFim.setHours(23, 59, 59, 999);
+
+                // Verificação de Data
+                if (hoje >= dataInicio && hoje <= dataFim) {
+                    botao.href = linkDestino;
+                    botao.classList.remove('oculto');
+                    console.log(`Botão ${idBotao} ATIVADO.`);
+                } else {
+                    console.log(`Botão ${idBotao} OCULTO.`);
+                }
+            }
+        }
+
+        verificarBotao('btnAVC', 'avc');
+        verificarBotao('btnAVG', 'avg');
+        verificarBotao('btnAVI', 'avi');
+    });
+</script>
+
+</body>
+</html>
