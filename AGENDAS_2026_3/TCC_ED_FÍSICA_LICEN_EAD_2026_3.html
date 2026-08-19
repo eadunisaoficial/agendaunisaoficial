@@ -1,0 +1,135 @@
+<div class="menu-container-s">
+  
+  <a href="https://digital.unisa.br/mod/page/view.php?id=1912973"
+    class="menu-button-s first-button-s">
+    COMECE POR AQUI
+  </a>
+
+  <a href="https://digital.unisa.br/mod/forum/view.php?id=1912890"
+    target="_blank" class="menu-button-s">
+    Notícias da Disciplina
+  </a>
+
+  <a href="https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/COMUM_2026_3.html?avc=https://digital.unisa.br/mod/quiz/view.php?id=1912980&avi=https://digital.unisa.br/mod/quiz/view.php?id=1912981&avg=https://digital.unisa.br/mod/lti/launch.php?id=1912982"
+    target="_blank" class="menu-button-s">
+    Agenda da Disciplina
+  </a>
+
+  <a href="https://digital.unisa.br/mod/forum/view.php?id=1912976"
+    class="menu-button-s botao-destaque-final">
+    Fale com Prof./Mediador
+  </a>
+
+  <a href="https://digital.unisa.br/mod/quiz/view.php?id=1912977"
+    class="menu-button-s">
+    Avalie sua Disciplina
+  </a>
+
+</div>
+
+<style>
+  /* Variáveis CSS para cores */
+  :root {
+    --primary-color: #004f91;
+    --first-button-s-color: #e57409;
+    --text-color-light: #ffffff;
+    --text-color-dark: #333333;
+    --border-radius: 10px; 
+    --button-min-width: 100px; 
+    --button-height: 70px; 
+  }
+
+  /* Container Principal */
+  .menu-container-s {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 750px;
+    margin: 15px 50px;
+    gap: 15px; !important
+    box-sizing: border-box;
+  }
+   
+  /* Estilos gerais para todos os botões (Padrão Pequeno) */
+  .menu-button-s {
+    /* Ordem padrão é 1. O botão de destaque terá ordem maior para ir pro final */
+    order: 1; 
+    
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 18%; /* Tamanho padrão pequeno */
+    min-width: var(--button-min-width);
+     
+    background-color: var(--primary-color);
+    color: var(--text-color-light) !important;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    height: var(--button-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease-in-out;
+    box-sizing: border-box;
+  }
+
+  /* Estilo específico do botão laranja */
+  .first-button-s {
+    background-color: var(--first-button-s-color) !important;
+    border-color: var(--first-button-s-color) !important;
+  }
+   
+  /* Hover */
+  .menu-button-s:hover, .first-button-s:hover {
+    background-color: var(--text-color-light) !important;
+    transform: scale(1.05); 
+  }
+  .menu-button-s:hover {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+  .first-button-s:hover {
+    color: var(--first-button-s-color) !important;
+    border-color: var(--first-button-s-color) !important;
+  }
+
+  /* ----------------------------------------------------------- */
+  /* CLASSE MÁGICA DE DESTAQUE (Fácil Alteração)                 */
+  /* ----------------------------------------------------------- */
+  /* Basta mover esta classe "botao-destaque-final" no HTML      */
+  /* para qualquer <a> e ele automaticamente irá para o final    */
+  /* da fila e ficará grande.                                    */
+  
+  .botao-destaque-final {
+      flex-basis: 100% !important; /* Força largura total */
+      order: 99; /* Força este elemento a ser o ÚLTIMO visualmente */
+      margin-top: 5px; /* Um pequeno espaço extra se desejar separar do grupo */
+  }
+
+  /* ----------------------------------------------------------- */
+  /* Responsividade */
+  @media (max-width: 600px) {
+    .menu-button-s {
+      font-size: 14px; 
+      padding: 10px; 
+      height: 50px; 
+      min-width: auto; 
+      flex-basis: 45%; 
+    }
+    /* Mantém o destaque grande mesmo no celular */
+    .botao-destaque-final {
+      flex-basis: 100% !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .menu-button-s {
+      flex-basis: 100%; 
+    }
+  }
+</style>
