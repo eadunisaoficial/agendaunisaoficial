@@ -1,0 +1,156 @@
+<div class="menu-container-i">
+
+    <div class="menu-row-i">
+        
+         <a href="https://digital.unisa.br/mod/page/view.php?id=1912978" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644085&redirect=1" alt="Aula ao vivo"> 
+            <p class="menu-text-i">Aula ao vivo</p> 
+        </a> 
+            
+        <!-- <a href="" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707955&redirect=1" alt="Aula de Aprofundamento">
+            <p class="menu-text-i">Aula de Aprofundamento</p>
+        </a> -->
+        
+        <!-- <a href="#" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707953&redirect=1" alt="Orientação e Supervisão">
+            <p class="menu-text-i">Orientação e Supervisão</p>
+        </a> -->
+        
+        <!-- <a href="#" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707952&redirect=1" alt="Entrega de Relatório">
+            <p class="menu-text-i">Entrega de Relatório</p>
+        </a> -->
+        
+        <!-- <a href="#" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707951&redirect=1" alt="Entrega do Projeto Integrador">
+            <p class="menu-text-i">Entrega do Projeto Integrador</p>
+        </a> -->
+        
+        <!-- <a href="#" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1707949&redirect=1" alt="Entrega do TCC">
+            <p class="menu-text-i">Entrega do TCC</p>
+        </a> -->
+
+        <a href="https://digital.unisa.br/mod/quiz/view.php?id=1912980" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644086&redirect=1" alt="Avaliação Contínua">
+            <p class="menu-text-i">Avaliação Contínua</p>
+        </a>
+        
+        <a href="https://digital.unisa.br/mod/quiz/view.php?id=1912981" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644087&redirect=1" alt="Avaliação Integrada">
+            <p class="menu-text-i">Avaliação Integrada</p>
+        </a>
+        
+        <a href="https://digital.unisa.br/mod/lti/launch.php?id=1912982" class="menu-item-i" target="_blank">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644088&redirect=1" alt="Avaliação Global">
+            <p class="menu-text-i">Avaliação Global</p>
+        </a>
+        
+        <!-- <a href="[whatsapptutor]" class="menu-item-i" target="_blank">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644089&redirect=1" alt="Whatsapp">
+            <p class="menu-text-i">Whatsapp</p>
+        </a> -->
+        
+        <a href="https://digital.unisa.br/mod/page/view.php?id=1912983" class="menu-item-i">
+            <img src="https://digital.unisa.br/mod/resource/view.php?id=1644084&redirect=1" alt="Material de apoio">
+            <p class="menu-text-i">Material de apoio</p>
+        </a>
+    
+    </div>
+    
+</div>
+
+<style>
+    /* Define variáveis CSS globais que podem ser usadas em todo o documento */
+    :root {
+        --cor-fundo-transparente: transparent;    /* Define uma variável para a cor de fundo transparente */
+        --cor-linha: #004f91;                      /* Define uma variável para a cor azul da linha de hover */
+    }
+
+    /* Estilo para o container principal que agrupa as linhas de botões */
+    .menu-container-i {
+        display: flex;                            /* Ativa o modo de layout flexível (Flexbox) */
+        flex-direction: column;                   /* Organiza os itens filhos (as linhas) em uma coluna, um abaixo do outro */
+        align-items: center;                      /* Centraliza os itens filhos (as linhas) horizontalmente */
+        width: 100%;                              /* Faz o container ocupar 100% da largura do seu elemento pai */
+        max-width: 900px !important;              /* Limita a largura máxima do container a 900 pixels */
+        margin: 0;                                /* MUDANÇA: Remove as margens automáticas para alinhar o container à esquerda */
+        gap: 20px !important;                     /* Define um espaço de 20 pixels entre os itens filhos (entre as duas linhas) */
+        padding: 0 10px;                          /* Adiciona um espaçamento interno de 10 pixels nos lados esquerdo e direito */
+        box-sizing: border-box;                   /* Garante que o padding não aumente a largura total do container */
+        background-color: var(--cor-fundo-transparente) !important; /* Define a cor de fundo como transparente usando a variável */
+    }
+    
+    /* Estilo para cada linha que contém os botões */
+    .menu-row-i {
+        display: flex;                            /* Ativa o Flexbox para alinhar os botões dentro da linha */
+        justify-content: space-around;            /* Distribui os botões uniformemente na linha, com espaço ao redor deles */
+        width: 100%;                              /* Faz a linha ocupar 100% da largura do container pai */
+        gap: 10px;                                /* Define um espaço de 10 pixels entre cada botão na mesma linha */
+    }
+
+    /* Estilo geral para cada item/botão individual */
+    .menu-item-i {
+        background-color: var(--cor-fundo-transparente) !important; /* Define o fundo como transparente */
+        border: none !important;                  /* Remove qualquer borda padrão */
+        padding: 0;                               /* Remove qualquer espaçamento interno padrão */
+        display: flex;                            /* Ativa o Flexbox para o conteúdo interno do botão (imagem e texto) */
+        flex-direction: column;                   /* Organiza o conteúdo interno em uma coluna (imagem em cima, texto embaixo) */
+        align-items: center;                      /* Centraliza o conteúdo interno horizontalmente */
+        justify-content: flex-start;              /* Alinha o conteúdo interno ao topo */
+        text-align: center;                       /* Centraliza o texto */
+        text-decoration: none;                    /* Remove o sublinhado do link */
+        flex: 1;                                  /* Permite que o botão cresça para ocupar o espaço disponível na linha */
+        min-width: 0;                             /* Necessário para que a propriedade 'flex: 1' funcione corretamente em todos os navegadores */
+        transition: transform 0.3s ease-in-out, border-bottom 0.3s ease-in-out; /* Adiciona uma animação suave para transformações e para a borda inferior */
+        color: inherit;                           /* Faz o texto herdar a cor do elemento pai */
+    }
+    
+    /* Estilo para as imagens dentro dos botões */
+    .menu-item-i img {
+        margin: 15px 0 0 0 !important;            /* Adiciona uma margem de 15px no topo da imagem */
+        width: 100px;                             /* Define a largura da imagem como 100 pixels */
+        height: 100px;                            /* Define a altura da imagem como 100 pixels */
+        transition: transform 0.3s ease-in-out;   /* Adiciona uma animação suave para o efeito de zoom */
+    }
+    
+    /* Estilo para o parágrafo de texto dentro dos botões */
+    .menu-item-i .menu-text-i {
+        margin: 15px 1px 1px 1px !important;      /* Define as margens do texto (15px no topo) */
+        padding: 0;                               /* Remove qualquer espaçamento interno */
+        font-size: 16px !important;               /* Define o tamanho da fonte */
+        color: #444;                              /* Define a cor do texto como um cinza escuro */
+        font-weight: bold;                        /* Deixa o texto em negrito */
+        width: 100%;                              /* Faz o texto ocupar 100% da largura do botão */
+        line-height: 1.2;                         /* Define a altura da linha para o texto, melhorando a legibilidade */
+    }
+
+    /* Estilo para quando o mouse passa por cima de um botão */
+    .menu-item-i:hover {
+        border-bottom: 5px solid var(--cor-linha); /* Adiciona uma borda inferior azul de 5px ao passar o mouse */
+    }
+    
+    /* Estilo para a imagem quando o mouse passa por cima do botão pai */
+    .menu-item-i:hover img {
+        transform: scale(1.2);                    /* Aumenta o tamanho da imagem em 20% (efeito de zoom) */
+    }
+
+    /* Estilo base da borda para garantir a transição suave */
+    .menu-item-i {
+        border-bottom: 5px solid transparent !important; /* Cria uma borda invisível para que o botão não "salte" ao aparecer a borda do hover */
+    }
+
+    /* Início das regras para telas menores (design responsivo) */
+    @media (max-width: 768px) {
+       /* Estilo da linha para telas com largura máxima de 768px */
+       .menu-row-i {
+           flex-wrap: wrap;                       /* Permite que os botões quebrem para a linha de baixo se não couberem */
+           justify-content: center;               /* Centraliza os botões que quebraram de linha */
+       }
+       /* Estilo do item para telas com largura máxima de 768px */
+       .menu-item-i {
+           flex: 1 1 120px;                       /* Define que o item pode crescer (1), encolher (1) e tem uma largura base de 120px */
+       }
+    }
+</style>
