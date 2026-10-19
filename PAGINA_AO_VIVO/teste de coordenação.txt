@@ -24,7 +24,7 @@
 24;ativo;;;Fabio Fetz de Almeida;
 25;ativo;;;Fabio Fetz de Almeida;
 26;ativo;;;Juliana Maritimo Borges;
-27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;www.example.com
+27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;www.example.com;www.example.com
 28;ativo;;;Lucy Aintablian Tchakmakian;
 29;ativo;;;Jovino Jose Balbinot;
 30;ativo;;;Vera Lucia de Oliveira Ponciano;
