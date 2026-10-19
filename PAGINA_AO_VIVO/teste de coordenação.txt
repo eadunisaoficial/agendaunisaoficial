@@ -1,6 +1,6 @@
-1;ativo;;;Andrea Cristina Micchelucci Malanga;
-2;ativo;;;Ivan Cardoso Sá;
-3;ativo;;;Luis Gustavo Goncalves Costa;
+1;ativo;18/10/2026;14:00;Andrea Cristina Micchelucci Malanga;
+2;ativo;18/10/2026;12h00;Ivan Cardoso Sá;
+3;ativo;18/10/2026;12H00;Luis Gustavo Goncalves Costa;www.example.com;www.example.com
 4;ativo;;;Luis Gustavo Goncalves Costa;
 5;ativo;;;Celia Aparecida Marques Pimenta;
 6;ativo;;;Marco Aurelio Sivero Mayworm;
