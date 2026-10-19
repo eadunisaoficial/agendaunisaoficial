@@ -24,11 +24,11 @@
 24;ativo;;;Fabio Fetz de Almeida;
 25;ativo;;;Fabio Fetz de Almeida;
 26;ativo;;;Juliana Maritimo Borges;
-27;ativo;;;Ricardo Fernando de Souza;
+27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;
 28;ativo;;;Lucy Aintablian Tchakmakian;
 29;ativo;;;Jovino Jose Balbinot;
 30;ativo;;;Vera Lucia de Oliveira Ponciano;
-31;ativo;;;Henrique Manoel Carvalho Silva;
+31;ativo;28/10/2026;22:00;Henrique Manoel Carvalho Silva;
 32;ativo;;;Olinda Nogueira Paes Rizzo;
 33;ativo;;;Luis Gustavo Goncalves Costa;
 34;ativo;;;Myllene Bossolani Galloro;
