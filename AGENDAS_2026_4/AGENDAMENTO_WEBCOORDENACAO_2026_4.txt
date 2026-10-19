@@ -10,7 +10,7 @@
 10;inativo;;;Raquel Daffre de Arroxellas;
 11;inativo;;;Raquel Daffre de Arroxellas;
 12;inativo;;;Ivan Cardoso Sá;
-13;inativo;;;Daniele Maria Pilla Junqueira Cafange;
+13;ativo;21/10/2026;21:00;Daniele Maria Pilla Junqueira Cafange;
 14;inativo;;;Olinda Nogueira Paes Rizzo;
 15;inativo;;;Claudio Monico Innocencio;
 16;inativo;;;Olinda Nogueira Paes Rizzo;
