@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Aulas</title>
+    <style>
+        /* ==========================================================================
+           1. CONFIGURAÇÕES GERAIS E PALETA
+           ========================================================================== */
+        :root {
+            --cor-fundo-pagina: #f0f2f5; 
+            --cor-azul-marinho: #1248a7;
+            --cor-verde-lima: #B5DB3E;
+            --cor-laranja-destaque: #E84E0F;
+            --cor-texto-escuro: #303030;
+            --cor-texto-cinza: #666666;
+            --cor-vermelho-live: #ff0000;
+            --borda-suave: 1px solid rgba(0,0,0,0.08); 
+            --sombra-card: 0 4px 20px rgba(0,0,0,0.08); 
+            --borda-raio: 15px;
+            --borda-raio-btn: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--cor-fundo-pagina); padding: 25px; color: var(--cor-texto-escuro); -webkit-font-smoothing: antialiased; }
+
+        /* POP-UP */
+        .overlay-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .overlay-popup.active { opacity: 1; visibility: visible; }
+        .conteudo-popup { background-color: white; width: 90%; max-width: 550px; padding: 30px; border-radius: var(--borda-raio); border-top: 8px solid var(--cor-verde-lima); box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-align: center; transform: translateY(-20px); transition: all 0.3s ease; }
+        .overlay-popup.active .conteudo-popup { transform: translateY(0); }
+        .conteudo-popup h2 { color: var(--cor-azul-marinho); margin-bottom: 20px; font-weight: 800; text-transform: uppercase; font-size: 1.3rem; }
+        .item-orientacao-pop { background: #f8f9fa; padding: 18px; margin-bottom: 15px; border-radius: 12px; border-left: 5px solid var(--cor-azul-marinho); text-align: left; font-size: 14px; line-height: 1.6; }
+        .item-orientacao-pop strong { color: var(--cor-laranja-destaque); display: block; margin-bottom: 5px; font-weight: 700; }
+        .btn-fechar-popup { background-color: var(--cor-azul-marinho); color: white; border: none; padding: 12px 35px; border-radius: var(--borda-raio-btn); font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 10px; width: 100%; max-width: 200px; }
+        .btn-fechar-popup:hover { background-color: var(--cor-laranja-destaque); transform: scale(1.05); }
+        
+        .container-disciplina { max-width: 1000px; margin: 0 auto; width: 100%; }
+
+        /* CABEÇALHO */
+        .disciplina-header { background-color: var(--cor-azul-marinho); padding: 30px 20px; border-radius: var(--borda-raio) var(--borda-raio) 0 0; border-bottom: 6px solid var(--cor-verde-lima); margin-bottom: 30px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: var(--sombra-card); }
+        .disciplina-header h1 { font-size: 22px; color: white; font-weight: 650; text-align: center; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
+        .aviso-extensao { background-color: #fffbe6; border: 8px solid #ffe58f; border-radius: 18px; padding: 12px; margin: 8px auto 0 auto; max-width: 80%; font-size: 14px; color: #000000; text-align: center; line-height: 1.8; }
+
+        /* ORIENTAÇÕES */
+        .bloco-orientacao { background-color: #fff; border-left: 8px solid var(--cor-verde-lima); padding: 25px; margin-bottom: 30px; border-radius: var(--borda-raio); display: flex; align-items: flex-start; gap: 20px; border-top: var(--borda-suave); border-right: var(--borda-suave); border-bottom: var(--borda-suave); box-shadow: var(--sombra-card); }
+        .orientacao-especifica { border-left-color: var(--cor-azul-marinho); margin-top: 20px; }
+        .icone-info { font-size: 28px; margin-top: 5px; flex-shrink: 0; }
+        .texto-orientacao { flex: 1; }
+        .texto-orientacao h3 { color: var(--cor-laranja-destaque); font-size: 1.25em; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; }
+        .lista-orientacao { list-style: none; padding: 0; margin: 0; }
+        .lista-orientacao li { margin-bottom: 8px; font-size: 0.95em; color: var(--cor-texto-escuro); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        .lista-orientacao strong { color: var(--cor-azul-marinho); font-weight: 700; }
+
+        /* PESQUISA */
+        .search-container { width: 100%; margin: 0 auto 30px auto; padding: 0; }
+        .search-wrapper { position: relative; display: flex; align-items: center; }
+        .search-icon { position: absolute; left: 20px; font-size: 20px; color: var(--cor-texto-cinza); }
+        #inputPesquisa { width: 100%; padding: 16px 20px 16px 50px; font-size: 16px; font-weight: 600; color: var(--cor-azul-marinho); background-color: #fff; border: 2px solid #e0e0e0; border-radius: var(--borda-raio-btn); box-shadow: var(--sombra-card); transition: all 0.3s ease; outline: none; }
+        #inputPesquisa::placeholder { color: #999; font-weight: 500; }
+        #inputPesquisa:focus { border-color: var(--cor-laranja-destaque); box-shadow: 0 8px 20px rgba(232, 78, 15, 0.15); }
+        .loading-text { text-align: center; font-weight: bold; color: var(--cor-azul-marinho); display: none; margin-bottom: 20px; }
+
+        /* CARDS */
+        #botoes-gravacoes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+        .card-curso { background: white; border-left: 6px solid var(--cor-verde-lima); border-radius: var(--borda-raio); padding: 0; display: flex; flex-direction: column; transition: all 0.3s ease; height: fit-content; overflow: hidden; width: 100%; border-top: var(--borda-suave); border-right: var(--borda-suave); border-bottom: var(--borda-suave); box-shadow: var(--sombra-card); animation: fadeIn 0.4s ease; }
+        .card-curso:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.12); }
+        .titulo-card { background-color: #fafafa; padding: 20px 15px; font-weight: 650; text-align: left; color: var(--cor-azul-marinho); font-size: 0.85rem; text-transform: uppercase; border-bottom: 1px solid #f0f0f0; }
+        .lista-botoes { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 20px; background-color: #fff; }
+        .item-aula { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 5px; }
+        .label-aula { font-size: 13px; font-weight: 600; color: black; text-align: center; margin-bottom: 6px; word-wrap: break-word; max-width: 100%; }
+        .info-data { font-size: 12px; color: var(--cor-laranja-destaque); font-weight: 700; margin-bottom: 12px; }
+        
+        /* BOTÕES */
+        .btn-aula { background-color: white; color: var(--cor-azul-marinho); border: 1px solid var(--cor-azul-marinho); padding: 8px 0; width: 80%; border-radius: var(--borda-raio-btn); text-decoration: none; font-size: 11px; font-weight: 700; display: inline-block; text-align: center; transition: 0.2s; }
+        .btn-aula:hover { background-color: var(--cor-azul-marinho); color: white; }
+        .btn-aula.bloqueado { background-color: #f7f7f7; color: #777; border-color: #d6d6d6; cursor: not-allowed; pointer-events: none; }
+        .btn-aula.status-aovivo { background-color: #ff0000; color: white; border-color: #ff0000; animation: pulse-red 2s infinite; }
+        .btn-aula.status-concluido { background-color: #fff; color: #555; border-color: #aaa; }
+        .btn-aula.status-concluido:hover { background-color: #555; color: #fff; }
+        .mensagem-inativo { text-align: center; color: #888; font-size: 14px; font-weight: 500; font-style: italic; }
+
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(255, 0, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 992px) { #botoes-gravacoes { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { 
+            #botoes-gravacoes { grid-template-columns: 1fr; gap: 15px; } 
+            .disciplina-header h1 { font-size: 18px; }
+            .btn-aula { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay-popup" id="avisoInicial">
+    <div class="conteudo-popup">
+        <h2>💡 Informações Importantes</h2>
+        <div class="item-orientacao-pop">
+            <strong>🎓 Conteúdo Específico por Curso</strong>
+            As <b>informações/cards</b> são direcionados especificamente à <b>ÁREA DE CADA CURSO</b>.
+            Para acessar as aulas ao vivo basta digitar o nome do seu curso na barra de pesquisa
+        </div>
+        <h3>Não deixe de assistir a aula!</h3>
+        <button class="btn-fechar-popup" onclick="fecharAviso()">Entendi</button>
+    </div>
+</div>
+
+<div class="container-disciplina">
+    <header class="disciplina-header">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <h1 id="titulo-disciplina">WEBCOORDENAÇÃO</h1><br>
+            <div class="aviso-extensao">
+                <b>🎓 Informação Importante:</b>
+                A data poderá sofrer alteração, consulte diariamente para não perder o encontro ao vivo!
+            </div>
+        </div>
+    </header> 
+    
+    <div class="bloco-orientacao orientacao-especifica">
+        <div class="icone-info">‼️</div>
+        <div class="texto-orientacao">
+            <h3><b>Encontre a sua aula</b></h3>
+            <p>Localize seu curso no campo de busca abaixo para consultar o cronograma da próxima transmissão ou acessar a gravação do encontro já realizado.</p>
+        </div>
+    </div>
+
+    <!-- BARRA DE PESQUISA -->
+    <div class="search-container">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="inputPesquisa" list="lista-cursos" placeholder="Busque ou selecione o seu curso..." oninput="filtrarCursos()">
+        </div>
+        <datalist id="lista-cursos">
+            <option value="Administração"></option>
+            <option value="Agronomia"></option>
+            <option value="Arquitetura e Urbanismo"></option>
+            <option value="Artes Visuais"></option>
+            <option value="Biomedicina"></option>
+            <option value="Ciências Biológicas - Bacharelado"></option>
+            <option value="Ciências Biológicas - Licenciatura"></option>
+            <option value="Ciências Contábeis"></option>
+            <option value="Ciências Econômicas"></option>
+            <option value="Educação Física - Bacharelado"></option>
+            <option value="Educação Física - Licenciatura"></option>
+            <option value="Engenharia Ambiental"></option>
+            <option value="Engenharia Civil"></option>
+            <option value="Engenharia da Computação"></option>
+            <option value="Engenharia de Produção"></option>
+            <option value="Engenharia de Software"></option>
+            <option value="Engenharia Elétrica"></option>
+            <option value="Engenharia Mecânica"></option>
+            <option value="Engenharia Mecatrônica"></option>
+            <option value="Engenharia Química"></option>
+            <option value="Farmácia"></option>
+            <option value="Filosofia"></option>
+            <option value="Fisioterapia"></option>
+            <option value="Geografia"></option>
+            <option value="História"></option>
+            <option value="Letras"></option>
+            <option value="Matemática"></option>
+            <option value="Nutrição"></option>
+            <option value="Pedagogia"></option>
+            <option value="Psicopedagogia"></option>
+            <option value="Serviço Social"></option>
+            <option value="Superior de Tecnologia em Análise e Desenvolvimento de Sistemas"></option>
+            <option value="Superior de Tecnologia em Design de Interiores"></option>
+            <option value="Superior de Tecnologia em Estética e Cosmética"></option>
+            <option value="Superior de Tecnologia em Gastronomia"></option>
+            <option value="Superior de Tecnologia em Gestão Ambiental"></option>
+            <option value="Superior de Tecnologia em Gestão Comercial"></option>
+            <option value="Superior de Tecnologia em Gestão da Produção Industrial"></option>
+            <option value="Superior de Tecnologia em Gestão da Qualidade"></option>
+            <option value="Superior de Tecnologia em Gestão da Tecnologia da Informação"></option>
+            <option value="Superior de Tecnologia em Gestão de Recursos Humanos"></option>
+            <option value="Superior de Tecnologia em Gestão de Segurança Privada"></option>
+            <option value="Superior de Tecnologia em Gestão do Agronegócio"></option>
+            <option value="Superior de Tecnologia em Gestão Financeira"></option>
+            <option value="Superior de Tecnologia em Gestão Hospitalar"></option>
+            <option value="Superior de Tecnologia em Gestão Pública"></option>
+            <option value="Superior de Tecnologia em Investigação Forense e Perícia Criminal"></option>
+            <option value="Superior de Tecnologia em Logística"></option>
+            <option value="Superior de Tecnologia em Marketing"></option>
+            <option value="Superior de Tecnologia em Marketing Digital"></option>
+            <option value="Superior de Tecnologia em Processos Escolares"></option>
+            <option value="Superior de Tecnologia em Processos Gerenciais"></option>
+            <option value="Superior de Tecnologia em Segurança da Informação"></option>
+            <option value="Superior de Tecnologia em Segurança no Trabalho"></option>
+            <option value="Superior de Tecnologia em Serviços Jurídicos, Cartorários e Notariais"></option>
+            <option value="Teologia"></option>
+        </datalist>
+    </div>
+    
+    <div id="loading-msg" class="loading-text">Carregando base de dados...</div>
+    <div id="botoes-gravacoes"></div>
+</div>
+
+<script>
+    // ==========================================================================
+    // CONFIGURAÇÕES DO GITHUB E MAPEAMENTO INDIVIDUAL DOS CURSOS
+    // ==========================================================================
+    const URL_GITHUB_TXT = "https://raw.githubusercontent.com/eadunisaoficial/agendaunisaoficial/refs/heads/main/AGENDAS_2026_4/AGENDAMENTO_WEBCOORDENACAO_2026_4.txt"; 
+    
+    let DADOS_DINAMICOS = {};
+
+    const CURSOS_INDIVIDUAIS = {
+        "Administração": 1,
+        "Agronomia": 2,
+        "Arquitetura e Urbanismo": 3,
+        "Artes Visuais": 4,
+        "Biomedicina": 5,
+        "Ciências Biológicas - Bacharelado": 6,
+        "Ciências Biológicas - Licenciatura": 7,
+        "Ciências Contábeis": 8,
+        "Ciências Econômicas": 9,
+        "Educação Física - Bacharelado": 10,
+        "Educação Física - Licenciatura": 11,
+        "Engenharia Ambiental": 12,
+        "Engenharia Civil": 13,
+        "Engenharia da Computação": 14,
+        "Engenharia de Produção": 15,
+        "Engenharia de Software": 16,
+        "Engenharia Elétrica": 17,
+        "Engenharia Mecânica": 18,
+        "Engenharia Mecatrônica": 19,
+        "Engenharia Química": 20,
+        "Farmácia": 21,
+        "Filosofia": 22,
+        "Fisioterapia": 23,
+        "Geografia": 24,
+        "História": 25,
+        "Letras": 26,
+        "Matemática": 27,
+        "Nutrição": 28,
+        "Pedagogia": 29,
+        "Psicopedagogia": 30,
+        "Serviço Social": 31,
+        "Superior de Tecnologia em Análise e Desenvolvimento de Sistemas": 32,
+        "Superior de Tecnologia em Design de Interiores": 33,
+        "Superior de Tecnologia em Estética e Cosmética": 34,
+        "Superior de Tecnologia em Gastronomia": 35,
+        "Superior de Tecnologia em Gestão Ambiental": 36,
+        "Superior de Tecnologia em Gestão Comercial": 37,
+        "Superior de Tecnologia em Gestão da Produção Industrial": 38,
+        "Superior de Tecnologia em Gestão da Qualidade": 39,
+        "Superior de Tecnologia em Gestão da Tecnologia da Informação": 40,
+        "Superior de Tecnologia em Gestão de Recursos Humanos": 41,
+        "Superior de Tecnologia em Gestão de Segurança Privada": 42,
+        "Superior de Tecnologia em Gestão do Agronegócio": 43,
+        "Superior de Tecnologia em Gestão Financeira": 44,
+        "Superior de Tecnologia em Gestão Hospitalar": 45,
+        "Superior de Tecnologia em Gestão Pública": 46,
+        "Superior de Tecnologia em Investigação Forense e Perícia Criminal": 47,
+        "Superior de Tecnologia em Logística": 48,
+        "Superior de Tecnologia em Marketing": 49,
+        "Superior de Tecnologia em Marketing Digital": 50,
+        "Superior de Tecnologia em Processos Escolares": 51,
+        "Superior de Tecnologia em Processos Gerenciais": 52,
+        "Superior de Tecnologia em Segurança da Informação": 53,
+        "Superior de Tecnologia em Segurança no Trabalho": 54,
+        "Superior de Tecnologia em Serviços Jurídicos, Cartorários e Notariais": 55,
+        "Teologia": 56
+    };
+
+    // ==========================================================================
+    // FUNÇÕES DE LÓGICA E REQUISIÇÃO
+    // ==========================================================================
+    function fecharAviso() { document.getElementById('avisoInicial').classList.remove('active'); }
+
+    window.addEventListener('load', function() {
+        setTimeout(() => document.getElementById('avisoInicial').classList.add('active'), 600);
+        carregarDadosGitHub();
+    });
+
+    // Converte qualquer formato de entrada (00h00, 00H00, 00:00, 19h, etc.) para o padrão estrito "00:00"
+    function formatarHora(horaStr) {
+        if (!horaStr || horaStr.trim() === '') return '';
+        const match = horaStr.trim().match(/^(\d{1,2})\s*(?:[:hH]\s*(\d{1,2})?)?/i);
+        if (match) {
+            const h = String(parseInt(match[1], 10) || 0).padStart(2, '0');
+            const m = String(parseInt(match[2] || 0, 10) || 0).padStart(2, '0');
+            return `${h}:${m}`;
+        }
+        return horaStr.trim();
+    }
+
+    async function carregarDadosGitHub() {
+        const loadMsg = document.getElementById('loading-msg');
+        loadMsg.style.display = 'block';
+        try {
+            const resposta = await fetch(URL_GITHUB_TXT, { cache: 'no-store' });
+            if (!resposta.ok) throw new Error("Erro na rede");
+            const texto = await resposta.text();
+            
+            const linhas = texto.split('\n');
+            linhas.forEach(linha => {
+                linha = linha.replace('\r', '').trim();
+                if (!linha) return;
+
+                // ID;status;data;hora;professor;link_aovivo;link_gravacao
+                const partes = linha.split(';').map(p => p.trim());
+                if (partes.length >= 2) {
+                    const id = parseInt(partes[0]);
+                    if (!isNaN(id)) {
+                        DADOS_DINAMICOS[id] = {
+                            status: (partes[1] || 'ativo').toLowerCase(),
+                            data: partes[2] || '',
+                            hora: formatarHora(partes[3] || ''),
+                            professor: partes[4] || 'Coordenação',
+                            linkVivo: partes[5] || '',
+                            linkGravacao: partes[6] || ''
+                        };
+                    }
+                }
+            });
+            loadMsg.style.display = 'none';
+        } catch (erro) {
+            console.error("Falha ao puxar dados do GitHub:", erro);
+            loadMsg.innerText = "Erro ao carregar o banco de dados. Tente atualizar a página.";
+        }
+    }
+
+    function removerAcentos(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function converterDataString(dataStr, horaStr) {
+        if (!dataStr || dataStr === '' || dataStr.includes('--/--')) return null;
+        
+        const partesData = dataStr.trim().split('/').map(Number);
+        if (partesData.length < 3) return null;
+        const [dia, mes, ano] = partesData;
+        if (!dia || !mes || !ano) return null;
+
+        let hora = 0, min = 0;
+        
+        if (horaStr) {
+            const match = horaStr.trim().match(/^(\d{1,2})\s*(?:[:hH]\s*(\d{1,2})?)?/i);
+            if (match) {
+                hora = parseInt(match[1], 10) || 0;
+                min = parseInt(match[2] || 0, 10) || 0;
+            }
+        }
+
+        return new Date(ano, mes - 1, dia, hora, min);
+    }
+
+    function filtrarCursos() {
+        let inputStr = document.getElementById('inputPesquisa').value.trim();
+        let inputLimpo = removerAcentos(inputStr.toLowerCase());
+        const grid = document.getElementById('botoes-gravacoes');
+        grid.innerHTML = ''; 
+
+        if (inputLimpo === '' || inputLimpo.length < 3) return;
+
+        for (let [nomeDoCurso, idtxt] of Object.entries(CURSOS_INDIVIDUAIS)) {
+            let cursoNormalizado = removerAcentos(nomeDoCurso.toLowerCase());
+            
+            if (cursoNormalizado.includes(inputLimpo)) {
+                gerarCardDinamico(nomeDoCurso, idtxt);
+            }
+        }
+    }
+
+    function gerarCardDinamico(tituloCurso, idtxt) {
+        const grid = document.getElementById('botoes-gravacoes');
+        const dados = DADOS_DINAMICOS[idtxt];
+        
+        const card = document.createElement('div');
+        card.className = 'card-curso';
+
+        // Caso não exista cadastro ou esteja explicitamente inativo
+        if (!dados || dados.status === 'inativo') {
+            card.innerHTML = `
+                <div class="titulo-card">${tituloCurso}</div>
+                <div class="lista-botoes">
+                    <div class="mensagem-inativo">Não há aulas ativas ou agendadas para este curso no momento.</div>
+                </div>`;
+            grid.appendChild(card);
+            return;
+        }
+
+        const dataObj = converterDataString(dados.data, dados.hora);
+        const agora = new Date();
+        let statusClass = "bloqueado";
+        let textoBotao = "🔒 AGUARDAR";
+        let href = "";
+
+        if (dataObj) {
+            // Diferença em horas entre o momento atual e o horário agendado
+            const diffHoras = (agora - dataObj) / (1000 * 60 * 60);
+            
+            // 1. AO VIVO: Entre 15 minutos antes (-0.25h) e 1 hora após o início agendado
+            if (diffHoras >= -0.25 && diffHoras < 1) {
+                if (dados.linkVivo && dados.linkVivo !== "") {
+                    statusClass = "status-aovivo"; 
+                    textoBotao = "🔴 AO VIVO AGORA"; 
+                    href = `href="${dados.linkVivo}" target="_blank"`;
+                } else {
+                    statusClass = "bloqueado"; 
+                    textoBotao = "⏳ AO VIVO (LINK EM BREVE)";
+                }
+            } 
+            // 2. APÓS A AULA (a partir de 1h do início): Verifica se já possui link de gravação
+            else if (diffHoras >= 1) {
+                if (dados.linkGravacao && dados.linkGravacao !== "") {
+                    statusClass = "status-concluido"; 
+                    textoBotao = "🎬 VER GRAVAÇÃO"; 
+                    href = `href="${dados.linkGravacao}" target="_blank"`;
+                } else {
+                    statusClass = "bloqueado"; 
+                    textoBotao = "🔒 GRAVAÇÃO EM BREVE";
+                }
+            } 
+            // 3. ANTES DO EVENTO: Mais de 15 minutos antes do início (diffHoras < -0.25)
+            else {
+                statusClass = "bloqueado";
+                textoBotao = "🔒 AGUARDAR";
+            }
+        }
+
+        // Garante a exibição estritamente em formato 00:00
+        const horaFormatada = formatarHora(dados.hora);
+        const textoDataHora = dados.data ? `${dados.data}${horaFormatada ? ' às ' + horaFormatada : ''}` : 'Data e horário a definir';
+
+        card.innerHTML = `
+            <div class="titulo-card">${tituloCurso}</div>
+            <div class="lista-botoes">
+                <div class="item-aula">
+                    <span class="label-aula">Web Coordenação com:<br><b>${dados.professor || 'Coordenação'}</b></span>
+                    <span class="info-data">${textoDataHora}</span>
+                    <a ${href} class="btn-aula ${statusClass}">${textoBotao}</a>
+                </div>
+            </div>`;
+        
+        grid.appendChild(card);
+    }
+</script>
+</body>
+</html>
