@@ -1,52 +1,52 @@
-1;ativo;28/10/2026;20h00;Andrea Cristina Micchelucci Malanga;
+1;ativo;28/10/2026;20h00;Andrea Cristina Micchelucci Malanga;https://us02web.zoom.us/j/88638159711?pwd=A1mhIjuqlIEZzPot1G8ljcQ0ZczWaa.1
 2;inativo;;;;
-3;ativo;27/10/2026;21h00;Luis Gustavo Goncalves Costa;
-4;ativo;28/10/2026;22h00;Luis Gustavo Goncalves Costa;
-5;ativo;22/10/2026;19h00;Célia Pimenta;
-6;ativo;26/10/2026;20h00;Marco Aurelio Sivero Mayworm;
-7;ativo;26/10/2026;21h00;Marco Aurelio Sivero Mayworm;
-8;inativo;;;;
-9;inativo;;;;
-10;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;
-11;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;
+3;ativo;27/10/2026;21h00;Luis Gustavo Goncalves Costa;https://us02web.zoom.us/j/81895004233?pwd=7QuLyY1QnNVqbzwCGBgcv8H0VGn3N1.1
+4;ativo;28/10/2026;22h00;Luis Gustavo Goncalves Costa;https://us02web.zoom.us/j/82710433875?pwd=keil44SQWkM7AHKPacUBuVHjJaF85K.1
+5;ativo;22/10/2026;19h00;Célia Aparecida Marques Pimenta;https://us02web.zoom.us/j/84397556119?pwd=wpPaihm2rDhaJDiy2mebvasxzijpED.1
+6;ativo;26/10/2026;20h00;Marco Aurelio Sivero Mayworm;https://us02web.zoom.us/j/86526449896?pwd=a1mysk9gyQluzT9YQaZ4pRG3r1Eogn.1
+7;ativo;26/10/2026;20h00;Marco Aurelio Sivero Mayworm;https://us02web.zoom.us/j/86526449896?pwd=a1mysk9gyQluzT9YQaZ4pRG3r1Eogn.1
+8;ativo;27/10/2026;21h00;Roberta Auler Bittencourt Bernardo;https://us02web.zoom.us/j/83503416251?pwd=IjkyMaU4SvQvvSgFcaVfitbGJqOgfP.1
+9;ativo;27/10/2026;21h00;Roberta Auler Bittencourt Bernardo;https://us02web.zoom.us/j/83503416251?pwd=IjkyMaU4SvQvvSgFcaVfitbGJqOgfP.1
+10;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;https://us02web.zoom.us/j/82231665219?pwd=jN5A1W6GOzreytDEeb0SfghH4F4v79.1
+11;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;https://us02web.zoom.us/j/82231665219?pwd=jN5A1W6GOzreytDEeb0SfghH4F4v79.1
 12;inativo;;;;
-13;ativo;21/10/2026;21h00;Daniele Cafange;https://us02web.zoom.us/j/85145169338?pwd=cHxMPkYqivLkz90gSEjmAsO2arRKi7.1;
-14;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;
+13;ativo;21/10/2026;21h00;Daniele Maria Pilla Junqueira Cafange;https://us02web.zoom.us/j/85145169338?pwd=cHxMPkYqivLkz90gSEjmAsO2arRKi7.1
+14;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;https://us02web.zoom.us/j/86711106376?pwd=a3BzLAojiO4KRfBtImiYKlt6vxZXwa.1
 15;inativo;;;;
-16;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;
-17;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;
-18;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;
-19;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;
+16;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;https://us02web.zoom.us/j/86711106376?pwd=a3BzLAojiO4KRfBtImiYKlt6vxZXwa.1
+17;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;https://us02web.zoom.us/j/85491631484?pwd=fYdgcaObL6xFZgaHTJlajiVOUHMPpB.1
+18;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;https://us02web.zoom.us/j/85491631484?pwd=fYdgcaObL6xFZgaHTJlajiVOUHMPpB.1
+19;ativo;29/10/2026;19h00;Antonio José do Couto Pitta;https://us02web.zoom.us/j/85491631484?pwd=fYdgcaObL6xFZgaHTJlajiVOUHMPpB.1
 20;inativo;;;;
-21;ativo;28/10/2026;19h00;Ana Claudia Pompeu Raminelli;
-22;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
-23;ativo;26/10/2026;18h00;Alessa Castro Ribeiros;
-24;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
-25;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
-26;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
-27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;
-28;ativo;28/10/2026;19h00;Lucy Aintablian Tchakmakian;
-29;ativo;29/10/2026;20h00;Jovino José Balbinot;
-30;ativo;28/10/2026;21h00;Vera Lucia de Oliveira Ponciano;
-31;ativo;28/10/2026;22h00;Henrique Manoel Carvalho Silva;
-32;ativo;26/10/2026;18h00;Amanda da Silva Ferreira;
-33;ativo;27/10/2026;22h00;Luis Gustavo Goncalves Costa;
+21;ativo;28/10/2026;19h00;Ana Claudia Pompeu Raminelli;https://us02web.zoom.us/j/82506723314?pwd=gRWHGu50r62GUNb7Hd1TMVL3HfQ2K1.1
+22;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1
+23;ativo;26/10/2026;18h00;Alessa Castro Ribeiros;https://us02web.zoom.us/j/88635230242?pwd=DKMXQXf0LDR334e21c8DsIt9DYjg4e.1
+24;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1
+25;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1
+26;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1
+27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;https://us02web.zoom.us/j/87259455127?pwd=5KcqtOqo67rBxJyIiZVGC8x6AWvqt8.1
+28;ativo;28/10/2026;19h00;Lucy Aintablian Tchakmakian;https://us02web.zoom.us/j/89962813371?pwd=aI20bd4BfDwYh3ix3nIOBTd3DlkdvU.1
+29;ativo;29/10/2026;20h00;Jovino José Balbinot;https://us02web.zoom.us/j/82272192309?pwd=guZzyCCZ1Clx7EEctLTfqxyaULSEir.1
+30;ativo;28/10/2026;21h00;Vera Lucia de Oliveira Ponciano;https://us02web.zoom.us/j/87436277376?pwd=wS0JiRugpudFIZwMjLIbPH6L87zEzz.1
+31;ativo;28/10/2026;22h00;Henrique Manoel Carvalho Silva;https://us02web.zoom.us/j/84783541994?pwd=W4atLuaVY6nwA63XpaNgnZ7DYza27B.1
+32;ativo;26/10/2026;18h00;Amanda da Silva Ferreira;https://us02web.zoom.us/j/83293420300?pwd=JTkAW4uitL6NwjCOtb2i9mf8MoC9q7.1
+33;ativo;27/10/2026;22h00;Luis Gustavo Goncalves Costa;https://us02web.zoom.us/j/88564314468?pwd=6b25adNM3KQrdFasQLQU4Pv1RNqzkO.1
 34;inativo;;;;
 35;inativo;;;;
 36;inativo;;;;
-37;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
+37;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
 38;inativo;;;;
 39;inativo;;;;
-40;ativo;26/10/2026;18h00;Amanda da Silva Ferreira;
-41;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
+40;ativo;26/10/2026;18h00;Amanda da Silva Ferreira;https://us02web.zoom.us/j/83293420300?pwd=JTkAW4uitL6NwjCOtb2i9mf8MoC9q7.1
+41;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
 42;inativo;;;;
 43;inativo;;;;
-44;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
-45;ativo;26/10/2026;21h00;Denise Augusto da Costa Lorencette;
-46;inativo;;;;
-47;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
-48;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
-49;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;
+44;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
+45;ativo;26/10/2026;21h00;Denise Augusto da Costa Lorencette;https://us02web.zoom.us/j/85614173489?pwd=57Iau2HGlK8JBvNfEjJFLMboJe3Iuv.1
+46;ativo;27/10/2026;21h00;Roberta Auler Bittencourt Bernardo;https://us02web.zoom.us/j/83503416251?pwd=IjkyMaU4SvQvvSgFcaVfitbGJqOgfP.1
+47;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
+48;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
+49;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1
 50;inativo;;;;
 51;inativo;;;;
-52;ativo;28/10/2026;19h00;Fabio Fetz de Almeida;
+52;ativo;28/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/88258921402?pwd=nHua9yHJwXTGckCrbv9OwztdP4s5p8.1
