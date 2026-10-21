@@ -10,7 +10,7 @@
 10;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;
 11;ativo;26/10/2026;19h00;Bruno de Oliveira Pinheiro;
 12;inativo;;;;
-13;ativo;21/10/2026;21h00;Daniele Cafange;
+13;ativo;21/10/2026;21h00;Daniele Cafange;https://us02web.zoom.us/j/85145169338?pwd=cHxMPkYqivLkz90gSEjmAsO2arRKi7.1;
 14;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;
 15;inativo;;;;
 16;ativo;26/10/2026;18h00;Olinda Nogueira Paes Rizzo ;
@@ -20,12 +20,12 @@
 20;inativo;;;;
 21;ativo;28/10/2026;19h00;Ana Claudia Pompeu Raminelli;
 22;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
-23;inativo;;;;
+23;ativo;26/10/2026;18h00;Alessa Castro Ribeiros;
 24;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
 25;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
 26;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;
 27;ativo;30/10/2026;20h00;Ricardo Fernando de Souza;
-28;inativo;;;;
+28;ativo;28/10/2026;19h00;Lucy Aintablian Tchakmakian;
 29;ativo;29/10/2026;20h00;Jovino José Balbinot;
 30;ativo;28/10/2026;21h00;Vera Lucia de Oliveira Ponciano;
 31;ativo;28/10/2026;22h00;Henrique Manoel Carvalho Silva;
