@@ -386,7 +386,7 @@
             const diffHoras = (agora - dataObj) / (1000 * 60 * 60);
             
             // 1. AO VIVO: Entre 15 minutos antes (-0.25h) e 1 hora após o início agendado
-            if (diffHoras >= -0.25 && diffHoras < 1) {
+            if (diffHoras >= -0.25 && diffHoras < 2) {
                 if (dados.linkVivo && dados.linkVivo !== "") {
                     statusClass = "status-aovivo"; 
                     textoBotao = "🔴 AO VIVO AGORA"; 
@@ -397,7 +397,7 @@
                 }
             } 
             // 2. APÓS A AULA (a partir de 1h do início): Verifica se já possui link de gravação
-            else if (diffHoras >= 1) {
+            else if (diffHoras >= 2) {
                 if (dados.linkGravacao && dados.linkGravacao !== "") {
                     statusClass = "status-concluido"; 
                     textoBotao = "🎬 VER GRAVAÇÃO"; 
