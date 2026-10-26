@@ -20,7 +20,7 @@
 20;ativo;29/10/2026;20h00;Cláudio Monico Innocencio;https://us02web.zoom.us/j/89326019282?pwd=NW4oqYWOnSd5v4YNDBbj9mPcyhL2eN.1;
 21;ativo;28/10/2026;19h00;Ana Claudia Pompeu Raminelli;https://us02web.zoom.us/j/82506723314?pwd=gRWHGu50r62GUNb7Hd1TMVL3HfQ2K1.1;
 22;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1;
-23;ativo;26/10/2026;18h00;Alessa Castro Ribeiros;https://us02web.zoom.us/j/88635230242?pwd=DKMXQXf0LDR334e21c8DsIt9DYjg4e.1;
+23;ativo;28/10/2026;19h00;Alessa Castro Ribeiros;https://us02web.zoom.us/j/88635230242?pwd=DKMXQXf0LDR334e21c8DsIt9DYjg4e.1;
 24;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1;
 25;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1;
 26;ativo;26/10/2026;19h00;Fabio Fetz de Almeida;https://us02web.zoom.us/j/87862917317?pwd=RIhV1Oy4FMjzbfJ3UH6ct86VaarmiT.1;
