@@ -31,7 +31,7 @@
 31;ativo;28/10/2026;22h00;Henrique Manoel Carvalho Silva;https://us02web.zoom.us/j/84783541994?pwd=W4atLuaVY6nwA63XpaNgnZ7DYza27B.1;https://us02web.zoom.us/rec/share/78nYB4PROnYV35x4JFl0jD-dWDUkk0_BUGyA4U7GY9wnw-bBll9sVysf4ni9TYfg.UbA89xXxL_IsXmiY
 32;ativo;26/10/2026;18h00;Amanda da Silva Ferreira;https://us02web.zoom.us/j/83293420300?pwd=JTkAW4uitL6NwjCOtb2i9mf8MoC9q7.1;https://us02web.zoom.us/rec/share/hwPBTZO9nQZ90FJMpHxtY0XFreDXgXTON02uOtqqeaDQ2nPB7iMNuXLgRF1JUgq6.SsqdEVTrP12zs385?startTime=1793048401000
 33;ativo;27/10/2026;22h00;Luis Gustavo Goncalves Costa;https://us02web.zoom.us/j/88564314468?pwd=6b25adNM3KQrdFasQLQU4Pv1RNqzkO.1;https://us02web.zoom.us/rec/share/anmdwM8HWkqnEWr2wMh1OgFfW8v-aFCJ26W4uFdA7SrewuOzJlR-GWumhTkiIzD6.hTrKbCkDWpEEI8w-
-34;ativo;29/10/2026;21h00;Karem Leonora Portela Ferreira;https://us02web.zoom.us/j/86968043199?pwd=zioJ413Se2rS5rlbPVNaEAIJ0ulD05.1;
+34;ativo;03/11/2026;21h00;Karem Leonora Portela Ferreira;https://us02web.zoom.us/j/86968043199?pwd=zioJ413Se2rS5rlbPVNaEAIJ0ulD05.1;
 35;inativo;;;;;
 36;inativo;;;;;
 37;ativo;22/10/2026;22h00;Rodrigo Médici Cândido;https://us02web.zoom.us/j/89619387246?pwd=kM9AgarPtZoZjK23cE7JG1wVhjtGti.1;https://us02web.zoom.us/rec/share/3SDy2nWnIE89lleqU9MjHZmCY3vAe8Q-8hXyT9Ht2cUNHSi0zI86bvjRW2HvOyuX.WpijJoY5_R-osnkp
