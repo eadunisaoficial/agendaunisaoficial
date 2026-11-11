@@ -1,0 +1,2218 @@
+{
+  "versao": 3,
+  "atualizadoEm": "2026-11-11T13:39:37Z",
+  "periodoAtual": "2026-4",
+  "periodos": [
+    "2026-4",
+    "2026-3",
+    "2026-2",
+    "2026-1"
+  ],
+  "grupos": [
+    "AGENDAS EAD",
+    "AGENDAS WEB PRESENCIAL",
+    "AGENDAS ADAP/DP",
+    "AGENDAS TOTVS",
+    "AGENDAS EXCEÇÕES",
+    "PÁGINAS DE AULAS AO VIVO"
+  ],
+  "agendas": [
+    {
+      "id": "2026-4-ead-comum",
+      "chave": "ead-comum",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum (Com Docente)",
+      "desc": "Disciplinas regulares EAD COM DOCENTE (com professor atribuído).",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-comum-hub",
+      "chave": "ead-comum-hub",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum HUB",
+      "desc": "Usar exclusivamente em disciplinas regulares EAD do modelo HUB.",
+      "tags": [
+        "COMUM",
+        "HUB",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_HUB_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-ativ-unica-hub",
+      "chave": "ead-ativ-unica-hub",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única HUB",
+      "desc": "Disciplinas do modelo HUB com uma única entrega no trimestre.",
+      "tags": [
+        "ATIVIDADE_UNICA",
+        "HUB"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_HUB_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-comum-sd",
+      "chave": "ead-comum-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum - Sem Docente (SD)",
+      "desc": "Disciplinas regulares EAD SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_SD_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-pi",
+      "chave": "ead-pi",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - PI (Com Docente)",
+      "desc": "Projeto Integrador EAD COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-pi-sd",
+      "chave": "ead-pi-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - Sem Docente (PI SD)",
+      "desc": "Projeto Integrador EAD SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_SD_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-ativ-unica",
+      "chave": "ead-ativ-unica",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única de Entrega (Jogos / Lab. Contábil)",
+      "desc": "Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).",
+      "tags": [
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-tcc",
+      "chave": "ead-tcc",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Geral EAD",
+      "desc": "TCC EAD geral (exceto cursos que têm agenda própria em Exceções).",
+      "tags": [
+        "TCC"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-eletiva",
+      "chave": "ead-eletiva",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD (Com Docente)",
+      "desc": "Disciplinas Eletivas EAD COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-eletiva-sd",
+      "chave": "ead-eletiva-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD - Sem Docente (SD)",
+      "desc": "Disciplinas Eletivas EAD SEM DOCENTE (SD).",
+      "tags": [
+        "ELETIVA",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_SD_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-extensao",
+      "chave": "ead-extensao",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD (Com Docente)",
+      "desc": "Curricularização da Extensão EAD COM DOCENTE.",
+      "tags": [
+        "EXTENSAO",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EXTENSÃO_EAD_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-extensao-sd",
+      "chave": "ead-extensao-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD - Sem Docente (SD)",
+      "desc": "Curricularização da Extensão EAD SEM DOCENTE (SD).",
+      "tags": [
+        "EXTENSAO",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EXTENSÃO_EAD_SD_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-proj-extensao",
+      "chave": "ead-proj-extensao",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto de Extensão",
+      "desc": "Disciplina específica de Projeto de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PROJETO_DE_EXTENSÃO_2026_4.html"
+    },
+    {
+      "id": "2026-4-ead-pi-avc",
+      "chave": "ead-pi-avc",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador AVC (PI AVC)",
+      "desc": "Projeto Integrador modelo AVC.",
+      "tags": [
+        "PI"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_AVC_2026_4.html"
+    },
+    {
+      "id": "2026-4-adapdp-dp",
+      "chave": "adapdp-dp",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP Regular (Dependência)",
+      "desc": "Disciplinas em regime de Dependência (DP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_2026_4.html"
+    },
+    {
+      "id": "2026-4-adapdp-adap",
+      "chave": "adapdp-adap",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP Regular (Adaptação)",
+      "desc": "Disciplinas em regime de Adaptação (ADAP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_2026_4.html"
+    },
+    {
+      "id": "2026-4-adapdp-jogos",
+      "chave": "adapdp-jogos",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP/DP - Jogos de Empresa",
+      "desc": "Jogos de Empresa em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_DP_2026_4_JOGOS_DE_EMPRESA.html"
+    },
+    {
+      "id": "2026-4-adapdp-pi",
+      "chave": "adapdp-pi",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP - Projeto Integrador (PI)",
+      "desc": "Projeto Integrador em regime de Adaptação/DP.",
+      "tags": [
+        "ADAP_DP",
+        "PI"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_PI_2026_4.html"
+    },
+    {
+      "id": "2026-4-adapdp-ativ-unica",
+      "chave": "adapdp-ativ-unica",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única - ADAP/DP",
+      "desc": "Disciplinas de entrega única em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_ADAP_DP_2026_4.html"
+    },
+    {
+      "id": "2026-4-totvs-adap",
+      "chave": "totvs-adap",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_TOTVS_2026_4.html"
+    },
+    {
+      "id": "2026-4-totvs-dp",
+      "chave": "totvs-dp",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_TOTVS_2026_4.html"
+    },
+    {
+      "id": "2026-4-totvs-web-pi-sd",
+      "chave": "totvs-web-pi-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB PI - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/WEB_PI_SD_TOTVS_2026_4.html"
+    },
+    {
+      "id": "2026-4-totvs-web-sd",
+      "chave": "totvs-web-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB Comum - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/WEB_SD_TOTVS_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-estetica",
+      "chave": "exc-estetica",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Estética (Exceção)",
+      "desc": "Agenda específica do curso de Estética.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ESTETICA_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-paralela",
+      "chave": "exc-paralela",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Paralela Especial",
+      "desc": "Agenda específica para turmas de Paralela Especial.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PARALELA_ESPECIAL_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-enade",
+      "chave": "exc-enade",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ENADE",
+      "desc": "Agenda específica para disciplinas vinculadas ao ENADE.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ENADE_2026.html"
+    },
+    {
+      "id": "2026-4-exc-prousa",
+      "chave": "exc-prousa",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "PROUSA",
+      "desc": "Agenda específica do programa PROUSA.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PROUSA_2026_2.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-artes",
+      "chave": "exc-tcc-artes",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Artes Visuais",
+      "desc": "TCC específico do curso de Artes Visuais.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ARTES_VISUAIS_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-arq",
+      "chave": "exc-tcc-arq",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Arquitetura e Urbanismo",
+      "desc": "TCC específico do curso de Arquitetura e Urbanismo.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ARQUITETURA_URBANISMO_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-eng-amb",
+      "chave": "exc-tcc-eng-amb",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Engenharia Ambiental e Química",
+      "desc": "TCC específico para Engenharias Ambiental e Química.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ENGENHARIA_AMB_QUIM_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-jogos-reg",
+      "chave": "exc-jogos-reg",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Jogos de Empresa Regular (Datas da Coordenação)",
+      "desc": "Jogos de Empresa regular. Datas estipuladas pela coordenação.",
+      "tags": [
+        "ATIVIDADE_UNICA",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/JOGOS_DE_EMPRESA_REGULAR_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-enade-pratica",
+      "chave": "exc-enade-pratica",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ENADE Avaliação da Prática",
+      "desc": "Agenda específica para Avaliação da Prática ENADE.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ENADE_AVALIÇÃO_DA_PRÁTICA_2026_2.html"
+    },
+    {
+      "id": "2026-4-exc-eletiva-pres",
+      "chave": "exc-eletiva-pres",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva Presencial (Com Docente)",
+      "desc": "Disciplinas Eletivas Presenciais COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_PRESENCIAL_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-eletiva-pres-sd",
+      "chave": "exc-eletiva-pres-sd",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva Presencial - Sem Docente (SD)",
+      "desc": "Disciplinas Eletivas Presenciais SEM DOCENTE (SD).",
+      "tags": [
+        "ELETIVA",
+        "SD",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_PRESENCIAL_SD_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-estagio-edfis",
+      "chave": "exc-estagio-edfis",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Estágio Educação Física EAD",
+      "desc": "Estágio Supervisionado de Educação Física EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ESTAGIO_ED_FISICA_EAD_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-eng-soft",
+      "chave": "exc-tcc-eng-soft",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Eng. Software e Computação EAD",
+      "desc": "TCC específico para Engenharia de Software e Engenharia da Computação EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ENGE_SOFT_COMPU_EAD_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-edfis-bach",
+      "chave": "exc-tcc-edfis-bach",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Educação Física Bacharelado EAD",
+      "desc": "TCC específico de Educação Física (Bacharelado) EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ED_FÍSICA_BARCH_EAD_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-tcc-edfis-lic",
+      "chave": "exc-tcc-edfis-lic",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Educação Física Licenciatura EAD",
+      "desc": "TCC específico de Educação Física (Licenciatura) EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ED_FÍSICA_LICEN_EAD_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-ead-tcc-arq",
+      "chave": "exc-ead-tcc-arq",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD TCC Arquitetura e Urbanismo",
+      "desc": "Agenda EAD de TCC exclusiva para Arquitetura e Urbanismo.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EAD_TCC_Arquitetura_e_Urbanismo_-_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-ead-tcc-artes",
+      "chave": "exc-ead-tcc-artes",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD TCC Artes Visuais",
+      "desc": "Agenda EAD de TCC exclusiva para Artes Visuais.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EAD_TCC_Artes_Visuais_-_2026_4.html"
+    },
+    {
+      "id": "2026-4-exc-dpadap-tcc-arq-artes",
+      "chave": "exc-dpadap-tcc-arq-artes",
+      "periodo": "2026-4",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP/ADAP TCC Arquitetura e Artes Visuais",
+      "desc": "DP e Adaptação de TCC para Arquitetura e Urbanismo e Artes Visuais.",
+      "tags": [
+        "TCC",
+        "ADAP_DP",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_ADAP_TCC_Arquitetura_e_Urbanismo_e_Artes_Visuais_-_2026_4.html"
+    },
+    {
+      "id": "2026-4-aovivo-extensao",
+      "chave": "aovivo-extensao",
+      "periodo": "2026-4",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Ao Vivo - Extensão",
+      "desc": "Página de transmissão das Aulas Ao Vivo de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"
+    },
+    {
+      "id": "2026-4-aovivo-gestao21h",
+      "chave": "aovivo-gestao21h",
+      "periodo": "2026-4",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Aula Aprofundamento Gestão (21h)",
+      "desc": "Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"
+    },
+    {
+      "id": "2026-4-aovivo-webcoord",
+      "chave": "aovivo-webcoord",
+      "periodo": "2026-4",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Webcoordenação",
+      "desc": "Página de encontros ao vivo da Webcoordenação do trimestre.",
+      "tags": [
+        "COMUM"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/PAGINA_WEBCOORDENACAO_2026_4.html"
+    },
+    {
+      "id": "2026-4-aovivo-gestao-enade",
+      "chave": "aovivo-gestao-enade",
+      "periodo": "2026-4",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Gestão Empreendedora ENADE",
+      "desc": "Publicar aqui as aulas ENADE de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"
+    },
+    {
+      "id": "2026-3-ead-comum",
+      "chave": "ead-comum",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum (Com Docente)",
+      "desc": "Disciplinas regulares EAD COM DOCENTE (com professor atribuído).",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/COMUM_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-comum-sd",
+      "chave": "ead-comum-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum - Sem Docente (SD)",
+      "desc": "Disciplinas regulares EAD SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/COMUM_SD_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-pi",
+      "chave": "ead-pi",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - PI (Com Docente)",
+      "desc": "Projeto Integrador EAD COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-pi-sd",
+      "chave": "ead-pi-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - Sem Docente (PI SD)",
+      "desc": "Projeto Integrador EAD SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_SD_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-ativ-unica",
+      "chave": "ead-ativ-unica",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única de Entrega (Jogos / Lab. Contábil)",
+      "desc": "Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).",
+      "tags": [
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ATIVIDADE_UNICA_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-tcc",
+      "chave": "ead-tcc",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Geral EAD",
+      "desc": "TCC EAD geral (exceto cursos que têm agenda própria em Exceções).",
+      "tags": [
+        "TCC"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-eletiva",
+      "chave": "ead-eletiva",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD (Com Docente)",
+      "desc": "Disciplinas Eletivas EAD COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-eletiva-sd",
+      "chave": "ead-eletiva-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD - Sem Docente (SD)",
+      "desc": "Disciplinas Eletivas EAD SEM DOCENTE (SD).",
+      "tags": [
+        "ELETIVA",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_SD_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-extensao",
+      "chave": "ead-extensao",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD (Com Docente)",
+      "desc": "Curricularização da Extensão EAD COM DOCENTE.",
+      "tags": [
+        "EXTENSAO",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/EXTENSÃO_EAD_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-extensao-sd",
+      "chave": "ead-extensao-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD - Sem Docente (SD)",
+      "desc": "Curricularização da Extensão EAD SEM DOCENTE (SD).",
+      "tags": [
+        "EXTENSAO",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/EXTENSÃO_EAD_SD_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-proj-extensao",
+      "chave": "ead-proj-extensao",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto de Extensão",
+      "desc": "Disciplina específica de Projeto de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PROJETO_DE_EXTENSÃO_2026_3.html"
+    },
+    {
+      "id": "2026-3-ead-pi-avc",
+      "chave": "ead-pi-avc",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador AVC (PI AVC)",
+      "desc": "Projeto Integrador modelo AVC.",
+      "tags": [
+        "PI"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_AVC_2026_3.html"
+    },
+    {
+      "id": "2026-3-web-comum",
+      "chave": "web-comum",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Comum (Com Docente)",
+      "desc": "Disciplinas Web Presencial regulares COM DOCENTE.",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-comum-sd",
+      "chave": "web-comum-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - Sem Docente (SD)",
+      "desc": "Disciplinas Web Presencial regulares SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_SD_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-pi",
+      "chave": "web-pi",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - Projeto Integrador (Com Docente)",
+      "desc": "Projeto Integrador Web Presencial COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-pi-sd",
+      "chave": "web-pi-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - PI Sem Docente (SD)",
+      "desc": "Projeto Integrador Web Presencial SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_SD_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-ensalados",
+      "chave": "web-ensalados",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Ensalados",
+      "desc": "Alunos que entraram depois da Web regular (prorrogação de atividade). Obs. da planilha: Alunos que entrou posterior a web regular (prorrogação atividade)",
+      "tags": [
+        "COMUM"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_ENSALADOS_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-eletiva",
+      "chave": "web-eletiva",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Eletiva",
+      "desc": "Disciplinas Eletivas da modalidade Web Presencial.",
+      "tags": [
+        "ELETIVA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PRESENCIAL_ELETIVA_2026_2.html"
+    },
+    {
+      "id": "2026-3-web-extensao",
+      "chave": "web-extensao",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Extensão",
+      "desc": "Disciplinas de Extensão da modalidade Web Presencial.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_EXTENSÃO_2026_2.html"
+    },
+    {
+      "id": "2026-3-adapdp-dp",
+      "chave": "adapdp-dp",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP Regular (Dependência)",
+      "desc": "Disciplinas em regime de Dependência (DP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/DP_2026_3.html"
+    },
+    {
+      "id": "2026-3-adapdp-adap",
+      "chave": "adapdp-adap",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP Regular (Adaptação)",
+      "desc": "Disciplinas em regime de Adaptação (ADAP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_2026_3.html"
+    },
+    {
+      "id": "2026-3-adapdp-jogos",
+      "chave": "adapdp-jogos",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP/DP - Jogos de Empresa",
+      "desc": "Jogos de Empresa em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_DP_2026_3_JOGOS_DE_EMPRESA.html"
+    },
+    {
+      "id": "2026-3-adapdp-pi",
+      "chave": "adapdp-pi",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP - Projeto Integrador (PI)",
+      "desc": "Projeto Integrador em regime de Adaptação/DP.",
+      "tags": [
+        "ADAP_DP",
+        "PI"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_PI_2026_3.html"
+    },
+    {
+      "id": "2026-3-adapdp-ativ-unica",
+      "chave": "adapdp-ativ-unica",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única - ADAP/DP",
+      "desc": "Disciplinas de entrega única em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ATIVIDADE_UNICA_ADAP_DP_2026_3.html"
+    },
+    {
+      "id": "2026-3-totvs-adap",
+      "chave": "totvs-adap",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_TOTVS_2026_3.html"
+    },
+    {
+      "id": "2026-3-totvs-dp",
+      "chave": "totvs-dp",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/DP_TOTVS_2026_3.html"
+    },
+    {
+      "id": "2026-3-totvs-web-pi-sd",
+      "chave": "totvs-web-pi-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB PI - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_SD_TOTVS_2026_3.html"
+    },
+    {
+      "id": "2026-3-totvs-web-sd",
+      "chave": "totvs-web-sd",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB Comum - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_SD_TOTVS_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-estetica",
+      "chave": "exc-estetica",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Estética (Exceção)",
+      "desc": "Agenda específica do curso de Estética.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ESTETICA_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-paralela",
+      "chave": "exc-paralela",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Paralela Especial",
+      "desc": "Agenda específica para turmas de Paralela Especial.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PARALELA_ESPECIAL_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-enade",
+      "chave": "exc-enade",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ENADE",
+      "desc": "Agenda específica para disciplinas vinculadas ao ENADE.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ENADE_2026.html"
+    },
+    {
+      "id": "2026-3-exc-prousa",
+      "chave": "exc-prousa",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "PROUSA",
+      "desc": "Agenda específica do programa PROUSA.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PROUSA_2026_2.html"
+    },
+    {
+      "id": "2026-3-exc-tcc-artes",
+      "chave": "exc-tcc-artes",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Artes Visuais",
+      "desc": "TCC específico do curso de Artes Visuais.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ARTES_VISUAIS_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-tcc-arq",
+      "chave": "exc-tcc-arq",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Arquitetura e Urbanismo",
+      "desc": "TCC específico do curso de Arquitetura e Urbanismo.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ARQUITETURA_URBANISMO_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-tcc-eng-amb",
+      "chave": "exc-tcc-eng-amb",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Engenharia Ambiental e Química",
+      "desc": "TCC específico para Engenharias Ambiental e Química.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ENGENHARIA_AMB_QUIM_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-jogos-reg",
+      "chave": "exc-jogos-reg",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Jogos de Empresa Regular (Datas da Coordenação)",
+      "desc": "Jogos de Empresa regular. Datas estipuladas pela coordenação.",
+      "tags": [
+        "ATIVIDADE_UNICA",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/JOGOS_DE_EMPRESA_REGULAR_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-enade-pratica",
+      "chave": "exc-enade-pratica",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ENADE Avaliação da Prática",
+      "desc": "Agenda específica para Avaliação da Prática ENADE.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ENADE_AVALIÇÃO_DA_PRÁTICA_2026_2.html"
+    },
+    {
+      "id": "2026-3-exc-tcc-edfis-bach",
+      "chave": "exc-tcc-edfis-bach",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Educação Física Bacharelado EAD",
+      "desc": "TCC específico de Educação Física (Bacharelado) EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ED_FÍSICA_BARCH_EAD_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-tcc-edfis-lic",
+      "chave": "exc-tcc-edfis-lic",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Educação Física Licenciatura EAD",
+      "desc": "TCC específico de Educação Física (Licenciatura) EAD.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ED_FÍSICA_LICEN_EAD_2026_3.html"
+    },
+    {
+      "id": "2026-3-exc-eletiva",
+      "chave": "exc-eletiva",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva (Exceções)",
+      "desc": "Agenda de Eletiva listada em Exceções (arquivo ELETIVA_-_). Confirmar com o responsável quando usar.",
+      "tags": [
+        "ELETIVA",
+        "ENADE_EXCECAO"
+      ],
+      "status": "PENDENTE",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_-_2026_3.html"
+    },
+    {
+      "id": "2026-3-aovivo-extensao",
+      "chave": "aovivo-extensao",
+      "periodo": "2026-3",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Ao Vivo - Extensão",
+      "desc": "Página de transmissão das Aulas Ao Vivo de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"
+    },
+    {
+      "id": "2026-3-aovivo-gestao21h",
+      "chave": "aovivo-gestao21h",
+      "periodo": "2026-3",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Aula Aprofundamento Gestão (21h)",
+      "desc": "Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"
+    },
+    {
+      "id": "2026-3-aovivo-webcoord",
+      "chave": "aovivo-webcoord",
+      "periodo": "2026-3",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Webcoordenação",
+      "desc": "Página de encontros ao vivo da Webcoordenação do trimestre.",
+      "tags": [
+        "COMUM"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/PAGINA_WEBCOORDENACAO_2026_3.html"
+    },
+    {
+      "id": "2026-3-aovivo-gestao-enade",
+      "chave": "aovivo-gestao-enade",
+      "periodo": "2026-3",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Gestão Empreendedora ENADE",
+      "desc": "Publicar aqui as aulas ENADE de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"
+    },
+    {
+      "id": "2026-2-ead-comum",
+      "chave": "ead-comum",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum (Com Docente)",
+      "desc": "Disciplinas regulares EAD COM DOCENTE (com professor atribuído).",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/COMUM_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-comum-sd",
+      "chave": "ead-comum-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum - Sem Docente (SD)",
+      "desc": "Disciplinas regulares EAD SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/COMUM_SD_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-pi",
+      "chave": "ead-pi",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - PI (Com Docente)",
+      "desc": "Projeto Integrador EAD COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PI_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-pi-sd",
+      "chave": "ead-pi-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - Sem Docente (PI SD)",
+      "desc": "Projeto Integrador EAD SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PI_SD_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-tcc",
+      "chave": "ead-tcc",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Geral EAD",
+      "desc": "TCC EAD geral (exceto cursos que têm agenda própria em Exceções).",
+      "tags": [
+        "TCC"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/TCC_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-eletiva",
+      "chave": "ead-eletiva",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD (Com Docente)",
+      "desc": "Disciplinas Eletivas EAD COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-eletiva-sd",
+      "chave": "ead-eletiva-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD - Sem Docente (SD)",
+      "desc": "Disciplinas Eletivas EAD SEM DOCENTE (SD).",
+      "tags": [
+        "ELETIVA",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_SD_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-extensao",
+      "chave": "ead-extensao",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD (Com Docente)",
+      "desc": "Curricularização da Extensão EAD COM DOCENTE.",
+      "tags": [
+        "EXTENSAO",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/EXTENSÃO_EAD_2026_2.html"
+    },
+    {
+      "id": "2026-2-ead-extensao-sd",
+      "chave": "ead-extensao-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD - Sem Docente (SD)",
+      "desc": "Curricularização da Extensão EAD SEM DOCENTE (SD).",
+      "tags": [
+        "EXTENSAO",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/EXTENSÃO_SD_EAD.html"
+    },
+    {
+      "id": "2026-2-ead-ativ-unica",
+      "chave": "ead-ativ-unica",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única de Entrega (Jogos / Lab. Contábil)",
+      "desc": "Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).",
+      "tags": [
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ATIVIDADE_UNICA_2026_2.html"
+    },
+    {
+      "id": "2026-2-adapdp-dp",
+      "chave": "adapdp-dp",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP Regular (Dependência)",
+      "desc": "Disciplinas em regime de Dependência (DP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_2026_2.html"
+    },
+    {
+      "id": "2026-2-adapdp-adap",
+      "chave": "adapdp-adap",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP Regular (Adaptação)",
+      "desc": "Disciplinas em regime de Adaptação (ADAP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_2026_2.html"
+    },
+    {
+      "id": "2026-2-adapdp-pi",
+      "chave": "adapdp-pi",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP - Projeto Integrador (PI)",
+      "desc": "Projeto Integrador em regime de Adaptação/DP.",
+      "tags": [
+        "ADAP_DP",
+        "PI"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_PI_2026_2.html"
+    },
+    {
+      "id": "2026-2-adapdp-jogos",
+      "chave": "adapdp-jogos",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP/DP - Jogos de Empresa",
+      "desc": "Jogos de Empresa em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_DP_2026_2_JOGOS_DE_EMPRESA.html"
+    },
+    {
+      "id": "2026-2-adapdp-ativ-unica",
+      "chave": "adapdp-ativ-unica",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Atividade Única - ADAP/DP",
+      "desc": "Disciplinas de entrega única em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ATIVIDADE_UNICA_ADAP_DP_2026_2.html"
+    },
+    {
+      "id": "2026-2-totvs-adap",
+      "chave": "totvs-adap",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_TOTVS_2026_2.html"
+    },
+    {
+      "id": "2026-2-totvs-dp",
+      "chave": "totvs-dp",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_TOTVS_2026_2.html"
+    },
+    {
+      "id": "2026-2-totvs-web-pi-sd",
+      "chave": "totvs-web-pi-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB PI - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/WEB_PI_SD_TOTVS_2026_2.html"
+    },
+    {
+      "id": "2026-2-totvs-web-sd",
+      "chave": "totvs-web-sd",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB Comum - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/WEB_SD_TOTVS_2026_2.html"
+    },
+    {
+      "id": "2026-2-totvs-dp-adap",
+      "chave": "totvs-dp-adap",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP/ADAP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas DP/ADAP TOTVS que entraram depois da regular.",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_ADAP_TOTVS_2026_2.HTML"
+    },
+    {
+      "id": "2026-2-totvs-pi-estagio",
+      "chave": "totvs-pi-estagio",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador / Estágio TOTVS",
+      "desc": "Projeto Integrador - Estágio para turmas TOTVS.",
+      "tags": [
+        "TOTVS",
+        "PI",
+        "TCC"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PROJETO_INTEGRADOR_-_ESTAGIO_TOTVS_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-eletiva-pres",
+      "chave": "exc-eletiva-pres",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva Presencial (Com Docente)",
+      "desc": "Disciplinas Eletivas Presenciais COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE",
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_PRESENCIAL_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-paralela",
+      "chave": "exc-paralela",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Paralela Especial",
+      "desc": "Agenda específica para turmas de Paralela Especial.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PARALELA_ESPECIAL_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-jogos-reg",
+      "chave": "exc-jogos-reg",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Jogos de Empresa Regular (Datas da Coordenação)",
+      "desc": "Jogos de Empresa regular. Datas estipuladas pela coordenação.",
+      "tags": [
+        "ATIVIDADE_UNICA",
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/JOGOS_DE_EMPRESA_REGULAR_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-prousa",
+      "chave": "exc-prousa",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "PROUSA",
+      "desc": "Agenda específica do programa PROUSA.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PROUSA_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-tcc-eng-amb",
+      "chave": "exc-tcc-eng-amb",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Engenharia Ambiental e Química",
+      "desc": "TCC específico para Engenharias Ambiental e Química.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/TCC_ENGENHARIA_AMB_QUIM_2026_2.html"
+    },
+    {
+      "id": "2026-2-exc-arq-artes",
+      "chave": "exc-arq-artes",
+      "periodo": "2026-2",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Arquitetura e Urbanismo / Artes Visuais",
+      "desc": "Agenda específica de Arquitetura e Urbanismo e Artes Visuais.",
+      "tags": [
+        "TCC",
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/arquitetura_e_urbanismo_artes_visuais.html"
+    },
+    {
+      "id": "2026-2-aovivo-extensao",
+      "chave": "aovivo-extensao",
+      "periodo": "2026-2",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Ao Vivo - Extensão",
+      "desc": "Página de transmissão das Aulas Ao Vivo de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"
+    },
+    {
+      "id": "2026-2-aovivo-gestao21h",
+      "chave": "aovivo-gestao21h",
+      "periodo": "2026-2",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Aula Aprofundamento Gestão (21h)",
+      "desc": "Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"
+    },
+    {
+      "id": "2026-2-aovivo-gestao-enade",
+      "chave": "aovivo-gestao-enade",
+      "periodo": "2026-2",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Gestão Empreendedora ENADE",
+      "desc": "Publicar aqui as aulas ENADE de Gestão Empreendedora.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"
+    },
+    {
+      "id": "2026-1-ead-comum",
+      "chave": "ead-comum",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum (Com Docente)",
+      "desc": "Disciplinas regulares EAD COM DOCENTE (com professor atribuído).",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/COMUM_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-comum-sd",
+      "chave": "ead-comum-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "EAD Comum - Sem Docente (SD)",
+      "desc": "Disciplinas regulares EAD SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/COMUM_SD_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-pi",
+      "chave": "ead-pi",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - PI (Com Docente)",
+      "desc": "Projeto Integrador EAD COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PI_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-pi-sd",
+      "chave": "ead-pi-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Projeto Integrador - Sem Docente (PI SD)",
+      "desc": "Projeto Integrador EAD SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PI_SD_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-tcc",
+      "chave": "ead-tcc",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "TCC Geral EAD",
+      "desc": "TCC EAD geral (exceto cursos que têm agenda própria em Exceções).",
+      "tags": [
+        "TCC"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/TCC_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-eletiva",
+      "chave": "ead-eletiva",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD (Com Docente)",
+      "desc": "Disciplinas Eletivas EAD COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-eletiva-sd",
+      "chave": "ead-eletiva-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva EAD - Sem Docente (SD)",
+      "desc": "Disciplinas Eletivas EAD SEM DOCENTE (SD).",
+      "tags": [
+        "ELETIVA",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_SD_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-extensao",
+      "chave": "ead-extensao",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD (Com Docente)",
+      "desc": "Curricularização da Extensão EAD COM DOCENTE.",
+      "tags": [
+        "EXTENSAO",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/EXTENSÃO_EAD_2026_1.html"
+    },
+    {
+      "id": "2026-1-ead-extensao-sd",
+      "chave": "ead-extensao-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EAD",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Extensão EAD - Sem Docente (SD)",
+      "desc": "Curricularização da Extensão EAD SEM DOCENTE (SD).",
+      "tags": [
+        "EXTENSAO",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/EXTENSÃO_SD_EAD.html"
+    },
+    {
+      "id": "2026-1-web-ensalados",
+      "chave": "web-ensalados",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Ensalados",
+      "desc": "Alunos que entraram depois da Web regular (prorrogação de atividade).",
+      "tags": [
+        "COMUM"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_ENSALADOS_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-comum",
+      "chave": "web-comum",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Comum (Com Docente)",
+      "desc": "Disciplinas Web Presencial regulares COM DOCENTE.",
+      "tags": [
+        "COMUM",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-comum-sd",
+      "chave": "web-comum-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - Sem Docente (SD)",
+      "desc": "Disciplinas Web Presencial regulares SEM DOCENTE (SD).",
+      "tags": [
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_SD_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-pi-sd",
+      "chave": "web-pi-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - PI Sem Docente (SD)",
+      "desc": "Projeto Integrador Web Presencial SEM DOCENTE (SD).",
+      "tags": [
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_SD_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-pi",
+      "chave": "web-pi",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial - Projeto Integrador (Com Docente)",
+      "desc": "Projeto Integrador Web Presencial COM DOCENTE.",
+      "tags": [
+        "PI",
+        "COM_DOCENTE"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-eletiva",
+      "chave": "web-eletiva",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Eletiva",
+      "desc": "Disciplinas Eletivas da modalidade Web Presencial.",
+      "tags": [
+        "ELETIVA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PRESENCIAL_ELETIVA_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-extensao",
+      "chave": "web-extensao",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Presencial Extensão",
+      "desc": "Disciplinas de Extensão da modalidade Web Presencial.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_EXTENSÃO_2026_1.html"
+    },
+    {
+      "id": "2026-1-web-especial-presencial",
+      "chave": "web-especial-presencial",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "Web Especial Presencial",
+      "desc": "Agenda Web Especial Presencial.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_ESPECIAL_PRESENCIAL_2026_1.html"
+    },
+    {
+      "id": "2026-1-adapdp-dp",
+      "chave": "adapdp-dp",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP Regular (Dependência)",
+      "desc": "Disciplinas em regime de Dependência (DP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/DP_2026_1.html"
+    },
+    {
+      "id": "2026-1-adapdp-adap",
+      "chave": "adapdp-adap",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP Regular (Adaptação)",
+      "desc": "Disciplinas em regime de Adaptação (ADAP).",
+      "tags": [
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_2026_1.html"
+    },
+    {
+      "id": "2026-1-adapdp-pi",
+      "chave": "adapdp-pi",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP - Projeto Integrador (PI)",
+      "desc": "Projeto Integrador em regime de Adaptação/DP.",
+      "tags": [
+        "ADAP_DP",
+        "PI"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_PI_2026_1.html"
+    },
+    {
+      "id": "2026-1-adapdp-jogos",
+      "chave": "adapdp-jogos",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS ADAP/DP",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP/DP - Jogos de Empresa",
+      "desc": "Jogos de Empresa em regime de Adaptação ou Dependência.",
+      "tags": [
+        "ADAP_DP",
+        "ATIVIDADE_UNICA"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_DP_2026_1_JOGOS_DE_EMPRESA.html"
+    },
+    {
+      "id": "2026-1-totvs-adap",
+      "chave": "totvs-adap",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ADAP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_TOTVS_2026_1.html"
+    },
+    {
+      "id": "2026-1-totvs-dp",
+      "chave": "totvs-dp",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "DP TOTVS (Entrada Posterior)",
+      "desc": "Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).",
+      "tags": [
+        "TOTVS",
+        "ADAP_DP"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/DP_TOTVS_2026_1.html"
+    },
+    {
+      "id": "2026-1-totvs-web-pi-sd",
+      "chave": "totvs-web-pi-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB PI - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "PI",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_SD_TOTVS_2026_1.html"
+    },
+    {
+      "id": "2026-1-totvs-web-sd",
+      "chave": "totvs-web-sd",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS TOTVS",
+      "ciclo": "TRIMESTRAL",
+      "nome": "WEB Comum - Sem Docente (SD) TOTVS",
+      "desc": "Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.",
+      "tags": [
+        "TOTVS",
+        "COMUM",
+        "SD"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_SD_TOTVS_2026_1.html"
+    },
+    {
+      "id": "2026-1-exc-eletiva-pres",
+      "chave": "exc-eletiva-pres",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Eletiva Presencial (Com Docente)",
+      "desc": "Disciplinas Eletivas Presenciais COM DOCENTE.",
+      "tags": [
+        "ELETIVA",
+        "COM_DOCENTE",
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_PRESENCIAL_2026_1.html"
+    },
+    {
+      "id": "2026-1-exc-paralela",
+      "chave": "exc-paralela",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Paralela Especial",
+      "desc": "Agenda específica para turmas de Paralela Especial.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PARALELA_ESPECIAL_2026_1.html"
+    },
+    {
+      "id": "2026-1-exc-prousa",
+      "chave": "exc-prousa",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "PROUSA",
+      "desc": "Agenda específica do programa PROUSA.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PROUSA_2026_1.html"
+    },
+    {
+      "id": "2026-1-exc-enade",
+      "chave": "exc-enade",
+      "periodo": "2026-1",
+      "grupo": "AGENDAS EXCEÇÕES",
+      "ciclo": "TRIMESTRAL",
+      "nome": "ENADE",
+      "desc": "Agenda específica para disciplinas vinculadas ao ENADE.",
+      "tags": [
+        "ENADE_EXCECAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ENADE_2026_1.html"
+    },
+    {
+      "id": "2026-1-aovivo-extensao",
+      "chave": "aovivo-extensao",
+      "periodo": "2026-1",
+      "grupo": "PÁGINAS DE AULAS AO VIVO",
+      "ciclo": "TRIMESTRAL",
+      "nome": "Página Ao Vivo - Extensão",
+      "desc": "Página de transmissão das Aulas Ao Vivo de Extensão.",
+      "tags": [
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"
+    }
+  ]
+}

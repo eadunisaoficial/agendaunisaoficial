@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Agendas UNISA - Painel de Consulta e Administração</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    if (window.tailwind) {
+      tailwind.config = {
+        theme: { extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { unisa: { dark: '#002244', DEFAULT: '#003366', light: '#004c99', accent: '#f59e0b' } }
+        } }
+      };
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+    .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .card-highlight { animation: pulseBorder 2s infinite; }
+    @keyframes pulseBorder {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 51, 102, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(0, 51, 102, 0.15); }
+    }
+    .hidden { display: none !important; }
+    /* Elementos visíveis apenas no modo administrador */
+    body:not(.modo-admin) .so-admin { display: none !important; }
+    body.modo-admin .so-equipe { display: none !important; }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOPO -->
+  <header class="bg-unisa text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-xl shadow-inner">
+          <i class="fa-solid fa-calendar-check text-amber-400"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight">Central de Agendas UNISA</h1>
+            <span class="bg-amber-400 text-unisa-dark text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">LMS Oficial</span>
+          </div>
+          <p class="text-xs sm:text-sm text-blue-100">Consulta, conferência e gerenciamento dos links de agenda</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <nav class="flex flex-wrap items-center gap-2 bg-unisa-dark/60 p-1.5 rounded-xl border border-white/10">
+          <button onclick="switchTab('consulta')" id="tabBtn-consulta" class="tab-btn"><i class="fa-solid fa-magnifying-glass"></i><span>1. Consultar Agendas</span></button>
+          <button onclick="switchTab('conferir')" id="tabBtn-conferir" class="tab-btn"><i class="fa-solid fa-list-check"></i><span>2. Conferir Planilha</span></button>
+          <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn so-admin"><i class="fa-solid fa-sliders"></i><span>3. Gerenciar</span></button>
+          <button onclick="switchTab('manual')" id="tabBtn-manual" class="tab-btn"><i class="fa-solid fa-book"></i><span>Manual</span></button>
+        </nav>
+        <button id="btnModo" onclick="toggleAdminMode()" class="px-3 py-2 rounded-xl text-xs font-bold border border-white/20 bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-lock"></i><span>Entrar como Admin</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- FAIXA DE ORIGEM DOS DADOS / RASCUNHO -->
+  <div id="faixaDados" class="bg-slate-800 text-slate-200 text-xs">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2">
+      <span id="faixaDadosTexto">Carregando dados...</span>
+      <span id="faixaModoTexto" class="font-bold"></span>
+    </div>
+  </div>
+  <div id="faixaRascunho" class="hidden bg-amber-400 text-slate-950 text-xs sm:text-sm font-bold">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2">
+      <span><i class="fa-solid fa-pen-ruler mr-1"></i> <span id="faixaRascunhoTexto">Você tem alterações ainda não publicadas para a equipe.</span></span>
+      <span class="flex flex-wrap gap-2">
+        <button onclick="publicarJson()" class="bg-slate-900 text-white px-3 py-1 rounded-lg hover:bg-slate-700 transition"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Publicar (baixar agendas.json)</button>
+        <button onclick="descartarRascunho()" class="bg-white/60 px-3 py-1 rounded-lg hover:bg-white transition">Descartar alterações</button>
+      </span>
+    </div>
+  </div>
+
+  <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-6">
+
+    <!-- ============================ ABA 1: CONSULTA ============================ -->
+    <section id="tab-consulta" class="space-y-6">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Período Selecionado</span>
+            <div class="text-2xl font-extrabold text-unisa mt-0.5" id="statPeriodo">-</div>
+            <span class="text-xs text-slate-500" id="statPeriodoSub">Alterne no seletor abaixo</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-unisa flex items-center justify-center text-xl"><i class="fa-solid fa-layer-group"></i></div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total no Período</span>
+            <div class="text-2xl font-extrabold text-slate-800 mt-0.5" id="statTotal">0</div>
+            <span class="text-xs text-slate-500">Agendas cadastradas</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl"><i class="fa-solid fa-link"></i></div>
+        </div>
+        <div onclick="setQuickStatusFilter('OK')" class="cursor-pointer bg-white hover:bg-emerald-50/40 transition rounded-xl p-4 shadow-sm border-l-4 border-emerald-500 border-t border-r border-b border-slate-200 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">✔ Prontas para Uso</span>
+            <div class="text-2xl font-extrabold text-emerald-600 mt-0.5" id="statOk">0</div>
+            <span class="text-xs text-emerald-700 font-medium">Clique para filtrar liberadas</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+        <div onclick="setQuickStatusFilter('PENDENTE')" class="cursor-pointer bg-amber-50/70 hover:bg-amber-100/60 transition rounded-xl p-4 shadow-sm border-l-4 border-amber-500 border-t border-r border-b border-amber-200 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-800">⚠ Falta Atualizar (Amarelo)</span>
+            <div class="text-2xl font-extrabold text-amber-600 mt-0.5" id="statPendente">0</div>
+            <span class="text-xs text-amber-800 font-medium">Cópia bloqueada até liberar</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-200/70 text-amber-700 flex items-center justify-center text-xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        </div>
+      </div>
+
+      <!-- ASSISTENTE -->
+      <div class="bg-white rounded-2xl shadow-sm border border-blue-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-unisa to-unisa-light text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5">
+            <span class="bg-amber-400 text-unisa-dark w-7 h-7 rounded-lg flex items-center justify-center font-extrabold text-sm shadow"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            <div>
+              <h2 class="text-sm sm:text-base font-bold">Assistente Guiado: Encontre a Agenda Certa em 3 Cliques</h2>
+              <p class="text-xs text-blue-100">Responda os 3 passos e o painel filtra para você. No passo 3 você pode marcar mais de uma característica.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="resetWizard()" class="bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-rotate-left"></i> Limpar Assistente</button>
+            <button onclick="toggleWizardCollapse()" id="btnToggleWizard" class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">Ocultar</button>
+          </div>
+        </div>
+        <div id="wizardBody" class="p-5 grid grid-cols-1 lg:grid-cols-3 gap-5 bg-gradient-to-b from-blue-50/40 to-white">
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2 mb-2.5"><span class="w-6 h-6 rounded-full bg-unisa text-white text-xs font-bold flex items-center justify-center">1</span><h3 class="text-sm font-bold text-slate-800">Qual é o Trimestre / Período?</h3></div>
+            <p class="text-xs text-slate-500 mb-3">Escolha o trimestre das disciplinas que você está trabalhando agora:</p>
+            <div id="wizardPeriodos" class="flex flex-wrap gap-2"></div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2 mb-2.5"><span class="w-6 h-6 rounded-full bg-unisa text-white text-xs font-bold flex items-center justify-center">2</span><h3 class="text-sm font-bold text-slate-800">Qual é a Categoria / Grupo?</h3></div>
+            <p class="text-xs text-slate-500 mb-3">Qual é a modalidade ou origem dessa disciplina na planilha?</p>
+            <div id="wizardGrupos" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2 mb-2.5"><span class="w-6 h-6 rounded-full bg-unisa text-white text-xs font-bold flex items-center justify-center">3</span><h3 class="text-sm font-bold text-slate-800">Com Docente ou Sem Docente (SD)? E o tipo?</h3></div>
+            <p class="text-xs text-slate-500 mb-3">Marque todas as características da disciplina (ex.: <strong>PI</strong> + <strong>SD</strong>):</p>
+            <div id="wizardTags" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+        <div class="flex-1 relative">
+          <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="filterSearch" oninput="renderCards()" placeholder="Buscar por nome, código, SD, PI, Jogos de Empresa, TOTVS, extensao (acentos não importam)..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-unisa focus:bg-white transition">
+        </div>
+        <div class="flex flex-wrap sm:flex-nowrap gap-2.5">
+          <select id="filterPeriodo" onchange="onPeriodoChange(this.value)" class="px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-700"></select>
+          <select id="filterGrupo" onchange="onGrupoChange(this.value)" class="px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-700"></select>
+          <select id="filterStatus" onchange="renderCards()" class="px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-700">
+            <option value="TODOS">Status: Todas as Agendas</option>
+            <option value="OK">✔ Somente Prontas (Verdes)</option>
+            <option value="PENDENTE">⚠ Somente Pendentes (Amarelas)</option>
+          </select>
+          <button onclick="openNewAgendaForCurrentFilter()" class="so-admin px-4 py-2.5 bg-unisa hover:bg-unisa-light text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition flex items-center gap-2 whitespace-nowrap"><i class="fa-solid fa-plus"></i><span>Novo Link Aqui</span></button>
+        </div>
+      </div>
+
+      <div id="notaSemestral" class="hidden bg-sky-50 border border-sky-300 text-sky-900 rounded-xl px-4 py-3 text-xs sm:text-sm"></div>
+
+      <div id="avisoPeriodoAntigo" class="hidden bg-rose-50 border border-rose-300 text-rose-900 rounded-xl px-4 py-3 text-sm font-bold flex items-center gap-2">
+        <i class="fa-solid fa-clock-rotate-left"></i><span id="avisoPeriodoAntigoTexto"></span>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <div class="xl:col-span-7 space-y-4">
+          <div class="flex items-center justify-between px-1">
+            <span id="resultsCountLabel" class="text-xs sm:text-sm font-bold text-slate-600">Mostrando agendas...</span>
+            <span class="text-xs text-slate-500 hidden sm:inline"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Dica: sempre clique em <b>Visualizar</b> para conferir as datas antes de copiar!</span>
+          </div>
+          <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div class="xl:col-span-5 bg-white rounded-2xl shadow-md border border-slate-200 xl:sticky xl:top-24 overflow-hidden flex flex-col h-[640px]">
+          <div class="bg-slate-800 text-white px-4 py-3 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+              <div class="truncate">
+                <h3 id="previewHeaderTitle" class="text-xs sm:text-sm font-bold truncate">Pré-visualização Ao Vivo da Agenda</h3>
+                <p id="previewHeaderUrl" class="text-[11px] text-slate-300 font-mono truncate">Clique em "Visualizar" em qualquer card ao lado</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button id="btnCopyFromPreview" onclick="copyCurrentPreviewUrl()" disabled class="disabled:opacity-40 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition"><i class="fa-regular fa-copy"></i> Copiar Link</button>
+              <a id="btnOpenExternalPreview" href="#" target="_blank" rel="noopener noreferrer" class="pointer-events-none opacity-40 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition" title="Abrir agenda em nova guia"><i class="fa-solid fa-up-right-from-square"></i></a>
+            </div>
+          </div>
+          <div id="previewStatusBanner" class="hidden px-4 py-2 text-xs font-bold"></div>
+          <div class="flex-1 bg-slate-100 relative">
+            <div id="previewEmptyState" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 text-slate-400">
+              <div class="w-16 h-16 rounded-2xl bg-slate-200/80 text-slate-400 flex items-center justify-center text-2xl mb-3"><i class="fa-regular fa-eye"></i></div>
+              <h4 class="text-base font-bold text-slate-600 mb-1">Nenhuma agenda selecionada no visor</h4>
+              <p class="text-xs text-slate-500 max-w-xs leading-relaxed">Clique em <strong>"👁 Visualizar"</strong> em qualquer cartão para abrir a agenda real aqui e conferir as datas.</p>
+            </div>
+            <iframe id="previewIframe" src="about:blank" class="w-full h-full border-0 hidden bg-white"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ ABA 2: CONFERIR PLANILHA ============================ -->
+    <section id="tab-conferir" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-unisa to-unisa-light text-white px-5 py-4">
+          <h2 class="text-base sm:text-lg font-extrabold flex items-center gap-2"><i class="fa-solid fa-list-check text-amber-400"></i> Conferir a planilha do trimestre antes de lançar no LMS</h2>
+          <p class="text-xs sm:text-sm text-blue-100 mt-1 max-w-4xl">Copie as linhas da planilha no Excel (disciplina + link da agenda) e cole abaixo. O painel confere cada linha: link de outro trimestre, link inexistente no painel, agenda ainda amarela, ou tipo de disciplina que não bate com a agenda (ex.: disciplina de PI com agenda Comum). Nada é alterado na planilha: você copia a coluna corrigida de volta.</p>
+        </div>
+        <div class="p-5 space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Trimestre das disciplinas *</label>
+              <select id="confPeriodo" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold"></select>
+              <span class="text-[11px] text-slate-400">Links de outro trimestre serão trocados pelo equivalente deste.</span>
+            </div>
+            <div class="md:col-span-2 bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed">
+              <strong class="text-unisa">Como colar:</strong> no Excel selecione as colunas desejadas (por exemplo <em>Curso | Disciplina | Tipo | Link</em>), copie (Ctrl+C) e cole aqui (Ctrl+V). Pode incluir o cabeçalho. Quanto mais colunas descritivas você colar (curso, tipo, modalidade, SD), melhor a conferência. Linhas sem link recebem sugestões.
+            </div>
+          </div>
+          <textarea id="confEntrada" rows="8" placeholder="Cole aqui as linhas copiadas do Excel..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono focus:outline-none focus:ring-2 focus:ring-unisa"></textarea>
+          <div class="flex flex-wrap items-center gap-3">
+            <label class="text-xs text-slate-700 font-medium flex items-center gap-1.5"><input type="checkbox" id="confCabecalho" checked> Primeira linha é cabeçalho</label>
+            <button onclick="conferirPlanilha()" class="px-5 py-2.5 bg-unisa hover:bg-unisa-light text-white text-sm font-extrabold rounded-xl shadow transition"><i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Conferir</button>
+            <button onclick="document.getElementById('confEntrada').value='';document.getElementById('confResultado').innerHTML='';" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-xl transition">Limpar</button>
+          </div>
+        </div>
+      </div>
+      <div id="confResultado"></div>
+    </section>
+
+    <!-- ============================ ABA 3: ADMIN ============================ -->
+    <section id="tab-admin" class="hidden space-y-8">
+
+      <div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-2xl p-5 shadow-md flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="space-y-1">
+          <h2 class="text-base sm:text-lg font-extrabold">Publicar para a equipe</h2>
+          <p class="text-xs sm:text-sm text-emerald-100 max-w-3xl">
+            Suas alterações ficam num <strong>rascunho</strong> só neste navegador. A equipe só vê depois que você clica em <strong>Publicar</strong> e sobe o arquivo <code>agendas.json</code> no GitHub (substituindo o anterior, na mesma pasta deste painel).
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button onclick="publicarJson()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-lg transition"><i class="fa-solid fa-cloud-arrow-up"></i> Publicar (baixar agendas.json)</button>
+          <label class="cursor-pointer bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-3.5 py-3 rounded-xl border border-white/15 transition"><i class="fa-solid fa-upload"></i> Importar JSON
+            <input type="file" accept=".json" onchange="importJsonBackup(event)" class="hidden">
+          </label>
+          <button id="btnImportarAntigo" onclick="importarDadosVersaoAntiga()" class="hidden bg-amber-400/90 hover:bg-amber-300 text-slate-950 font-bold text-xs px-3.5 py-3 rounded-xl transition" title="Encontramos dados salvos pela versão anterior do painel neste navegador"><i class="fa-solid fa-box-archive"></i> Recuperar dados da versão antiga</button>
+        </div>
+      </div>
+
+      <!-- DIAGNÓSTICO -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-rose-700 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-stethoscope text-lg"></i>
+            <div>
+              <h3 class="text-sm sm:text-base font-extrabold">Diagnóstico do período (faça antes de publicar)</h3>
+              <p class="text-xs text-rose-100">Procura links quebrados, arquivos com final de outro trimestre, duplicados e classificação incompleta.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="diagPeriodo" onchange="renderDiagnostico()" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-800"></select>
+            <button onclick="verificarLinks()" id="btnVerificarLinks" class="bg-white text-rose-800 text-xs font-extrabold px-3 py-1.5 rounded-lg hover:bg-rose-50 transition"><i class="fa-solid fa-satellite-dish"></i> Testar se os links abrem</button>
+          </div>
+        </div>
+        <div id="diagResultado" class="p-5"></div>
+      </div>
+
+      <!-- PLANILHA DO TRIMESTRE -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-indigo-700 text-white px-5 py-3.5 flex items-center gap-2.5">
+          <i class="fa-solid fa-file-excel text-lg"></i>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold">Planilha de links ⇄ Painel</h3>
+            <p class="text-xs text-indigo-100">Atualize um trimestre inteiro colando a aba da planilha, ou gere a aba da planilha a partir do painel.</p>
+          </div>
+        </div>
+        <div class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <h4 class="text-sm font-extrabold text-slate-800">A) Colar os links da planilha no painel</h4>
+            <p class="text-xs text-slate-500">No Excel, selecione a coluna de links da aba do trimestre (pode incluir títulos e linhas vazias), copie e cole aqui. O painel reconhece cada agenda pelo nome do arquivo, mesmo que o final do trimestre mude.</p>
+            <div class="flex gap-2 items-center">
+              <label class="text-xs font-bold text-slate-600">Trimestre:</label>
+              <input id="impPeriodo" placeholder="2027-1" class="w-28 px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold">
+            </div>
+            <textarea id="impEntrada" rows="6" placeholder="Cole aqui a coluna de links da aba do trimestre..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono"></textarea>
+            <button onclick="importarLinksColados()" class="px-4 py-2 bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-extrabold rounded-xl"><i class="fa-solid fa-file-import"></i> Analisar e aplicar no rascunho</button>
+            <div id="impRelatorio"></div>
+          </div>
+          <div class="space-y-3">
+            <h4 class="text-sm font-extrabold text-slate-800">B) Gerar a aba da planilha a partir do painel</h4>
+            <p class="text-xs text-slate-500">Copia todos os links do trimestre organizados por grupo, já incluindo as agendas WEB semestrais que valem nele. Cole na célula A1 de uma aba nova. Os links saem como texto puro, então o texto e o link clicado são sempre iguais.</p>
+            <div class="flex gap-2 items-center">
+              <select id="expPeriodo" class="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold"></select>
+              <button onclick="copiarPeriodoFormatoPlanilha()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-extrabold rounded-xl"><i class="fa-regular fa-copy"></i> Copiar aba do trimestre</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- FORMULÁRIO -->
+        <div id="blocoFormulario" class="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="bg-unisa text-white px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <i class="fa-solid fa-file-circle-plus text-amber-400 text-lg"></i>
+              <div>
+                <h3 id="formTitle" class="text-base font-extrabold">Cadastrar Nova Agenda ou Atualizar Link</h3>
+                <p class="text-xs text-blue-100">Preencha os campos sem mexer em código</p>
+              </div>
+            </div>
+            <button onclick="clearAgendaForm()" class="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg font-semibold transition">Limpar Formulário</button>
+          </div>
+
+          <form id="agendaForm" onsubmit="saveAgendaFromForm(event)" class="p-6 space-y-5">
+            <input type="hidden" id="editAgendaId" value="">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">1. Período / Trimestre *</label>
+                <select id="formPeriodo" onchange="updateSmartUrlPreview()" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">2. Grupo / Categoria *</label>
+                <select id="formGrupo" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold"></select>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">3. Nome Amigável *</label>
+                <input type="text" id="formNome" required oninput="sugerirChave()" placeholder="Ex: EAD Comum - Sem Docente (SD)" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm">
+                <span class="text-[11px] text-slate-400">Deixe claro se é <strong>Com Docente</strong> ou <strong>Sem Docente (SD)</strong>.</span>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Código fixo *</label>
+                <input type="text" id="formChave" required placeholder="ead-comum-sd" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-mono">
+                <span class="text-[11px] text-slate-400">O <strong>mesmo</strong> em todos os trimestres. É ele que liga a agenda de 2026-4 à de 2027-1.</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Ciclo da agenda *</label>
+              <select id="formCiclo" onchange="this.dataset.manual='1'; updateSmartUrlPreview()" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold">
+                <option value="TRIMESTRAL">Trimestral — uma agenda por trimestre (arquivo termina _AAAA_T)</option>
+                <option value="SEMESTRAL">WEB Presencial (semestral) — só no 1º trimestre/janeiro (arquivo _AAAA_1) e no 3º trimestre/julho (arquivo _AAAA_2)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">4. Regra de Uso ("Quando a equipe deve usar esta agenda?") *</label>
+              <textarea id="formDesc" rows="2" required placeholder="Ex: Usar em disciplinas regulares EAD SEM DOCENTE (SD). Não usar em disciplinas com professor." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">5. Etiquetas (o Assistente e a Conferência usam isso)</label>
+              <div id="formTagsContainer" class="flex flex-wrap gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200"></div>
+              <span class="text-[11px] text-slate-400">Marque sempre <strong>Com Docente</strong> ou <strong>Sem Docente (SD)</strong> quando a agenda depender disso.</span>
+            </div>
+            <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-extrabold uppercase tracking-wider text-unisa"><i class="fa-brands fa-github text-sm"></i> 6. Link da Agenda no GitHub Pages *</label>
+                <span class="text-[11px] text-blue-700 font-medium">Cole o link inteiro OU só o nome do arquivo .html</span>
+              </div>
+              <input type="text" id="formUrlInput" oninput="updateSmartUrlPreview()" required placeholder="Ex: COMUM_SD_2026_4.html ou https://eadunisaoficial.github.io/..." class="w-full px-3.5 py-2.5 bg-white border border-blue-300 rounded-xl text-sm font-mono">
+              <div class="text-xs bg-white p-2.5 rounded-lg border border-blue-100 flex items-center justify-between gap-2">
+                <div class="min-w-0"><span class="font-bold text-slate-500">URL final: </span><span id="smartUrlPreview" class="font-mono text-unisa font-semibold break-all"></span></div>
+                <button type="button" onclick="testFormUrl()" class="shrink-0 text-xs bg-blue-100 hover:bg-blue-200 text-unisa font-bold px-2.5 py-1 rounded transition">Testar Link</button>
+              </div>
+              <div id="formUrlAviso" class="hidden text-xs font-bold rounded-lg px-2.5 py-2"></div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">7. Status das Datas do Trimestre *</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="cursor-pointer flex items-start gap-3 p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/50">
+                  <input type="radio" name="formStatus" value="OK" class="mt-1">
+                  <div><div class="text-sm font-extrabold text-emerald-800">✔ Pronta para Uso (Verde)</div><div class="text-xs text-emerald-700">As datas do HTML já foram revisadas.</div></div>
+                </label>
+                <label class="cursor-pointer flex items-start gap-3 p-3.5 rounded-xl border-2 border-amber-400 bg-amber-50/60">
+                  <input type="radio" name="formStatus" value="PENDENTE" checked class="mt-1">
+                  <div><div class="text-sm font-extrabold text-amber-900">⚠ Falta Atualizar (Amarelo)</div><div class="text-xs text-amber-800">Bloqueia a cópia pela equipe. Padrão para cadastros novos.</div></div>
+                </label>
+              </div>
+            </div>
+            <div class="pt-2 flex items-center justify-end gap-3">
+              <button type="button" onclick="clearAgendaForm()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-600 text-sm font-semibold hover:bg-slate-100 transition">Cancelar</button>
+              <button type="submit" id="btnSubmitForm" class="px-6 py-2.5 rounded-xl bg-unisa hover:bg-unisa-light text-white text-sm font-extrabold shadow-md transition"><i class="fa-solid fa-floppy-disk"></i> Salvar no rascunho</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+          <!-- VIRADA DE TRIMESTRE -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-amber-500 text-slate-950 px-5 py-3.5 flex items-center gap-2.5">
+              <i class="fa-solid fa-bolt text-lg"></i>
+              <div>
+                <h3 class="text-sm sm:text-base font-extrabold">Virada de Trimestre (Novo Período)</h3>
+                <p class="text-xs text-amber-950 font-medium">Clona todos os links trocando o final automaticamente</p>
+              </div>
+            </div>
+            <div class="p-5 space-y-4">
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-900 leading-relaxed">
+                Ex.: criar <code>2027-1</code> copiando de <code>2026-4</code> troca <code>AGENDAS_2026_4/COMUM_2026_4.html</code> por <code>AGENDAS_2027_1/COMUM_2027_1.html</code>. Links que não seguem o padrão (ex.: <code>PROUSA_2026_2.html</code>) são listados para você revisar. Todas entram <strong>Amarelas</strong>.
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Novo Período</label>
+                  <input type="text" id="newPeriodoName" placeholder="Ex: 2027-1" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Copiar de qual período?</label>
+                  <select id="cloneFromPeriodo" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold"></select>
+                </div>
+              </div>
+              <button onclick="createAndClonePeriodo()" class="w-full py-2.5 px-4 bg-unisa hover:bg-unisa-light text-white font-extrabold text-xs sm:text-sm rounded-xl shadow transition"><i class="fa-solid fa-copy"></i> Criar Período e Gerar Links</button>
+              <div id="cloneRelatorio"></div>
+              <div class="pt-3 border-t border-slate-200">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase text-slate-400">Períodos (⭐ = período atual da equipe)</span>
+                  <button onclick="unlockAllInCurrentPeriodo()" class="text-[11px] text-emerald-700 hover:underline font-bold">✔ Liberar todas do período exibido</button>
+                </div>
+                <div id="adminPeriodosList" class="flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRUPOS -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-800 text-white px-5 py-3.5 flex items-center gap-2.5">
+              <i class="fa-solid fa-tags text-amber-400"></i>
+              <div><h3 class="text-sm sm:text-base font-extrabold">Grupos e Categorias</h3><p class="text-xs text-slate-300">Adicione se surgir um novo modelo de disciplina</p></div>
+            </div>
+            <div class="p-5 space-y-4">
+              <div class="flex gap-2">
+                <input type="text" id="newGrupoName" placeholder="Ex: AGENDAS PÓS-GRADUAÇÃO" class="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm">
+                <button onclick="addNewGrupo()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition shrink-0">+ Criar Grupo</button>
+              </div>
+              <div id="adminGruposList" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ MANUAL ============================ -->
+    <section id="tab-manual" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <span class="bg-blue-100 text-unisa text-xs font-extrabold px-3 py-1 rounded-full uppercase">Guia Rápido para a Equipe</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Regra de Ouro: Com Docente × Sem Docente (SD)</h2>
+        <div class="mt-4 bg-sky-50 border border-sky-200 rounded-xl p-4 text-sm text-sky-900 max-w-4xl">
+          <strong>📅 Agendas WEB Presencial são semestrais.</strong> As demais agendas são trimestrais (arquivo termina com <code>_ANO_TRIMESTRE</code>, ex.: <code>COMUM_2026_4</code>).
+          Os links WEB são usados <strong>somente no 1º trimestre</strong> (início em janeiro, arquivo termina <code>_ANO_1</code>, ex.: <code>AGENDAS_2026_1/WEB_2026_1.html</code>) e <strong>no 3º trimestre</strong> (início em julho, arquivo termina <code>_ANO_2</code>, ex.: <code>AGENDAS_2026_3/WEB_2026_2.html</code>).
+          <strong>No 2º e no 4º trimestre não existe agenda WEB.</strong> Se aparecer uma disciplina WEB nesses trimestres, fale com o responsável. A conferência da planilha marca isso como erro.
+          <br><span class="text-xs">As agendas <strong>WEB TOTVS</strong> (ex.: <code>WEB_SD_TOTVS_2026_4</code>) são trimestrais.</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-3 max-w-3xl"><strong>SD</strong> significa <strong>SEM DOCENTE</strong>. Todo cartão mostra uma etiqueta <strong>👨‍🏫 Com Docente</strong> ou <strong>⚡ Sem Docente (SD)</strong>. Na dúvida, não copie: pergunte ao responsável.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-unisa text-white font-extrabold flex items-center justify-center text-lg">1</div><h3 class="text-base font-extrabold text-slate-900">Pegar o link certo para uma disciplina</h3></div>
+            <ol class="text-xs sm:text-sm text-slate-700 space-y-2 list-decimal list-inside leading-relaxed">
+              <li>Na aba <strong>1. Consultar Agendas</strong>, confira se o período no topo é o do trimestre que você está lançando (o período atual já vem selecionado).</li>
+              <li>Use o Assistente: grupo + características (pode marcar mais de uma, ex.: <code>PI</code> + <code>SD</code>).</li>
+              <li>Leia <strong>"Quando usar esta agenda"</strong> e clique em <strong>Visualizar</strong> para conferir as datas.</li>
+              <li>Clique em <strong>Copiar Link</strong>. Cartão <strong>amarelo</strong> = datas ainda não atualizadas, a cópia fica bloqueada.</li>
+            </ol>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-extrabold flex items-center justify-center text-lg">2</div><h3 class="text-base font-extrabold text-slate-900">Conferir a planilha inteira antes de lançar</h3></div>
+            <ol class="text-xs sm:text-sm text-slate-700 space-y-2 list-decimal list-inside leading-relaxed">
+              <li>Abra a aba <strong>2. Conferir Planilha</strong> e escolha o trimestre.</li>
+              <li>No Excel, copie as colunas da disciplina e a coluna do link e cole no quadro.</li>
+              <li>Clique em <strong>Conferir</strong>. Verde = certo; amarelo = revisar; vermelho = errado.</li>
+              <li>Clique em <strong>Copiar coluna "Link correto"</strong> e cole por cima da coluna de links da planilha (mesma ordem das linhas).</li>
+            </ol>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 so-admin">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-extrabold flex items-center justify-center text-lg">3</div><h3 class="text-base font-extrabold text-slate-900">(Admin) Virada de trimestre</h3></div>
+            <ol class="text-xs sm:text-sm text-slate-700 space-y-2 list-decimal list-inside leading-relaxed">
+              <li>Em <strong>3. Gerenciar</strong> → Virada de Trimestre: digite o novo período (ex.: <code>2027-1</code>) e copie do anterior. As agendas WEB só são criadas no 1º e no 3º trimestre (final <code>_ANO_1</code>/<code>_ANO_2</code>); no 2º e no 4º elas não são copiadas. <em>Alternativa:</em> cole a coluna de links da nova aba da planilha em "Planilha de links ⇄ Painel".</li>
+              <li>Revise a lista de links que não seguiram o padrão.</li>
+              <li>Suba os novos HTMLs das agendas no GitHub como sempre.</li>
+              <li>Rode o <strong>Diagnóstico</strong> → <strong>Testar se os links abrem</strong>. Libere (verde) cada agenda conforme atualizar as datas.</li>
+              <li>Marque o novo período com ⭐ (período atual) e <strong>Publique</strong>.</li>
+            </ol>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 so-admin">
+            <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-lg">4</div><h3 class="text-base font-extrabold text-slate-900">(Admin) Publicar alterações</h3></div>
+            <ol class="text-xs sm:text-sm text-slate-700 space-y-2 list-decimal list-inside leading-relaxed">
+              <li>Tudo que você muda fica em <strong>rascunho</strong> (faixa amarela no topo). A equipe ainda não vê.</li>
+              <li>Clique em <strong>Publicar (baixar agendas.json)</strong>.</li>
+              <li>No GitHub, entre na pasta deste painel → <em>Add file → Upload files</em> → arraste o <code>agendas.json</code> → <em>Commit</em>.</li>
+              <li>Em 1 a 2 minutos a equipe vê os dados novos (basta recarregar). O rascunho some sozinho quando a versão publicada chega.</li>
+              <li>Se errar algo, o histórico do GitHub guarda todas as versões do <code>agendas.json</code>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL GENÉRICO -->
+  <div id="modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4">
+      <h3 id="modalTitulo" class="text-base font-extrabold text-slate-900"></h3>
+      <div id="modalTexto" class="text-sm text-slate-600 leading-relaxed"></div>
+      <input id="modalInput" type="password" class="hidden w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm">
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="modalCancelar" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-600 text-sm font-semibold hover:bg-slate-100">Cancelar</button>
+        <button id="modalOk" class="px-5 py-2 rounded-xl bg-unisa text-white text-sm font-extrabold hover:bg-unisa-light">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    // ===================== CONFIGURAÇÃO =====================
+    const BASE_GITHUB_URL = "https://eadunisaoficial.github.io/agendaunisaoficial/";
+    // Arquivo de dados publicado no GitHub, na mesma pasta deste painel:
+    const ARQUIVO_DADOS = "agendas.json";
+    // Senha do modo administrador. NÃO é segurança (qualquer um vê o código-fonte):
+    // serve apenas para evitar que alguém da equipe altere algo sem querer.
+    const SENHA_ADMIN = "unisa";
+
+    const CHAVE_RASCUNHO = "UNISA_AGENDAS_RASCUNHO_V3";
+    const CHAVE_VERSAO_ANTIGA = "UNISA_CENTRAL_AGENDAS_DB_V2_SD_CORRIGIDO";
+    const CHAVE_SESSAO_ADMIN = "UNISA_AGENDAS_ADMIN";
+
+    const AVAILABLE_TAGS = [
+      { id: "COM_DOCENTE", label: "👨‍🏫 Com Docente" },
+      { id: "SD", label: "⚡ Sem Docente (SD)" },
+      { id: "COMUM", label: "Regular / Comum" },
+      { id: "PI", label: "Projeto Integrador (PI)" },
+      { id: "ATIVIDADE_UNICA", label: "Atividade Única / Jogos" },
+      { id: "HUB", label: "Modelo HUB" },
+      { id: "TCC", label: "TCC / Estágio" },
+      { id: "ELETIVA", label: "Eletiva" },
+      { id: "EXTENSAO", label: "Extensão" },
+      { id: "TOTVS", label: "TOTVS Posterior" },
+      { id: "ADAP_DP", label: "DP / Adaptação" },
+      { id: "ENADE_EXCECAO", label: "ENADE / Exceção Curso" }
+    ];
+
+    // Palavras na planilha que indicam uma característica da disciplina.
+    // Usado só para AVISAR quando a agenda escolhida não tem essa característica.
+    const DETECTORES = [
+      { tag: "PI", nome: "Projeto Integrador", re: /PROJETO INTEGRADOR|\bPI\b/ },
+      { tag: "TCC", nome: "TCC / Estágio", re: /\bTCC\b|TRABALHO DE CONCLUSAO|\bESTAGIO\b/ },
+      { tag: "ELETIVA", nome: "Eletiva", re: /\bELETIVA/ },
+      { tag: "EXTENSAO", nome: "Extensão", re: /EXTENSAO/ },
+      { tag: "ATIVIDADE_UNICA", nome: "Atividade Única / Jogos", re: /JOGOS DE EMPRESA|LABORATORIO CONTABIL|ATIVIDADE UNICA/ },
+      { tag: "ADAP_DP", nome: "DP / Adaptação", re: /\bDP\b|DEPENDENCIA|\bADAP\b|ADAPTACAO/ },
+      { tag: "SD", nome: "Sem Docente (SD)", re: /\bSD\b|SEM DOCENTE/ },
+      { tag: "TOTVS", nome: "TOTVS", re: /\bTOTVS\b/ },
+      { tag: "HUB", nome: "HUB", re: /\bHUB\b/ }
+    ];
+
+    // Dados embutidos: usados só se o agendas.json não puder ser lido (ex.: arquivo aberto do computador).
+    const DADOS_EMBUTIDOS = {"versao":3,"atualizadoEm":"2026-11-11T13:39:37Z","periodoAtual":"2026-4","periodos":["2026-4","2026-3","2026-2","2026-1"],"grupos":["AGENDAS EAD","AGENDAS WEB PRESENCIAL","AGENDAS ADAP/DP","AGENDAS TOTVS","AGENDAS EXCEÇÕES","PÁGINAS DE AULAS AO VIVO"],"agendas":[{"id":"2026-4-ead-comum","chave":"ead-comum","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum (Com Docente)","desc":"Disciplinas regulares EAD COM DOCENTE (com professor atribuído).","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_2026_4.html"},{"id":"2026-4-ead-comum-hub","chave":"ead-comum-hub","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum HUB","desc":"Usar exclusivamente em disciplinas regulares EAD do modelo HUB.","tags":["COMUM","HUB","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_HUB_2026_4.html"},{"id":"2026-4-ead-ativ-unica-hub","chave":"ead-ativ-unica-hub","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Atividade Única HUB","desc":"Disciplinas do modelo HUB com uma única entrega no trimestre.","tags":["ATIVIDADE_UNICA","HUB"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_HUB_2026_4.html"},{"id":"2026-4-ead-comum-sd","chave":"ead-comum-sd","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum - Sem Docente (SD)","desc":"Disciplinas regulares EAD SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/COMUM_SD_2026_4.html"},{"id":"2026-4-ead-pi","chave":"ead-pi","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - PI (Com Docente)","desc":"Projeto Integrador EAD COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_2026_4.html"},{"id":"2026-4-ead-pi-sd","chave":"ead-pi-sd","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - Sem Docente (PI SD)","desc":"Projeto Integrador EAD SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_SD_2026_4.html"},{"id":"2026-4-ead-ativ-unica","chave":"ead-ativ-unica","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Atividade Única de Entrega (Jogos / Lab. Contábil)","desc":"Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).","tags":["ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_2026_4.html"},{"id":"2026-4-ead-tcc","chave":"ead-tcc","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"TCC Geral EAD","desc":"TCC EAD geral (exceto cursos que têm agenda própria em Exceções).","tags":["TCC"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_2026_4.html"},{"id":"2026-4-ead-eletiva","chave":"ead-eletiva","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD (Com Docente)","desc":"Disciplinas Eletivas EAD COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_2026_4.html"},{"id":"2026-4-ead-eletiva-sd","chave":"ead-eletiva-sd","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD - Sem Docente (SD)","desc":"Disciplinas Eletivas EAD SEM DOCENTE (SD).","tags":["ELETIVA","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_SD_2026_4.html"},{"id":"2026-4-ead-extensao","chave":"ead-extensao","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD (Com Docente)","desc":"Curricularização da Extensão EAD COM DOCENTE.","tags":["EXTENSAO","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EXTENSÃO_EAD_2026_4.html"},{"id":"2026-4-ead-extensao-sd","chave":"ead-extensao-sd","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD - Sem Docente (SD)","desc":"Curricularização da Extensão EAD SEM DOCENTE (SD).","tags":["EXTENSAO","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EXTENSÃO_EAD_SD_2026_4.html"},{"id":"2026-4-ead-proj-extensao","chave":"ead-proj-extensao","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto de Extensão","desc":"Disciplina específica de Projeto de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PROJETO_DE_EXTENSÃO_2026_4.html"},{"id":"2026-4-ead-pi-avc","chave":"ead-pi-avc","periodo":"2026-4","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador AVC (PI AVC)","desc":"Projeto Integrador modelo AVC.","tags":["PI"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PI_AVC_2026_4.html"},{"id":"2026-4-adapdp-dp","chave":"adapdp-dp","periodo":"2026-4","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"DP Regular (Dependência)","desc":"Disciplinas em regime de Dependência (DP).","tags":["ADAP_DP"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_2026_4.html"},{"id":"2026-4-adapdp-adap","chave":"adapdp-adap","periodo":"2026-4","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP Regular (Adaptação)","desc":"Disciplinas em regime de Adaptação (ADAP).","tags":["ADAP_DP"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_2026_4.html"},{"id":"2026-4-adapdp-jogos","chave":"adapdp-jogos","periodo":"2026-4","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP/DP - Jogos de Empresa","desc":"Jogos de Empresa em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_DP_2026_4_JOGOS_DE_EMPRESA.html"},{"id":"2026-4-adapdp-pi","chave":"adapdp-pi","periodo":"2026-4","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP - Projeto Integrador (PI)","desc":"Projeto Integrador em regime de Adaptação/DP.","tags":["ADAP_DP","PI"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_PI_2026_4.html"},{"id":"2026-4-adapdp-ativ-unica","chave":"adapdp-ativ-unica","periodo":"2026-4","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"Atividade Única - ADAP/DP","desc":"Disciplinas de entrega única em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ATIVIDADE_UNICA_ADAP_DP_2026_4.html"},{"id":"2026-4-totvs-adap","chave":"totvs-adap","periodo":"2026-4","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"ADAP TOTVS (Entrada Posterior)","desc":"Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ADAP_TOTVS_2026_4.html"},{"id":"2026-4-totvs-dp","chave":"totvs-dp","periodo":"2026-4","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"DP TOTVS (Entrada Posterior)","desc":"Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_TOTVS_2026_4.html"},{"id":"2026-4-totvs-web-pi-sd","chave":"totvs-web-pi-sd","periodo":"2026-4","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB PI - Sem Docente (SD) TOTVS","desc":"Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/WEB_PI_SD_TOTVS_2026_4.html"},{"id":"2026-4-totvs-web-sd","chave":"totvs-web-sd","periodo":"2026-4","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB Comum - Sem Docente (SD) TOTVS","desc":"Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/WEB_SD_TOTVS_2026_4.html"},{"id":"2026-4-exc-estetica","chave":"exc-estetica","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Estética (Exceção)","desc":"Agenda específica do curso de Estética.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ESTETICA_2026_4.html"},{"id":"2026-4-exc-paralela","chave":"exc-paralela","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Paralela Especial","desc":"Agenda específica para turmas de Paralela Especial.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PARALELA_ESPECIAL_2026_4.html"},{"id":"2026-4-exc-enade","chave":"exc-enade","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"ENADE","desc":"Agenda específica para disciplinas vinculadas ao ENADE.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ENADE_2026.html"},{"id":"2026-4-exc-prousa","chave":"exc-prousa","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"PROUSA","desc":"Agenda específica do programa PROUSA.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/PROUSA_2026_2.html"},{"id":"2026-4-exc-tcc-artes","chave":"exc-tcc-artes","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Artes Visuais","desc":"TCC específico do curso de Artes Visuais.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ARTES_VISUAIS_2026_4.html"},{"id":"2026-4-exc-tcc-arq","chave":"exc-tcc-arq","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Arquitetura e Urbanismo","desc":"TCC específico do curso de Arquitetura e Urbanismo.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ARQUITETURA_URBANISMO_2026_4.html"},{"id":"2026-4-exc-tcc-eng-amb","chave":"exc-tcc-eng-amb","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Engenharia Ambiental e Química","desc":"TCC específico para Engenharias Ambiental e Química.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ENGENHARIA_AMB_QUIM_2026_4.html"},{"id":"2026-4-exc-jogos-reg","chave":"exc-jogos-reg","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Jogos de Empresa Regular (Datas da Coordenação)","desc":"Jogos de Empresa regular. Datas estipuladas pela coordenação.","tags":["ATIVIDADE_UNICA","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/JOGOS_DE_EMPRESA_REGULAR_2026_4.html"},{"id":"2026-4-exc-enade-pratica","chave":"exc-enade-pratica","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"ENADE Avaliação da Prática","desc":"Agenda específica para Avaliação da Prática ENADE.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ENADE_AVALIÇÃO_DA_PRÁTICA_2026_2.html"},{"id":"2026-4-exc-eletiva-pres","chave":"exc-eletiva-pres","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Eletiva Presencial (Com Docente)","desc":"Disciplinas Eletivas Presenciais COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_PRESENCIAL_2026_4.html"},{"id":"2026-4-exc-eletiva-pres-sd","chave":"exc-eletiva-pres-sd","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Eletiva Presencial - Sem Docente (SD)","desc":"Disciplinas Eletivas Presenciais SEM DOCENTE (SD).","tags":["ELETIVA","SD","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ELETIVA_PRESENCIAL_SD_2026_4.html"},{"id":"2026-4-exc-estagio-edfis","chave":"exc-estagio-edfis","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Estágio Educação Física EAD","desc":"Estágio Supervisionado de Educação Física EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/ESTAGIO_ED_FISICA_EAD_2026_4.html"},{"id":"2026-4-exc-tcc-eng-soft","chave":"exc-tcc-eng-soft","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Eng. Software e Computação EAD","desc":"TCC específico para Engenharia de Software e Engenharia da Computação EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ENGE_SOFT_COMPU_EAD_2026_4.html"},{"id":"2026-4-exc-tcc-edfis-bach","chave":"exc-tcc-edfis-bach","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Educação Física Bacharelado EAD","desc":"TCC específico de Educação Física (Bacharelado) EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ED_FÍSICA_BARCH_EAD_2026_4.html"},{"id":"2026-4-exc-tcc-edfis-lic","chave":"exc-tcc-edfis-lic","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Educação Física Licenciatura EAD","desc":"TCC específico de Educação Física (Licenciatura) EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/TCC_ED_FÍSICA_LICEN_EAD_2026_4.html"},{"id":"2026-4-exc-ead-tcc-arq","chave":"exc-ead-tcc-arq","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"EAD TCC Arquitetura e Urbanismo","desc":"Agenda EAD de TCC exclusiva para Arquitetura e Urbanismo.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EAD_TCC_Arquitetura_e_Urbanismo_-_2026_4.html"},{"id":"2026-4-exc-ead-tcc-artes","chave":"exc-ead-tcc-artes","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"EAD TCC Artes Visuais","desc":"Agenda EAD de TCC exclusiva para Artes Visuais.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/EAD_TCC_Artes_Visuais_-_2026_4.html"},{"id":"2026-4-exc-dpadap-tcc-arq-artes","chave":"exc-dpadap-tcc-arq-artes","periodo":"2026-4","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"DP/ADAP TCC Arquitetura e Artes Visuais","desc":"DP e Adaptação de TCC para Arquitetura e Urbanismo e Artes Visuais.","tags":["TCC","ADAP_DP","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_4/DP_ADAP_TCC_Arquitetura_e_Urbanismo_e_Artes_Visuais_-_2026_4.html"},{"id":"2026-4-aovivo-extensao","chave":"aovivo-extensao","periodo":"2026-4","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Ao Vivo - Extensão","desc":"Página de transmissão das Aulas Ao Vivo de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"},{"id":"2026-4-aovivo-gestao21h","chave":"aovivo-gestao21h","periodo":"2026-4","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Aula Aprofundamento Gestão (21h)","desc":"Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"},{"id":"2026-4-aovivo-webcoord","chave":"aovivo-webcoord","periodo":"2026-4","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Webcoordenação","desc":"Página de encontros ao vivo da Webcoordenação do trimestre.","tags":["COMUM"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/PAGINA_WEBCOORDENACAO_2026_4.html"},{"id":"2026-4-aovivo-gestao-enade","chave":"aovivo-gestao-enade","periodo":"2026-4","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Gestão Empreendedora ENADE","desc":"Publicar aqui as aulas ENADE de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"},{"id":"2026-3-ead-comum","chave":"ead-comum","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum (Com Docente)","desc":"Disciplinas regulares EAD COM DOCENTE (com professor atribuído).","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/COMUM_2026_3.html"},{"id":"2026-3-ead-comum-sd","chave":"ead-comum-sd","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum - Sem Docente (SD)","desc":"Disciplinas regulares EAD SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/COMUM_SD_2026_3.html"},{"id":"2026-3-ead-pi","chave":"ead-pi","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - PI (Com Docente)","desc":"Projeto Integrador EAD COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_2026_3.html"},{"id":"2026-3-ead-pi-sd","chave":"ead-pi-sd","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - Sem Docente (PI SD)","desc":"Projeto Integrador EAD SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_SD_2026_3.html"},{"id":"2026-3-ead-ativ-unica","chave":"ead-ativ-unica","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Atividade Única de Entrega (Jogos / Lab. Contábil)","desc":"Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).","tags":["ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ATIVIDADE_UNICA_2026_3.html"},{"id":"2026-3-ead-tcc","chave":"ead-tcc","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"TCC Geral EAD","desc":"TCC EAD geral (exceto cursos que têm agenda própria em Exceções).","tags":["TCC"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_2026_3.html"},{"id":"2026-3-ead-eletiva","chave":"ead-eletiva","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD (Com Docente)","desc":"Disciplinas Eletivas EAD COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_2026_3.html"},{"id":"2026-3-ead-eletiva-sd","chave":"ead-eletiva-sd","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD - Sem Docente (SD)","desc":"Disciplinas Eletivas EAD SEM DOCENTE (SD).","tags":["ELETIVA","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_SD_2026_3.html"},{"id":"2026-3-ead-extensao","chave":"ead-extensao","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD (Com Docente)","desc":"Curricularização da Extensão EAD COM DOCENTE.","tags":["EXTENSAO","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/EXTENSÃO_EAD_2026_3.html"},{"id":"2026-3-ead-extensao-sd","chave":"ead-extensao-sd","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD - Sem Docente (SD)","desc":"Curricularização da Extensão EAD SEM DOCENTE (SD).","tags":["EXTENSAO","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/EXTENSÃO_EAD_SD_2026_3.html"},{"id":"2026-3-ead-proj-extensao","chave":"ead-proj-extensao","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto de Extensão","desc":"Disciplina específica de Projeto de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PROJETO_DE_EXTENSÃO_2026_3.html"},{"id":"2026-3-ead-pi-avc","chave":"ead-pi-avc","periodo":"2026-3","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador AVC (PI AVC)","desc":"Projeto Integrador modelo AVC.","tags":["PI"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PI_AVC_2026_3.html"},{"id":"2026-3-web-comum","chave":"web-comum","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Comum (Com Docente)","desc":"Disciplinas Web Presencial regulares COM DOCENTE.","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_2026_2.html"},{"id":"2026-3-web-comum-sd","chave":"web-comum-sd","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - Sem Docente (SD)","desc":"Disciplinas Web Presencial regulares SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_SD_2026_2.html"},{"id":"2026-3-web-pi","chave":"web-pi","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - Projeto Integrador (Com Docente)","desc":"Projeto Integrador Web Presencial COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_2026_2.html"},{"id":"2026-3-web-pi-sd","chave":"web-pi-sd","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - PI Sem Docente (SD)","desc":"Projeto Integrador Web Presencial SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_SD_2026_2.html"},{"id":"2026-3-web-ensalados","chave":"web-ensalados","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Ensalados","desc":"Alunos que entraram depois da Web regular (prorrogação de atividade). Obs. da planilha: Alunos que entrou posterior a web regular (prorrogação atividade)","tags":["COMUM"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_ENSALADOS_2026_2.html"},{"id":"2026-3-web-eletiva","chave":"web-eletiva","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Eletiva","desc":"Disciplinas Eletivas da modalidade Web Presencial.","tags":["ELETIVA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PRESENCIAL_ELETIVA_2026_2.html"},{"id":"2026-3-web-extensao","chave":"web-extensao","periodo":"2026-3","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Extensão","desc":"Disciplinas de Extensão da modalidade Web Presencial.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_EXTENSÃO_2026_2.html"},{"id":"2026-3-adapdp-dp","chave":"adapdp-dp","periodo":"2026-3","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"DP Regular (Dependência)","desc":"Disciplinas em regime de Dependência (DP).","tags":["ADAP_DP"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/DP_2026_3.html"},{"id":"2026-3-adapdp-adap","chave":"adapdp-adap","periodo":"2026-3","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP Regular (Adaptação)","desc":"Disciplinas em regime de Adaptação (ADAP).","tags":["ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_2026_3.html"},{"id":"2026-3-adapdp-jogos","chave":"adapdp-jogos","periodo":"2026-3","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP/DP - Jogos de Empresa","desc":"Jogos de Empresa em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_DP_2026_3_JOGOS_DE_EMPRESA.html"},{"id":"2026-3-adapdp-pi","chave":"adapdp-pi","periodo":"2026-3","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP - Projeto Integrador (PI)","desc":"Projeto Integrador em regime de Adaptação/DP.","tags":["ADAP_DP","PI"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_PI_2026_3.html"},{"id":"2026-3-adapdp-ativ-unica","chave":"adapdp-ativ-unica","periodo":"2026-3","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"Atividade Única - ADAP/DP","desc":"Disciplinas de entrega única em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ATIVIDADE_UNICA_ADAP_DP_2026_3.html"},{"id":"2026-3-totvs-adap","chave":"totvs-adap","periodo":"2026-3","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"ADAP TOTVS (Entrada Posterior)","desc":"Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ADAP_TOTVS_2026_3.html"},{"id":"2026-3-totvs-dp","chave":"totvs-dp","periodo":"2026-3","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"DP TOTVS (Entrada Posterior)","desc":"Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/DP_TOTVS_2026_3.html"},{"id":"2026-3-totvs-web-pi-sd","chave":"totvs-web-pi-sd","periodo":"2026-3","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB PI - Sem Docente (SD) TOTVS","desc":"Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_PI_SD_TOTVS_2026_3.html"},{"id":"2026-3-totvs-web-sd","chave":"totvs-web-sd","periodo":"2026-3","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB Comum - Sem Docente (SD) TOTVS","desc":"Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_SD_TOTVS_2026_3.html"},{"id":"2026-3-exc-estetica","chave":"exc-estetica","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Estética (Exceção)","desc":"Agenda específica do curso de Estética.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ESTETICA_2026_3.html"},{"id":"2026-3-exc-paralela","chave":"exc-paralela","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Paralela Especial","desc":"Agenda específica para turmas de Paralela Especial.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PARALELA_ESPECIAL_2026_3.html"},{"id":"2026-3-exc-enade","chave":"exc-enade","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"ENADE","desc":"Agenda específica para disciplinas vinculadas ao ENADE.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ENADE_2026.html"},{"id":"2026-3-exc-prousa","chave":"exc-prousa","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"PROUSA","desc":"Agenda específica do programa PROUSA.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/PROUSA_2026_2.html"},{"id":"2026-3-exc-tcc-artes","chave":"exc-tcc-artes","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Artes Visuais","desc":"TCC específico do curso de Artes Visuais.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ARTES_VISUAIS_2026_3.html"},{"id":"2026-3-exc-tcc-arq","chave":"exc-tcc-arq","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Arquitetura e Urbanismo","desc":"TCC específico do curso de Arquitetura e Urbanismo.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ARQUITETURA_URBANISMO_2026_3.html"},{"id":"2026-3-exc-tcc-eng-amb","chave":"exc-tcc-eng-amb","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Engenharia Ambiental e Química","desc":"TCC específico para Engenharias Ambiental e Química.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ENGENHARIA_AMB_QUIM_2026_3.html"},{"id":"2026-3-exc-jogos-reg","chave":"exc-jogos-reg","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Jogos de Empresa Regular (Datas da Coordenação)","desc":"Jogos de Empresa regular. Datas estipuladas pela coordenação.","tags":["ATIVIDADE_UNICA","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/JOGOS_DE_EMPRESA_REGULAR_2026_3.html"},{"id":"2026-3-exc-enade-pratica","chave":"exc-enade-pratica","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"ENADE Avaliação da Prática","desc":"Agenda específica para Avaliação da Prática ENADE.","tags":["ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ENADE_AVALIÇÃO_DA_PRÁTICA_2026_2.html"},{"id":"2026-3-exc-tcc-edfis-bach","chave":"exc-tcc-edfis-bach","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Educação Física Bacharelado EAD","desc":"TCC específico de Educação Física (Bacharelado) EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ED_FÍSICA_BARCH_EAD_2026_3.html"},{"id":"2026-3-exc-tcc-edfis-lic","chave":"exc-tcc-edfis-lic","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Educação Física Licenciatura EAD","desc":"TCC específico de Educação Física (Licenciatura) EAD.","tags":["TCC","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/TCC_ED_FÍSICA_LICEN_EAD_2026_3.html"},{"id":"2026-3-exc-eletiva","chave":"exc-eletiva","periodo":"2026-3","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Eletiva (Exceções)","desc":"Agenda de Eletiva listada em Exceções (arquivo ELETIVA_-_). Confirmar com o responsável quando usar.","tags":["ELETIVA","ENADE_EXCECAO"],"status":"PENDENTE","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/ELETIVA_-_2026_3.html"},{"id":"2026-3-aovivo-extensao","chave":"aovivo-extensao","periodo":"2026-3","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Ao Vivo - Extensão","desc":"Página de transmissão das Aulas Ao Vivo de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"},{"id":"2026-3-aovivo-gestao21h","chave":"aovivo-gestao21h","periodo":"2026-3","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Aula Aprofundamento Gestão (21h)","desc":"Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"},{"id":"2026-3-aovivo-webcoord","chave":"aovivo-webcoord","periodo":"2026-3","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Webcoordenação","desc":"Página de encontros ao vivo da Webcoordenação do trimestre.","tags":["COMUM"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/PAGINA_WEBCOORDENACAO_2026_3.html"},{"id":"2026-3-aovivo-gestao-enade","chave":"aovivo-gestao-enade","periodo":"2026-3","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Gestão Empreendedora ENADE","desc":"Publicar aqui as aulas ENADE de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"},{"id":"2026-2-ead-comum","chave":"ead-comum","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum (Com Docente)","desc":"Disciplinas regulares EAD COM DOCENTE (com professor atribuído).","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/COMUM_2026_2.html"},{"id":"2026-2-ead-comum-sd","chave":"ead-comum-sd","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum - Sem Docente (SD)","desc":"Disciplinas regulares EAD SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/COMUM_SD_2026_2.html"},{"id":"2026-2-ead-pi","chave":"ead-pi","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - PI (Com Docente)","desc":"Projeto Integrador EAD COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PI_2026_2.html"},{"id":"2026-2-ead-pi-sd","chave":"ead-pi-sd","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - Sem Docente (PI SD)","desc":"Projeto Integrador EAD SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PI_SD_2026_2.html"},{"id":"2026-2-ead-tcc","chave":"ead-tcc","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"TCC Geral EAD","desc":"TCC EAD geral (exceto cursos que têm agenda própria em Exceções).","tags":["TCC"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/TCC_2026_2.html"},{"id":"2026-2-ead-eletiva","chave":"ead-eletiva","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD (Com Docente)","desc":"Disciplinas Eletivas EAD COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_2026_2.html"},{"id":"2026-2-ead-eletiva-sd","chave":"ead-eletiva-sd","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD - Sem Docente (SD)","desc":"Disciplinas Eletivas EAD SEM DOCENTE (SD).","tags":["ELETIVA","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_SD_2026_2.html"},{"id":"2026-2-ead-extensao","chave":"ead-extensao","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD (Com Docente)","desc":"Curricularização da Extensão EAD COM DOCENTE.","tags":["EXTENSAO","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/EXTENSÃO_EAD_2026_2.html"},{"id":"2026-2-ead-extensao-sd","chave":"ead-extensao-sd","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD - Sem Docente (SD)","desc":"Curricularização da Extensão EAD SEM DOCENTE (SD).","tags":["EXTENSAO","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/EXTENSÃO_SD_EAD.html"},{"id":"2026-2-ead-ativ-unica","chave":"ead-ativ-unica","periodo":"2026-2","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Atividade Única de Entrega (Jogos / Lab. Contábil)","desc":"Para disciplinas de atividade única de entrega (Jogos de Empresa, Laboratório Contábil etc.).","tags":["ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ATIVIDADE_UNICA_2026_2.html"},{"id":"2026-2-adapdp-dp","chave":"adapdp-dp","periodo":"2026-2","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"DP Regular (Dependência)","desc":"Disciplinas em regime de Dependência (DP).","tags":["ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_2026_2.html"},{"id":"2026-2-adapdp-adap","chave":"adapdp-adap","periodo":"2026-2","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP Regular (Adaptação)","desc":"Disciplinas em regime de Adaptação (ADAP).","tags":["ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_2026_2.html"},{"id":"2026-2-adapdp-pi","chave":"adapdp-pi","periodo":"2026-2","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP - Projeto Integrador (PI)","desc":"Projeto Integrador em regime de Adaptação/DP.","tags":["ADAP_DP","PI"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_PI_2026_2.html"},{"id":"2026-2-adapdp-jogos","chave":"adapdp-jogos","periodo":"2026-2","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP/DP - Jogos de Empresa","desc":"Jogos de Empresa em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_DP_2026_2_JOGOS_DE_EMPRESA.html"},{"id":"2026-2-adapdp-ativ-unica","chave":"adapdp-ativ-unica","periodo":"2026-2","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"Atividade Única - ADAP/DP","desc":"Disciplinas de entrega única em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ATIVIDADE_UNICA_ADAP_DP_2026_2.html"},{"id":"2026-2-totvs-adap","chave":"totvs-adap","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"ADAP TOTVS (Entrada Posterior)","desc":"Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ADAP_TOTVS_2026_2.html"},{"id":"2026-2-totvs-dp","chave":"totvs-dp","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"DP TOTVS (Entrada Posterior)","desc":"Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_TOTVS_2026_2.html"},{"id":"2026-2-totvs-web-pi-sd","chave":"totvs-web-pi-sd","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB PI - Sem Docente (SD) TOTVS","desc":"Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/WEB_PI_SD_TOTVS_2026_2.html"},{"id":"2026-2-totvs-web-sd","chave":"totvs-web-sd","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB Comum - Sem Docente (SD) TOTVS","desc":"Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/WEB_SD_TOTVS_2026_2.html"},{"id":"2026-2-totvs-dp-adap","chave":"totvs-dp-adap","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"DP/ADAP TOTVS (Entrada Posterior)","desc":"Disciplinas DP/ADAP TOTVS que entraram depois da regular.","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/DP_ADAP_TOTVS_2026_2.HTML"},{"id":"2026-2-totvs-pi-estagio","chave":"totvs-pi-estagio","periodo":"2026-2","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"Projeto Integrador / Estágio TOTVS","desc":"Projeto Integrador - Estágio para turmas TOTVS.","tags":["TOTVS","PI","TCC"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PROJETO_INTEGRADOR_-_ESTAGIO_TOTVS_2026_2.html"},{"id":"2026-2-exc-eletiva-pres","chave":"exc-eletiva-pres","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Eletiva Presencial (Com Docente)","desc":"Disciplinas Eletivas Presenciais COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE","ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/ELETIVA_PRESENCIAL_2026_2.html"},{"id":"2026-2-exc-paralela","chave":"exc-paralela","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Paralela Especial","desc":"Agenda específica para turmas de Paralela Especial.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PARALELA_ESPECIAL_2026_2.html"},{"id":"2026-2-exc-jogos-reg","chave":"exc-jogos-reg","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Jogos de Empresa Regular (Datas da Coordenação)","desc":"Jogos de Empresa regular. Datas estipuladas pela coordenação.","tags":["ATIVIDADE_UNICA","ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/JOGOS_DE_EMPRESA_REGULAR_2026_2.html"},{"id":"2026-2-exc-prousa","chave":"exc-prousa","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"PROUSA","desc":"Agenda específica do programa PROUSA.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/PROUSA_2026_2.html"},{"id":"2026-2-exc-tcc-eng-amb","chave":"exc-tcc-eng-amb","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"TCC Engenharia Ambiental e Química","desc":"TCC específico para Engenharias Ambiental e Química.","tags":["TCC","ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/TCC_ENGENHARIA_AMB_QUIM_2026_2.html"},{"id":"2026-2-exc-arq-artes","chave":"exc-arq-artes","periodo":"2026-2","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Arquitetura e Urbanismo / Artes Visuais","desc":"Agenda específica de Arquitetura e Urbanismo e Artes Visuais.","tags":["TCC","ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_2/arquitetura_e_urbanismo_artes_visuais.html"},{"id":"2026-2-aovivo-extensao","chave":"aovivo-extensao","periodo":"2026-2","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Ao Vivo - Extensão","desc":"Página de transmissão das Aulas Ao Vivo de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"},{"id":"2026-2-aovivo-gestao21h","chave":"aovivo-gestao21h","periodo":"2026-2","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Aula Aprofundamento Gestão (21h)","desc":"Publicar aqui as gravações das aulas das 21:00 de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/AULA_APROFUNDAMENTO_GESTAO_21_HORAS_2026.html"},{"id":"2026-2-aovivo-gestao-enade","chave":"aovivo-gestao-enade","periodo":"2026-2","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Gestão Empreendedora ENADE","desc":"Publicar aqui as aulas ENADE de Gestão Empreendedora.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/GESTAO_EMPREENDEDORA_ENADE_2026"},{"id":"2026-1-ead-comum","chave":"ead-comum","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum (Com Docente)","desc":"Disciplinas regulares EAD COM DOCENTE (com professor atribuído).","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/COMUM_2026_1.html"},{"id":"2026-1-ead-comum-sd","chave":"ead-comum-sd","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"EAD Comum - Sem Docente (SD)","desc":"Disciplinas regulares EAD SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/COMUM_SD_2026_1.html"},{"id":"2026-1-ead-pi","chave":"ead-pi","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - PI (Com Docente)","desc":"Projeto Integrador EAD COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PI_2026_1.html"},{"id":"2026-1-ead-pi-sd","chave":"ead-pi-sd","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Projeto Integrador - Sem Docente (PI SD)","desc":"Projeto Integrador EAD SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PI_SD_2026_1.html"},{"id":"2026-1-ead-tcc","chave":"ead-tcc","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"TCC Geral EAD","desc":"TCC EAD geral (exceto cursos que têm agenda própria em Exceções).","tags":["TCC"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/TCC_2026_1.html"},{"id":"2026-1-ead-eletiva","chave":"ead-eletiva","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD (Com Docente)","desc":"Disciplinas Eletivas EAD COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_2026_1.html"},{"id":"2026-1-ead-eletiva-sd","chave":"ead-eletiva-sd","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Eletiva EAD - Sem Docente (SD)","desc":"Disciplinas Eletivas EAD SEM DOCENTE (SD).","tags":["ELETIVA","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_SD_2026_1.html"},{"id":"2026-1-ead-extensao","chave":"ead-extensao","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD (Com Docente)","desc":"Curricularização da Extensão EAD COM DOCENTE.","tags":["EXTENSAO","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/EXTENSÃO_EAD_2026_1.html"},{"id":"2026-1-ead-extensao-sd","chave":"ead-extensao-sd","periodo":"2026-1","grupo":"AGENDAS EAD","ciclo":"TRIMESTRAL","nome":"Extensão EAD - Sem Docente (SD)","desc":"Curricularização da Extensão EAD SEM DOCENTE (SD).","tags":["EXTENSAO","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/EXTENSÃO_SD_EAD.html"},{"id":"2026-1-web-ensalados","chave":"web-ensalados","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Ensalados","desc":"Alunos que entraram depois da Web regular (prorrogação de atividade).","tags":["COMUM"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_ENSALADOS_2026_1.html"},{"id":"2026-1-web-comum","chave":"web-comum","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Comum (Com Docente)","desc":"Disciplinas Web Presencial regulares COM DOCENTE.","tags":["COMUM","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_2026_1.html"},{"id":"2026-1-web-comum-sd","chave":"web-comum-sd","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - Sem Docente (SD)","desc":"Disciplinas Web Presencial regulares SEM DOCENTE (SD).","tags":["COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_SD_2026_1.html"},{"id":"2026-1-web-pi-sd","chave":"web-pi-sd","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - PI Sem Docente (SD)","desc":"Projeto Integrador Web Presencial SEM DOCENTE (SD).","tags":["PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_SD_2026_1.html"},{"id":"2026-1-web-pi","chave":"web-pi","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial - Projeto Integrador (Com Docente)","desc":"Projeto Integrador Web Presencial COM DOCENTE.","tags":["PI","COM_DOCENTE"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_2026_1.html"},{"id":"2026-1-web-eletiva","chave":"web-eletiva","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Eletiva","desc":"Disciplinas Eletivas da modalidade Web Presencial.","tags":["ELETIVA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PRESENCIAL_ELETIVA_2026_1.html"},{"id":"2026-1-web-extensao","chave":"web-extensao","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Presencial Extensão","desc":"Disciplinas de Extensão da modalidade Web Presencial.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_EXTENSÃO_2026_1.html"},{"id":"2026-1-web-especial-presencial","chave":"web-especial-presencial","periodo":"2026-1","grupo":"AGENDAS WEB PRESENCIAL","ciclo":"SEMESTRAL","nome":"Web Especial Presencial","desc":"Agenda Web Especial Presencial.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_ESPECIAL_PRESENCIAL_2026_1.html"},{"id":"2026-1-adapdp-dp","chave":"adapdp-dp","periodo":"2026-1","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"DP Regular (Dependência)","desc":"Disciplinas em regime de Dependência (DP).","tags":["ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/DP_2026_1.html"},{"id":"2026-1-adapdp-adap","chave":"adapdp-adap","periodo":"2026-1","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP Regular (Adaptação)","desc":"Disciplinas em regime de Adaptação (ADAP).","tags":["ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_2026_1.html"},{"id":"2026-1-adapdp-pi","chave":"adapdp-pi","periodo":"2026-1","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP - Projeto Integrador (PI)","desc":"Projeto Integrador em regime de Adaptação/DP.","tags":["ADAP_DP","PI"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_PI_2026_1.html"},{"id":"2026-1-adapdp-jogos","chave":"adapdp-jogos","periodo":"2026-1","grupo":"AGENDAS ADAP/DP","ciclo":"TRIMESTRAL","nome":"ADAP/DP - Jogos de Empresa","desc":"Jogos de Empresa em regime de Adaptação ou Dependência.","tags":["ADAP_DP","ATIVIDADE_UNICA"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_DP_2026_1_JOGOS_DE_EMPRESA.html"},{"id":"2026-1-totvs-adap","chave":"totvs-adap","periodo":"2026-1","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"ADAP TOTVS (Entrada Posterior)","desc":"Disciplinas ADAP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ADAP_TOTVS_2026_1.html"},{"id":"2026-1-totvs-dp","chave":"totvs-dp","periodo":"2026-1","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"DP TOTVS (Entrada Posterior)","desc":"Disciplinas DP TOTVS que entraram depois da regular (prorrogação de atividade).","tags":["TOTVS","ADAP_DP"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/DP_TOTVS_2026_1.html"},{"id":"2026-1-totvs-web-pi-sd","chave":"totvs-web-pi-sd","periodo":"2026-1","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB PI - Sem Docente (SD) TOTVS","desc":"Web Presencial PI SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","PI","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_PI_SD_TOTVS_2026_1.html"},{"id":"2026-1-totvs-web-sd","chave":"totvs-web-sd","periodo":"2026-1","grupo":"AGENDAS TOTVS","ciclo":"TRIMESTRAL","nome":"WEB Comum - Sem Docente (SD) TOTVS","desc":"Web Presencial regular SEM DOCENTE (SD) para turmas TOTVS que entraram depois.","tags":["TOTVS","COMUM","SD"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/WEB_SD_TOTVS_2026_1.html"},{"id":"2026-1-exc-eletiva-pres","chave":"exc-eletiva-pres","periodo":"2026-1","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Eletiva Presencial (Com Docente)","desc":"Disciplinas Eletivas Presenciais COM DOCENTE.","tags":["ELETIVA","COM_DOCENTE","ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ELETIVA_PRESENCIAL_2026_1.html"},{"id":"2026-1-exc-paralela","chave":"exc-paralela","periodo":"2026-1","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"Paralela Especial","desc":"Agenda específica para turmas de Paralela Especial.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PARALELA_ESPECIAL_2026_1.html"},{"id":"2026-1-exc-prousa","chave":"exc-prousa","periodo":"2026-1","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"PROUSA","desc":"Agenda específica do programa PROUSA.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/PROUSA_2026_1.html"},{"id":"2026-1-exc-enade","chave":"exc-enade","periodo":"2026-1","grupo":"AGENDAS EXCEÇÕES","ciclo":"TRIMESTRAL","nome":"ENADE","desc":"Agenda específica para disciplinas vinculadas ao ENADE.","tags":["ENADE_EXCECAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_1/ENADE_2026_1.html"},{"id":"2026-1-aovivo-extensao","chave":"aovivo-extensao","periodo":"2026-1","grupo":"PÁGINAS DE AULAS AO VIVO","ciclo":"TRIMESTRAL","nome":"Página Ao Vivo - Extensão","desc":"Página de transmissão das Aulas Ao Vivo de Extensão.","tags":["EXTENSAO"],"status":"OK","url":"https://eadunisaoficial.github.io/agendaunisaoficial/PAGINA_AO_VIVO/aovivoextensao.html"}]};
+
+    // ===================== ESTADO =====================
+    let publicado = null;      // o que a equipe vê
+    let origemDados = "";      // "json" | "embutido"
+    let db = null;             // dados em uso na tela
+    let isAdmin = false;
+    let wizardState = { periodo: null, grupo: "TODOS", tags: [] };
+    let currentPreviewAgenda = null;
+    let resultadoLinks = {};   // url -> {estado, status, modificado}
+    let ultimaConferencia = [];
+
+    // ===================== UTILITÁRIOS =====================
+    const clone = (o) => JSON.parse(JSON.stringify(o));
+    function escapeHtml(str) {
+      return String(str ?? '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    // Argumento seguro para onclick="fn(...)"
+    const arg = (v) => escapeHtml(JSON.stringify(v));
+    function semAcento(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase(); }
+    function slug(s) { return semAcento(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); }
+    function tokenPeriodo(p) { return String(p).replace('-', '_'); }
+    function periodoValido(p) { return /^\d{4}-[1-4]$/.test(p); }
+    function ordenarPeriodos(lista) {
+      return [...new Set(lista)].sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+    }
+    function nomeArquivo(url) { return String(url || '').replace(BASE_GITHUB_URL, ''); }
+    function normalizarUrl(u) {
+      let s = String(u || '').trim();
+      try { s = decodeURI(s); } catch (e) {}
+      return semAcento(s).replace(/^HTTPS?:\/\//, '').replace(/[?#].*$/, '').replace(/\/+$/, '');
+    }
+    function urlParaCopiar(u) {
+      try { return encodeURI(decodeURI(u)); } catch (e) { return u; }
+    }
+    function formatarData(iso) {
+      if (!iso) return '-';
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+    function tagLabel(id) { const t = AVAILABLE_TAGS.find(x => x.id === id); return t ? t.label : id; }
+
+    // ---- Regra das agendas WEB Presencial (ciclo SEMESTRAL) ----
+    // São usadas SOMENTE no 1º trimestre (início em janeiro, arquivo termina _AAAA_1)
+    // e no 3º trimestre (início em julho, arquivo termina _AAAA_2).
+    // No 2º e no 4º trimestre NÃO existem agendas WEB.
+    const ano = (p) => String(p).split('-')[0];
+    const trimestre = (p) => Number(String(p).split('-')[1]);
+    const semestreDe = (p) => trimestre(p) <= 2 ? 1 : 2;
+    const tokenSemestre = (p) => `${ano(p)}_${semestreDe(p)}`;
+    const inicioSemestre = (p) => `${ano(p)}-${semestreDe(p) === 1 ? 1 : 3}`;
+    const fimSemestre = (p) => `${ano(p)}-${semestreDe(p) === 1 ? 2 : 4}`;
+    const ehSemestral = (a) => a.ciclo === 'SEMESTRAL';
+
+    // Agendas válidas em um trimestre: as do próprio trimestre + as semestrais herdadas do 1º/3º trimestre
+    const temWeb = (p) => inicioSemestre(p) === p; // 1º ou 3º trimestre
+    const mesInicio = (p) => trimestre(p) === 1 ? 'janeiro' : 'julho';
+    function agendasDoPeriodo(p) { return db.agendas.filter(a => a.periodo === p); }
+    function valeNoPeriodo(a, p) { return agendasDoPeriodo(p).some(x => x.id === a.id); }
+
+    // Nome-base do arquivo, sem trimestre/semestre: identifica a "mesma" agenda entre períodos
+    function baseDoArquivo(url) {
+      let f = String(url || '').replace(/[?#].*$/, '').replace(/^.*\//, '').replace(/\.html?$/i, '');
+      try { f = decodeURI(f); } catch (e) {}
+      f = semAcento(f);
+      if (/^ELETIVA_-_\d{4}_\d$/.test(f)) return 'ELETIVA_EXC';
+      return f.replace(/_\d{4}_[1-4]/g, '').replace(/_\d{4}$/, '').replace(/[_-]+$/, '');
+    }
+    function ehSD(a) { return (a.tags || []).includes('SD') || /_SD(_|\.|$)/i.test(nomeArquivo(a.url)); }
+
+    // Garante formato v3 em qualquer dado carregado (inclusive versão antiga)
+    function normalizarBanco(d) {
+      const b = clone(d || {});
+      b.versao = 3;
+      b.agendas = Array.isArray(b.agendas) ? b.agendas : [];
+      b.grupos = Array.isArray(b.grupos) ? b.grupos : [];
+      b.agendas.forEach(a => {
+        a.tags = Array.isArray(a.tags) ? a.tags : [];
+        if (a.ciclo !== 'SEMESTRAL') a.ciclo = 'TRIMESTRAL';
+        if (!a.chave) a.chave = String(a.id || '').replace(/^\d{4}-[1-4]-/, '') || slug(a.nome);
+        if (!a.id) a.id = `${a.periodo}-${a.chave}`;
+        if (!b.grupos.includes(a.grupo)) b.grupos.push(a.grupo);
+      });
+      b.periodos = ordenarPeriodos([...(Array.isArray(b.periodos) ? b.periodos : []), ...b.agendas.map(a => a.periodo)]);
+      if (!b.periodoAtual || !b.periodos.includes(b.periodoAtual)) b.periodoAtual = b.periodos[0] || '';
+      return b;
+    }
+
+    // ===================== CARREGAMENTO =====================
+    async function carregarPublicado() {
+      try {
+        const res = await fetch(ARQUIVO_DADOS + '?v=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const dados = await res.json();
+        if (!dados || !Array.isArray(dados.agendas)) throw new Error('formato inválido');
+        origemDados = 'json';
+        return normalizarBanco(dados);
+      } catch (e) {
+        console.info('agendas.json indisponível, usando dados embutidos:', e.message);
+        origemDados = 'embutido';
+        return normalizarBanco(DADOS_EMBUTIDOS || { periodos: [], grupos: [], agendas: [] });
+      }
+    }
+
+    function lerRascunho() {
+      try {
+        const r = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO) || 'null');
+        return (r && r.db && Array.isArray(r.db.agendas)) ? r : null;
+      } catch (e) { return null; }
+    }
+    function salvarRascunho() {
+      try {
+        const atual = lerRascunho();
+        const base = atual ? atual.base : (publicado.atualizadoEm || null);
+        localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify({ base, db }));
+      } catch (e) { showToast('Não foi possível salvar o rascunho neste navegador.', 'warn'); }
+      atualizarFaixas();
+    }
+    function apagarRascunho() { try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {} }
+    function temAlteracoes() { return isAdmin && JSON.stringify(db) !== JSON.stringify(publicado); }
+
+    // Chamada após toda alteração feita pelo admin
+    function persistir() { if (isAdmin) salvarRascunho(); }
+
+    async function initApp() {
+      publicado = await carregarPublicado();
+      try { isAdmin = sessionStorage.getItem(CHAVE_SESSAO_ADMIN) === '1'; } catch (e) { isAdmin = false; }
+      definirDadosDaTela();
+      wizardState.periodo = db.periodoAtual;
+      aplicarModo();
+      switchTab('consulta');
+      renderTudo();
+    }
+
+    function definirDadosDaTela() {
+      db = clone(publicado);
+      if (!isAdmin) return;
+      const r = lerRascunho();
+      if (!r) return;
+      const rasc = normalizarBanco(r.db);
+      // Rascunho já publicado (mesma versão no GitHub): pode descartar
+      if (rasc.atualizadoEm && publicado.atualizadoEm && rasc.atualizadoEm <= publicado.atualizadoEm && JSON.stringify(rasc.agendas) === JSON.stringify(publicado.agendas)) {
+        apagarRascunho();
+        return;
+      }
+      db = rasc;
+      if (r.base && publicado.atualizadoEm && publicado.atualizadoEm > r.base) {
+        showToast('Atenção: a versão publicada mudou depois que você começou este rascunho. Confira antes de publicar.', 'warn', 8000);
+      }
+    }
+
+    function renderTudo() {
+      populateSelectsAndWizard();
+      renderCards();
+      renderFormTagsCheckboxes();
+      renderAdminLists();
+      renderDiagnostico();
+      updateSmartUrlPreview();
+      atualizarFaixas();
+    }
+
+    function atualizarFaixas() {
+      const t = document.getElementById('faixaDadosTexto');
+      if (origemDados === 'json') {
+        t.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Dados publicados em <strong>${escapeHtml(formatarData(publicado.atualizadoEm))}</strong> · Período atual da equipe: <strong>${escapeHtml(publicado.periodoAtual)}</strong>`;
+      } else {
+        t.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i> Não foi possível ler o <code>${ARQUIVO_DADOS}</code>. Usando dados embutidos de <strong>${escapeHtml(formatarData(publicado.atualizadoEm))}</strong> (podem estar desatualizados). Abra o painel pelo link do GitHub Pages.`;
+      }
+      document.getElementById('faixaModoTexto').innerHTML = isAdmin
+        ? '<span class="text-amber-300"><i class="fa-solid fa-lock-open"></i> Modo Administrador</span>'
+        : '<i class="fa-solid fa-users"></i> Modo Equipe (somente consulta)';
+      const faixa = document.getElementById('faixaRascunho');
+      if (temAlteracoes()) {
+        const n = contarDiferencas();
+        document.getElementById('faixaRascunhoTexto').innerText = `Rascunho com ${n} alteração(ões) ainda NÃO publicada(s). A equipe ainda vê a versão anterior.`;
+        faixa.classList.remove('hidden');
+      } else faixa.classList.add('hidden');
+      let antigo = null; try { antigo = localStorage.getItem(CHAVE_VERSAO_ANTIGA); } catch (e) {}
+      document.getElementById('btnImportarAntigo').classList.toggle('hidden', !antigo);
+    }
+
+    function contarDiferencas() {
+      const mapa = (lista) => Object.fromEntries(lista.map(a => [a.id, JSON.stringify(a)]));
+      const A = mapa(publicado.agendas), B = mapa(db.agendas);
+      let n = 0;
+      new Set([...Object.keys(A), ...Object.keys(B)]).forEach(k => { if (A[k] !== B[k]) n++; });
+      if (JSON.stringify(publicado.grupos) !== JSON.stringify(db.grupos)) n++;
+      if (JSON.stringify(publicado.periodos) !== JSON.stringify(db.periodos)) n++;
+      if (publicado.periodoAtual !== db.periodoAtual) n++;
+      return Math.max(n, 1);
+    }
+
+    // ===================== MODO ADMIN =====================
+    function aplicarModo() {
+      document.body.classList.toggle('modo-admin', isAdmin);
+      const btn = document.getElementById('btnModo');
+      btn.innerHTML = isAdmin ? '<i class="fa-solid fa-right-from-bracket"></i><span>Sair do Admin</span>' : '<i class="fa-solid fa-lock"></i><span>Entrar como Admin</span>';
+    }
+
+    async function toggleAdminMode() {
+      if (isAdmin) {
+        if (temAlteracoes()) {
+          const ok = await askConfirm('Sair do modo administrador?', 'Seu rascunho continua salvo neste navegador, mas a equipe só verá as alterações depois de publicar.', 'Sair');
+          if (!ok) return;
+        }
+        isAdmin = false;
+        try { sessionStorage.removeItem(CHAVE_SESSAO_ADMIN); } catch (e) {}
+        definirDadosDaTela();
+        aplicarModo();
+        if (!document.getElementById('tab-admin').classList.contains('hidden')) switchTab('consulta');
+        renderTudo();
+        return;
+      }
+      const senha = await askInput('Entrar como administrador', 'Digite a senha de administrador. Esse modo permite editar, liberar e excluir agendas.');
+      if (senha === null) return;
+      if (senha !== SENHA_ADMIN) { showToast('Senha incorreta.', 'warn'); return; }
+      isAdmin = true;
+      try { sessionStorage.setItem(CHAVE_SESSAO_ADMIN, '1'); } catch (e) {}
+      definirDadosDaTela();
+      aplicarModo();
+      renderTudo();
+      showToast('Modo administrador ativado.', 'success');
+    }
+
+    function exigirAdmin() {
+      if (!isAdmin) { showToast('Somente o administrador pode alterar agendas.', 'warn'); return false; }
+      return true;
+    }
+
+    // ===================== MODAL =====================
+    function abrirModal({ titulo, texto, input = false, okTexto = 'Confirmar', perigo = false }) {
+      return new Promise(resolve => {
+        const m = document.getElementById('modal');
+        const inp = document.getElementById('modalInput');
+        const ok = document.getElementById('modalOk');
+        const cancel = document.getElementById('modalCancelar');
+        document.getElementById('modalTitulo').innerText = titulo;
+        document.getElementById('modalTexto').innerHTML = texto;
+        inp.value = '';
+        inp.classList.toggle('hidden', !input);
+        ok.innerText = okTexto;
+        ok.className = `px-5 py-2 rounded-xl text-white text-sm font-extrabold ${perigo ? 'bg-rose-600 hover:bg-rose-500' : 'bg-unisa hover:bg-unisa-light'}`;
+        m.classList.remove('hidden');
+        if (input) setTimeout(() => inp.focus(), 50);
+        const fechar = (valor) => {
+          m.classList.add('hidden');
+          ok.onclick = cancel.onclick = null; inp.onkeydown = null;
+          resolve(valor);
+        };
+        ok.onclick = () => fechar(input ? inp.value : true);
+        cancel.onclick = () => fechar(input ? null : false);
+        inp.onkeydown = (e) => { if (e.key === 'Enter') fechar(inp.value); if (e.key === 'Escape') fechar(null); };
+      });
+    }
+    const askConfirm = (titulo, texto, okTexto = 'Confirmar', perigo = false) => abrirModal({ titulo, texto, okTexto, perigo });
+    const askInput = (titulo, texto) => abrirModal({ titulo, texto, input: true, okTexto: 'Entrar' });
+
+    // ===================== ABAS =====================
+    function switchTab(tabId) {
+      if (tabId === 'admin' && !isAdmin) tabId = 'consulta';
+      ['consulta', 'conferir', 'admin', 'manual'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`tabBtn-${t}`);
+        btn.className = "tab-btn flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-blue-100 hover:bg-white/10" + (t === 'admin' ? ' so-admin' : '');
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tabBtn-${tabId}`).className = "tab-btn flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-white text-unisa shadow" + (tabId === 'admin' ? ' so-admin' : '');
+    }
+
+    // ===================== CONSULTA =====================
+    function populateSelectsAndWizard() {
+      if (!db.periodos.includes(wizardState.periodo)) wizardState.periodo = db.periodoAtual;
+      if (wizardState.grupo !== 'TODOS' && !db.grupos.includes(wizardState.grupo)) wizardState.grupo = 'TODOS';
+      const rotulo = (p) => p === db.periodoAtual ? `${p} (atual)` : p;
+      const opts = (sel) => db.periodos.map(p => `<option value="${escapeHtml(p)}" ${p === sel ? 'selected' : ''}>${escapeHtml(rotulo(p))}</option>`).join('');
+
+      document.getElementById('filterPeriodo').innerHTML = db.periodos.map(p => `<option value="${escapeHtml(p)}" ${p === wizardState.periodo ? 'selected' : ''}>Período: ${escapeHtml(rotulo(p))}</option>`).join('');
+      const fp = document.getElementById('formPeriodo'); const fpv = fp.value; fp.innerHTML = opts(fpv || db.periodoAtual);
+      document.getElementById('cloneFromPeriodo').innerHTML = opts(db.periodoAtual);
+      const cp = document.getElementById('confPeriodo'); cp.innerHTML = opts(cp.value || db.periodoAtual);
+      const dp = document.getElementById('diagPeriodo'); dp.innerHTML = opts(dp.value || db.periodoAtual);
+      const ep = document.getElementById('expPeriodo'); ep.innerHTML = opts(ep.value || db.periodoAtual);
+
+      document.getElementById('filterGrupo').innerHTML = `<option value="TODOS">Todos os Grupos (${db.grupos.length})</option>` +
+        db.grupos.map(g => `<option value="${escapeHtml(g)}" ${g === wizardState.grupo ? 'selected' : ''}>${escapeHtml(g)}</option>`).join('');
+      const fg = document.getElementById('formGrupo'); const fgv = fg.value;
+      fg.innerHTML = db.grupos.map(g => `<option value="${escapeHtml(g)}" ${g === fgv ? 'selected' : ''}>${escapeHtml(g)}</option>`).join('');
+      renderWizardButtons();
+    }
+
+    function renderWizardButtons() {
+      document.getElementById('wizardPeriodos').innerHTML = db.periodos.map(p => {
+        const active = wizardState.periodo === p;
+        const atual = p === db.periodoAtual;
+        return `<button onclick="onPeriodoChange(${arg(p)})" class="px-3.5 py-2 rounded-xl text-xs font-extrabold transition ${active ? 'bg-unisa text-white shadow-sm ring-2 ring-unisa/30' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}">${escapeHtml(p)}${atual ? ' ⭐' : ''}</button>`;
+      }).join('');
+
+      const btnG = (valor, texto) => `<button onclick="onGrupoChange(${arg(valor)})" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${wizardState.grupo === valor ? 'bg-unisa text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}">${escapeHtml(texto)}</button>`;
+      document.getElementById('wizardGrupos').innerHTML = btnG('TODOS', 'Todos') + db.grupos.map(g => btnG(g, g.replace('AGENDAS ', '').replace('PÁGINAS DE ', ''))).join('');
+
+      document.getElementById('wizardTags').innerHTML = AVAILABLE_TAGS.map(t => {
+        const active = wizardState.tags.includes(t.id);
+        return `<button onclick="onTagToggle(${arg(t.id)})" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${active ? 'bg-amber-500 text-slate-950 shadow-sm ring-2 ring-amber-400' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}">${active ? '✓ ' : ''}${escapeHtml(t.label)}</button>`;
+      }).join('');
+    }
+
+    function onPeriodoChange(periodo) { wizardState.periodo = periodo; document.getElementById('filterPeriodo').value = periodo; renderWizardButtons(); renderCards(); }
+    function onGrupoChange(grupo) { wizardState.grupo = grupo; document.getElementById('filterGrupo').value = grupo; renderWizardButtons(); renderCards(); }
+    function onTagToggle(tagId) {
+      const i = wizardState.tags.indexOf(tagId);
+      if (i >= 0) wizardState.tags.splice(i, 1);
+      else {
+        // Com Docente e SD são excludentes
+        if (tagId === 'SD') wizardState.tags = wizardState.tags.filter(t => t !== 'COM_DOCENTE');
+        if (tagId === 'COM_DOCENTE') wizardState.tags = wizardState.tags.filter(t => t !== 'SD');
+        wizardState.tags.push(tagId);
+      }
+      renderWizardButtons(); renderCards();
+    }
+    function resetWizard() {
+      wizardState.grupo = "TODOS"; wizardState.tags = [];
+      document.getElementById('filterGrupo').value = "TODOS";
+      document.getElementById('filterStatus').value = "TODOS";
+      document.getElementById('filterSearch').value = "";
+      renderWizardButtons(); renderCards();
+      showToast("Filtros limpos!", "info");
+    }
+    function toggleWizardCollapse() {
+      const body = document.getElementById('wizardBody');
+      const btn = document.getElementById('btnToggleWizard');
+      body.classList.toggle('hidden');
+      btn.innerText = body.classList.contains('hidden') ? "Mostrar Assistente" : "Ocultar";
+    }
+    function setQuickStatusFilter(status) {
+      const sel = document.getElementById('filterStatus');
+      sel.value = (sel.value === status) ? 'TODOS' : status;
+      renderCards();
+    }
+
+    function renderCards() {
+      const periodo = wizardState.periodo;
+      const grupo = wizardState.grupo;
+      const status = document.getElementById('filterStatus').value;
+      const search = semAcento(document.getElementById('filterSearch').value.trim());
+
+      const noPeriodo = periodo ? agendasDoPeriodo(periodo) : [];
+      const notaWeb = document.getElementById('notaSemestral');
+      if (periodo && !temWeb(periodo)) {
+        notaWeb.innerHTML = `<i class="fa-solid fa-calendar-week mr-1"></i> <strong>${escapeHtml(periodo)} não tem agendas WEB Presencial.</strong> As agendas WEB só são usadas no 1º trimestre (janeiro) e no 3º trimestre (julho). Disciplina WEB em ${escapeHtml(periodo)}? Fale com o responsável antes de colar qualquer link.`;
+        notaWeb.classList.remove('hidden');
+      } else if (periodo) {
+        const n = noPeriodo.filter(ehSemestral).length;
+        notaWeb.innerHTML = `<i class="fa-solid fa-calendar-week mr-1"></i> ${escapeHtml(periodo)} inicia o semestre (${mesInicio(periodo)}): é um dos 2 trimestres do ano com <strong>agendas WEB Presencial</strong> (${n} cadastradas, arquivos terminados em _${escapeHtml(tokenSemestre(periodo))}).`;
+        notaWeb.classList.remove('hidden');
+      } else notaWeb.classList.add('hidden');
+      document.getElementById('statPeriodo').innerText = periodo || '-';
+      document.getElementById('statPeriodoSub').innerText = periodo === db.periodoAtual ? 'Período atual da equipe' : 'Período diferente do atual!';
+      document.getElementById('statTotal').innerText = noPeriodo.length;
+      document.getElementById('statOk').innerText = noPeriodo.filter(a => a.status === 'OK').length;
+      document.getElementById('statPendente').innerText = noPeriodo.filter(a => a.status !== 'OK').length;
+
+      const aviso = document.getElementById('avisoPeriodoAntigo');
+      if (periodo && periodo !== db.periodoAtual) {
+        document.getElementById('avisoPeriodoAntigoTexto').innerText = `Você está vendo ${periodo}, mas o período atual é ${db.periodoAtual}. Confirme se é mesmo esse trimestre antes de copiar links.`;
+        aviso.classList.remove('hidden');
+      } else aviso.classList.add('hidden');
+
+      const filtered = noPeriodo.filter(a => {
+        const okGrupo = grupo === 'TODOS' || a.grupo === grupo;
+        const okStatus = status === 'TODOS' || (status === 'OK' ? a.status === 'OK' : a.status !== 'OK');
+        const okTags = wizardState.tags.every(t => t === 'SD' ? ehSD(a) : a.tags.includes(t));
+        const texto = semAcento([a.nome, a.desc, a.grupo, a.url, a.chave, ...a.tags.map(tagLabel)].join(' '));
+        const okBusca = !search || search.split(/\s+/).every(p => texto.includes(p));
+        return okGrupo && okStatus && okTags && okBusca;
+      });
+
+      document.getElementById('resultsCountLabel').innerHTML = `Exibindo <strong>${filtered.length}</strong> de ${noPeriodo.length} agendas em <strong>${escapeHtml(periodo)}</strong>`;
+      const container = document.getElementById('cardsContainer');
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white rounded-2xl p-8 text-center border border-slate-200 space-y-3">
+            <h4 class="text-base font-bold text-slate-700">Nenhuma agenda encontrada com esses filtros</h4>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Tente limpar o Assistente. Se a disciplina realmente não tem agenda, avise o responsável — <strong>não use uma agenda "parecida"</strong>.</p>
+            <div class="flex justify-center gap-2 pt-2">
+              <button onclick="resetWizard()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl">Mostrar Todas do Período</button>
+              <button onclick="openNewAgendaForCurrentFilter()" class="so-admin px-4 py-2 bg-unisa text-white text-xs font-bold rounded-xl">+ Cadastrar Agenda Aqui</button>
+            </div>
+          </div>`;
+        return;
+      }
+      container.innerHTML = filtered.map(cardHtml).join('');
+    }
+
+    function cardHtml(a) {
+      const isOk = a.status === 'OK';
+      const sel = currentPreviewAgenda && currentPreviewAgenda.id === a.id;
+      let docenteBadge = '';
+      if (ehSD(a)) docenteBadge = `<span class="px-2.5 py-0.5 bg-purple-100 text-purple-900 border border-purple-300 rounded-md text-[11px] font-extrabold">⚡ Sem Docente (SD)</span>`;
+      else if (a.tags.includes('COM_DOCENTE')) docenteBadge = `<span class="px-2.5 py-0.5 bg-blue-100 text-unisa border border-blue-200 rounded-md text-[11px] font-extrabold">👨‍🏫 Com Docente</span>`;
+      const tagPills = a.tags.filter(t => t !== 'SD' && t !== 'COM_DOCENTE').map(t => `<span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">${escapeHtml(tagLabel(t))}</span>`).join('');
+      const lk = resultadoLinks[a.url];
+      const lkBadge = !lk ? '' : lk.estado === 'ok'
+        ? `<span class="so-admin text-[10px] font-bold text-emerald-700"><i class="fa-solid fa-signal"></i> abre (${escapeHtml(lk.modificado ? 'alterado ' + lk.modificado : 'ok')})</span>`
+        : `<span class="so-admin text-[10px] font-bold text-rose-700"><i class="fa-solid fa-link-slash"></i> ${escapeHtml(lk.texto)}</span>`;
+
+      const statusBtn = isAdmin
+        ? `<button onclick="toggleAgendaStatus(${arg(a.id)})" title="Alternar Pronta/Pendente" class="shrink-0 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold transition ${isOk ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-amber-200 text-amber-950 hover:bg-amber-300'}">${isOk ? '✔ Pronta para Uso' : '⚠ Falta Atualizar'}</button>`
+        : `<span class="shrink-0 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${isOk ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-200 text-amber-950'}">${isOk ? '✔ Pronta para Uso' : '⚠ Falta Atualizar'}</span>`;
+
+      let acaoPrincipal;
+      if (isOk) acaoPrincipal = `<button onclick="copyAgendaUrl(${arg(a.id)}, this)" class="flex-1 py-2 px-3 rounded-xl text-xs font-extrabold bg-unisa hover:bg-unisa-light text-white shadow-sm transition"><i class="fa-regular fa-copy"></i> Copiar Link</button>`;
+      else if (isAdmin) acaoPrincipal = `<button onclick="toggleAgendaStatus(${arg(a.id)})" class="flex-1 py-2 px-3 rounded-xl text-xs font-extrabold bg-amber-400 hover:bg-amber-500 text-slate-950 transition"><i class="fa-solid fa-lock-open"></i> Liberar Agenda</button>`;
+      else acaoPrincipal = `<button disabled class="flex-1 py-2 px-3 rounded-xl text-xs font-extrabold bg-amber-100 text-amber-800 cursor-not-allowed" title="O responsável ainda não atualizou as datas desta agenda"><i class="fa-solid fa-lock"></i> Aguardando atualização</button>`;
+
+      return `
+        <div class="rounded-2xl p-4 transition-all flex flex-col justify-between border ${isOk ? 'bg-white border-slate-200 border-l-4 border-l-emerald-500 shadow-sm hover:shadow-md' : 'bg-amber-50/90 border-amber-300 border-l-4 border-l-amber-500 shadow-sm'} ${sel ? 'ring-2 ring-unisa card-highlight' : ''}">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 truncate">${escapeHtml(a.grupo)}</span>
+              ${statusBtn}
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <h3 class="text-base font-extrabold text-slate-900 leading-snug">${escapeHtml(a.nome)}</h3>
+              ${docenteBadge}
+            </div>
+            <div class="text-[10px] font-mono text-slate-400 mb-1.5" title="Código fixo da agenda (igual em todos os trimestres)">código: ${escapeHtml(a.chave)}</div>
+            ${ehSemestral(a) ? `<div class="mb-1.5"><span class="px-2 py-0.5 bg-sky-100 text-sky-900 border border-sky-200 rounded-md text-[10px] font-extrabold">📅 WEB semestral: só no 1º (jan) e 3º (jul) trimestre</span></div>` : ''}
+            <div class="bg-slate-50/90 border border-slate-200/80 rounded-xl p-2.5 mb-2.5">
+              <span class="block text-[10px] font-extrabold uppercase text-unisa mb-0.5">Quando usar esta agenda:</span>
+              <p class="text-xs text-slate-700 leading-relaxed">${escapeHtml(a.desc)}</p>
+            </div>
+            ${tagPills ? `<div class="flex flex-wrap gap-1 mb-2.5">${tagPills}</div>` : ''}
+            <div class="font-mono text-[11px] text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-lg break-all mb-1 border border-slate-200/60" title="${escapeHtml(a.url)}"><i class="fa-regular fa-file-code mr-1 text-slate-400"></i>${escapeHtml(nomeArquivo(a.url))}</div>
+            <div class="mb-2">${lkBadge}</div>
+          </div>
+          <div class="space-y-2 pt-1 border-t border-slate-100">
+            <div class="flex items-center gap-2">
+              <button onclick="previewAgenda(${arg(a.id)})" class="flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition"><i class="fa-regular fa-eye"></i> Visualizar</button>
+              ${acaoPrincipal}
+            </div>
+            <div class="so-admin flex items-center justify-between text-[11px] text-slate-400 pt-0.5 px-1">
+              <button onclick="editAgenda(${arg(a.id)})" class="hover:text-unisa font-semibold transition"><i class="fa-solid fa-pen-to-square"></i> Editar link / regra</button>
+              <button onclick="deleteAgenda(${arg(a.id)})" class="hover:text-rose-600 font-semibold transition"><i class="fa-regular fa-trash-can"></i> Excluir</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function previewAgenda(agendaId) {
+      const agenda = db.agendas.find(a => a.id === agendaId);
+      if (!agenda) return;
+      currentPreviewAgenda = agenda;
+      document.getElementById('previewEmptyState').classList.add('hidden');
+      const iframe = document.getElementById('previewIframe');
+      iframe.classList.remove('hidden');
+      iframe.src = agenda.url;
+      document.getElementById('previewHeaderTitle').innerText = `${agenda.nome} (${agenda.periodo})`;
+      document.getElementById('previewHeaderUrl').innerText = agenda.url;
+      document.getElementById('btnCopyFromPreview').disabled = agenda.status !== 'OK';
+      const ext = document.getElementById('btnOpenExternalPreview');
+      ext.href = agenda.url; ext.classList.remove('pointer-events-none', 'opacity-40');
+      const banner = document.getElementById('previewStatusBanner');
+      if (agenda.status === 'OK') {
+        banner.className = "px-4 py-2 text-xs font-bold flex items-center justify-between bg-emerald-100 text-emerald-900 border-b border-emerald-200";
+        banner.innerHTML = `<span>✔ Liberada para o trimestre ${escapeHtml(agenda.periodo)}</span><span>Confira as datas antes de colar no LMS</span>`;
+      } else {
+        banner.className = "px-4 py-2 text-xs font-bold flex items-center justify-between gap-2 bg-amber-200 text-amber-950 border-b border-amber-300";
+        banner.innerHTML = `<span>⚠ PENDENTE: datas ainda não atualizadas — não use</span>` +
+          (isAdmin ? `<button onclick="toggleAgendaStatus(${arg(agenda.id)})" class="bg-amber-900 text-white px-2.5 py-1 rounded text-[11px] hover:bg-slate-800">Já atualizei, liberar</button>` : '');
+      }
+      renderCards();
+    }
+
+    async function copyTextToClipboard(text) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+      } catch (e) {}
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    async function copyAgendaUrl(agendaId, btnEl) {
+      const agenda = db.agendas.find(a => a.id === agendaId);
+      if (!agenda) return;
+      if (agenda.status !== 'OK') { showToast("Agenda Pendente (Amarela): as datas ainda não foram revisadas.", "warn"); return; }
+      const ok = await copyTextToClipboard(urlParaCopiar(agenda.url));
+      if (!ok) { showToast("Não foi possível copiar automaticamente. Use o botão de abrir e copie da barra de endereço.", "warn"); return; }
+      if (btnEl) {
+        const old = btnEl.innerHTML;
+        btnEl.innerHTML = `<i class="fa-solid fa-check"></i> Copiado!`;
+        setTimeout(() => { btnEl.innerHTML = old; }, 1600);
+      }
+      const aviso = !valeNoPeriodo(agenda, db.periodoAtual) ? ` (ATENÇÃO: é de ${agenda.periodo}, não do período atual ${db.periodoAtual})` : '';
+      showToast(`Copiado: ${agenda.nome} — ${agenda.periodo}${aviso}`, aviso ? "warn" : "success");
+    }
+    function copyCurrentPreviewUrl() { if (currentPreviewAgenda) copyAgendaUrl(currentPreviewAgenda.id, document.getElementById('btnCopyFromPreview')); }
+
+    function toggleAgendaStatus(agendaId) {
+      if (!exigirAdmin()) return;
+      const agenda = db.agendas.find(a => a.id === agendaId);
+      if (!agenda) return;
+      agenda.status = agenda.status === 'OK' ? 'PENDENTE' : 'OK';
+      persistir();
+      if (currentPreviewAgenda && currentPreviewAgenda.id === agendaId) previewAgenda(agendaId); else renderCards();
+      renderDiagnostico();
+      showToast(agenda.status === 'OK' ? `✔ "${agenda.nome}" liberada (no rascunho).` : `⚠ "${agenda.nome}" marcada como Pendente.`, agenda.status === 'OK' ? 'success' : 'warn');
+    }
+
+    // ===================== CONFERIR PLANILHA =====================
+    function lerTabelaColada(texto) {
+      const linhas = texto.replace(/\r/g, '').split('\n');
+      while (linhas.length && !linhas[linhas.length - 1].trim()) linhas.pop();
+      const sep = linhas.some(l => l.includes('\t')) ? '\t' : (linhas.some(l => l.includes(';')) ? ';' : '\t');
+      return linhas.map(l => l.split(sep).map(c => c.trim().replace(/^"|"$/g, '')));
+    }
+
+    function indiceDeUrls() {
+      const idx = {};
+      db.agendas.forEach(a => { const k = normalizarUrl(a.url); (idx[k] = idx[k] || []).push(a); });
+      return idx;
+    }
+
+    function conferirPlanilha() {
+      const alvo = document.getElementById('confPeriodo').value;
+      const linhas = lerTabelaColada(document.getElementById('confEntrada').value);
+      if (!linhas.length) { showToast('Cole as linhas da planilha primeiro.', 'warn'); return; }
+      const idx = indiceDeUrls();
+      const doAlvo = agendasDoPeriodo(alvo);
+      const idsAlvo = new Set(doAlvo.map(a => a.id));
+      const reUrl = /https?:\/\/[^\s"]+|[\w\-./%À-ú]+\.html?\b/i;
+
+      let cabecalho = null;
+      const chk = document.getElementById('confCabecalho');
+      if (chk.checked) {
+        if (linhas[0].some(c => reUrl.test(c))) {
+          chk.checked = false; // a primeira linha tem link: é dado, não cabeçalho
+          showToast('A primeira linha tem um link, então foi tratada como disciplina (não como cabeçalho).', 'info');
+        } else cabecalho = linhas.shift();
+      }
+
+      ultimaConferencia = linhas.map((cells, i) => {
+        const r = { n: i + 1, texto: '', informado: '', agenda: null, correto: '', nivel: 'ok', msgs: [], sugestoes: [] };
+        const iLink = cells.findIndex(c => reUrl.test(c));
+        if (iLink >= 0) r.informado = cells[iLink].match(reUrl)[0];
+        r.texto = cells.filter((c, j) => j !== iLink && c).join(' | ');
+        const textoN = semAcento(r.texto);
+        const detectadas = DETECTORES.filter(d => d.re.test(textoN));
+        const piorar = (n) => { const ordem = { ok: 0, aviso: 1, erro: 2 }; if (ordem[n] > ordem[r.nivel]) r.nivel = n; };
+
+        if (!r.informado) {
+          piorar('erro'); r.msgs.push('Linha sem link de agenda.');
+          if (detectadas.length) {
+            r.sugestoes = doAlvo.filter(a => detectadas.every(d => d.tag === 'SD' ? ehSD(a) : a.tags.includes(d.tag)));
+          }
+          return r;
+        }
+
+        let urlCheia = r.informado.startsWith('http') ? r.informado : BASE_GITHUB_URL + r.informado.replace(/^\/+/, '');
+        const achadas = idx[normalizarUrl(urlCheia)] || [];
+        let agenda = achadas.find(a => idsAlvo.has(a.id)) || achadas[0] || null;
+
+        if (!agenda) {
+          piorar('erro');
+          r.msgs.push('Link não cadastrado no painel (pode estar digitado errado ou ser de uma agenda antiga).');
+          const base = baseDoArquivo(urlCheia);
+          const parecida = doAlvo.find(a => baseDoArquivo(a.url) === base);
+          if (parecida) r.sugestoes = [parecida];
+          r.correto = '';
+          return r;
+        }
+        if (ehSemestral(agenda) && !temWeb(alvo)) {
+          piorar('erro');
+          r.msgs.push(`Agenda WEB não é usada em ${alvo}: as agendas WEB só entram no 1º trimestre (janeiro) e no 3º (julho). Confirme a disciplina com o responsável.`);
+          r.agenda = agenda; r.correto = '';
+          return r;
+        }
+        if (!idsAlvo.has(agenda.id)) {
+          const equivalente = doAlvo.find(a => a.chave === agenda.chave);
+          if (equivalente) {
+            piorar('aviso');
+            r.msgs.push(`Link é do trimestre ${agenda.periodo}; trocado pelo equivalente de ${alvo}.`);
+            agenda = equivalente;
+          } else {
+            piorar('erro');
+            r.msgs.push(`Link é do trimestre ${agenda.periodo} e não existe agenda "${agenda.nome}" cadastrada em ${alvo}.`);
+          }
+        }
+        r.agenda = agenda;
+        r.correto = urlParaCopiar(agenda.url);
+        if (agenda.status !== 'OK') { piorar('aviso'); r.msgs.push('Agenda ainda PENDENTE (amarela): datas não revisadas.'); }
+
+        detectadas.forEach(d => {
+          const tem = d.tag === 'SD' ? ehSD(agenda) : agenda.tags.includes(d.tag);
+          if (!tem) { piorar('aviso'); r.msgs.push(`A disciplina menciona "${d.nome}", mas a agenda "${agenda.nome}" não é desse tipo.`); }
+        });
+        if (ehSD(agenda) && /COM DOCENTE/.test(textoN)) { piorar('aviso'); r.msgs.push('A disciplina diz "Com Docente", mas a agenda é SD.'); }
+        if (!r.msgs.length) r.msgs.push('Tudo certo.');
+        return r;
+      });
+      renderConferencia(cabecalho, alvo);
+    }
+
+    function renderConferencia(cabecalho, alvo) {
+      const R = ultimaConferencia;
+      const cont = { ok: 0, aviso: 0, erro: 0 };
+      R.forEach(r => cont[r.nivel]++);
+      const cor = { ok: 'bg-emerald-50 border-l-emerald-500', aviso: 'bg-amber-50 border-l-amber-500', erro: 'bg-rose-50 border-l-rose-500' };
+      const icone = { ok: '✔', aviso: '⚠', erro: '✖' };
+      const linhas = R.map(r => `
+        <tr class="conf-linha border-b border-slate-100 ${r.nivel === 'ok' ? 'conf-ok' : ''}">
+          <td class="px-3 py-2 text-xs text-slate-400 align-top">${r.n}</td>
+          <td class="px-3 py-2 text-xs text-slate-800 align-top max-w-xs">${escapeHtml(r.texto || '—')}</td>
+          <td class="px-3 py-2 text-[11px] font-mono text-slate-500 align-top break-all">${escapeHtml(r.informado ? nomeArquivo(r.informado) : '—')}</td>
+          <td class="px-3 py-2 align-top border-l-4 ${cor[r.nivel]}">
+            <div class="text-xs font-bold">${icone[r.nivel]} ${r.msgs.map(escapeHtml).join('<br>')}</div>
+            ${r.agenda ? `<div class="text-[11px] text-slate-500 mt-0.5">Agenda: <strong>${escapeHtml(r.agenda.nome)}</strong> (${escapeHtml(r.agenda.periodo)})</div>` : ''}
+            ${r.sugestoes.length ? `<div class="text-[11px] text-slate-600 mt-1">Possíveis agendas (confira): ${r.sugestoes.slice(0, 4).map(a => `<strong>${escapeHtml(a.nome)}</strong>`).join(', ')}${r.sugestoes.length > 4 ? '...' : ''}</div>` : ''}
+          </td>
+          <td class="px-3 py-2 text-[11px] font-mono text-unisa align-top break-all">${escapeHtml(r.correto ? nomeArquivo(r.correto) : '')}</td>
+        </tr>`).join('');
+
+      document.getElementById('confResultado').innerHTML = `
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="px-5 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200">
+            <div class="flex flex-wrap gap-2 text-sm font-extrabold">
+              <span class="px-3 py-1 rounded-full bg-slate-100">${R.length} linhas · ${escapeHtml(alvo)}</span>
+              <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">✔ ${cont.ok} certas</span>
+              <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-900">⚠ ${cont.aviso} revisar</span>
+              <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800">✖ ${cont.erro} erradas</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <label class="text-xs font-semibold text-slate-600 flex items-center gap-1.5"><input type="checkbox" onchange="document.querySelectorAll('.conf-ok').forEach(e=>e.classList.toggle('hidden', this.checked))"> Mostrar só problemas</label>
+              <button onclick="copiarColunaConferencia('correto')" class="px-3 py-2 bg-unisa text-white text-xs font-extrabold rounded-xl hover:bg-unisa-light"><i class="fa-regular fa-copy"></i> Copiar coluna "Link correto"</button>
+              <button onclick="copiarColunaConferencia('resultado')" class="px-3 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200">Copiar coluna "Resultado"</button>
+              <button onclick="baixarRelatorioConferencia()" class="px-3 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200"><i class="fa-solid fa-download"></i> Relatório (CSV)</button>
+            </div>
+          </div>
+          <div class="px-5 py-2 text-[11px] text-slate-500 bg-slate-50">As colunas copiadas seguem a mesma ordem das linhas coladas${cabecalho ? ' (sem o cabeçalho)' : ''}: cole a partir da primeira linha de dados na planilha. Linhas com erro saem em branco no "Link correto" para você preencher conscientemente.</div>
+          <div class="overflow-x-auto custom-scroll">
+            <table class="w-full text-left">
+              <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
+                <tr><th class="px-3 py-2">#</th><th class="px-3 py-2">Disciplina (dados colados)</th><th class="px-3 py-2">Link informado</th><th class="px-3 py-2">Resultado</th><th class="px-3 py-2">Link correto</th></tr>
+              </thead>
+              <tbody>${linhas}</tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+
+    async function copiarColunaConferencia(tipo) {
+      if (!ultimaConferencia.length) return;
+      const nomes = { ok: 'OK', aviso: 'REVISAR', erro: 'ERRO' };
+      const texto = ultimaConferencia.map(r => tipo === 'correto' ? (r.nivel === 'erro' ? '' : r.correto) : `${nomes[r.nivel]}: ${r.msgs.join(' ')}`).join('\n');
+      const ok = await copyTextToClipboard(texto);
+      showToast(ok ? `Coluna copiada (${ultimaConferencia.length} linhas). Cole na planilha.` : 'Não foi possível copiar.', ok ? 'success' : 'warn');
+    }
+
+    function baixarRelatorioConferencia() {
+      const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const linhas = [['Linha', 'Disciplina', 'Link informado', 'Resultado', 'Mensagens', 'Agenda', 'Link correto'].map(esc).join(';')];
+      ultimaConferencia.forEach(r => linhas.push([r.n, r.texto, r.informado, r.nivel.toUpperCase(), r.msgs.join(' '), r.agenda ? r.agenda.nome : '', r.nivel === 'erro' ? '' : r.correto].map(esc).join(';')));
+      baixarArquivo('﻿' + linhas.join('\r\n'), `conferencia_agendas_${document.getElementById('confPeriodo').value}.csv`, 'text/csv;charset=utf-8');
+    }
+
+    // ===================== ADMIN: FORMULÁRIO =====================
+    function renderFormTagsCheckboxes() {
+      const c = document.getElementById('formTagsContainer');
+      const marcadas = Array.from(document.querySelectorAll('input[name="formTagItem"]:checked')).map(x => x.value);
+      c.innerHTML = AVAILABLE_TAGS.map(t => `
+        <label class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-unisa text-xs font-semibold text-slate-700 transition">
+          <input type="checkbox" name="formTagItem" value="${t.id}" ${marcadas.includes(t.id) ? 'checked' : ''}><span>${escapeHtml(t.label)}</span>
+        </label>`).join('');
+    }
+
+    function buildSmartUrl(periodo, rawInput, ciclo) {
+      const val = (rawInput || "").trim();
+      const pastaP = periodo;
+      if (!val) return `${BASE_GITHUB_URL}AGENDAS_${tokenPeriodo(pastaP)}/...`;
+      if (/^https?:\/\//i.test(val)) return val;
+      const limpo = val.replace(/^\/+/, '');
+      if (limpo.startsWith('AGENDAS_') || limpo.startsWith('PAGINA_AO_VIVO')) return BASE_GITHUB_URL + limpo;
+      return `${BASE_GITHUB_URL}AGENDAS_${tokenPeriodo(pastaP)}/${limpo}`;
+    }
+
+    function problemasDaUrl(url, periodo, idIgnorar, ciclo) {
+      const p = [];
+      const sem = ciclo === 'SEMESTRAL';
+      const arq = nomeArquivo(url);
+      const pastaEsperada = tokenPeriodo(periodo);
+      const finalEsperado = sem ? tokenSemestre(periodo) : tokenPeriodo(periodo);
+      if (!url.startsWith(BASE_GITHUB_URL)) p.push({ nivel: 'aviso', msg: 'Link fora do repositório oficial de agendas.' });
+      if (!/\.html?$/i.test(url)) p.push({ nivel: 'aviso', msg: 'Link não termina em .html.' });
+      if (sem && !temWeb(periodo)) p.push({ nivel: 'erro', msg: `Agenda WEB cadastrada em ${periodo}, mas as agendas WEB só existem no 1º (janeiro) e no 3º trimestre (julho).` });
+      const pasta = (arq.match(/^AGENDAS_(\d{4}_\d)\//) || [])[1];
+      const foraDoInicio = sem && !temWeb(periodo); // já avisado acima; não repetir pasta/final
+      if (pasta && pasta !== pastaEsperada && !foraDoInicio) p.push({ nivel: 'erro', msg: `Pasta AGENDAS_${pasta} não corresponde a ${periodo} (esperado AGENDAS_${pastaEsperada}).` });
+      const finais = (arq.replace(/^AGENDAS_\d{4}_\d\//, '').match(/\d{4}_[1-4]/g) || []);
+      const outros = finais.filter(t => t !== finalEsperado);
+      if (outros.length && !foraDoInicio) p.push({ nivel: 'aviso', msg: `Nome do arquivo termina com ${outros.join(', ')}; para ${sem ? 'agenda WEB de ' : ''}${periodo} o esperado é ${finalEsperado}. Confirme se é proposital.` });
+      const dup = agendasDoPeriodo(periodo).filter(a => a.id !== idIgnorar && normalizarUrl(a.url) === normalizarUrl(url));
+      if (dup.length) p.push({ nivel: 'erro', msg: `Mesmo link já usado por "${dup[0].nome}" neste período.` });
+      return p;
+    }
+
+    function cicloDoForm() { return document.getElementById('formCiclo').value; }
+
+    function updateSmartUrlPreview() {
+      const periodo = document.getElementById('formPeriodo').value || db.periodoAtual;
+      const raw = document.getElementById('formUrlInput').value;
+      // Sugere "Semestral" para arquivos WEB_ que não são TOTVS
+      const cicloSel = document.getElementById('formCiclo');
+      if (!cicloSel.dataset.manual && raw.trim()) {
+        const b = baseDoArquivo(raw);
+        cicloSel.value = (/^WEB_/.test(b) && !/TOTVS/.test(b)) ? 'SEMESTRAL' : 'TRIMESTRAL';
+      }
+      const url = buildSmartUrl(periodo, raw, cicloDoForm());
+      document.getElementById('smartUrlPreview').innerText = url;
+      const box = document.getElementById('formUrlAviso');
+      const probs = raw.trim() ? problemasDaUrl(url, periodo, document.getElementById('editAgendaId').value, cicloDoForm()) : [];
+      if (probs.length) {
+        box.className = 'text-xs font-bold rounded-lg px-2.5 py-2 ' + (probs.some(x => x.nivel === 'erro') ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-900');
+        box.innerHTML = probs.map(x => '⚠ ' + escapeHtml(x.msg)).join('<br>');
+      } else box.className = 'hidden';
+    }
+
+    function testFormUrl() {
+      const raw = document.getElementById('formUrlInput').value;
+      if (!raw.trim()) { showToast("Digite o nome do arquivo ou cole o link primeiro!", "warn"); return; }
+      window.open(buildSmartUrl(document.getElementById('formPeriodo').value, raw, cicloDoForm()), '_blank', 'noopener,noreferrer');
+    }
+
+    function sugerirChave() {
+      if (document.getElementById('editAgendaId').value) return;
+      const campo = document.getElementById('formChave');
+      if (!campo.dataset.manual) campo.value = slug(document.getElementById('formNome').value);
+    }
+
+    async function saveAgendaFromForm(e) {
+      e.preventDefault();
+      if (!exigirAdmin()) return;
+      const editId = document.getElementById('editAgendaId').value;
+      const periodo = document.getElementById('formPeriodo').value;
+      const grupo = document.getElementById('formGrupo').value;
+      const nome = document.getElementById('formNome').value.trim();
+      const desc = document.getElementById('formDesc').value.trim();
+      const chave = slug(document.getElementById('formChave').value);
+      const ciclo = cicloDoForm();
+      const url = buildSmartUrl(periodo, document.getElementById('formUrlInput').value, ciclo);
+      const status = (document.querySelector('input[name="formStatus"]:checked') || {}).value || 'PENDENTE';
+      const tags = Array.from(document.querySelectorAll('input[name="formTagItem"]:checked')).map(cb => cb.value);
+
+      if (!chave) { showToast('Preencha o código fixo.', 'warn'); return; }
+      if (tags.includes('SD') && tags.includes('COM_DOCENTE')) { showToast('Uma agenda não pode ser "Com Docente" e "Sem Docente (SD)" ao mesmo tempo.', 'warn'); return; }
+      const chaveDup = db.agendas.find(a => a.periodo === periodo && a.chave === chave && a.id !== editId);
+      if (chaveDup) { showToast(`O código "${chave}" já é usado por "${chaveDup.nome}" em ${periodo}.`, 'warn'); return; }
+      const probs = problemasDaUrl(url, periodo, editId, ciclo);
+      if (probs.some(p => p.nivel === 'erro')) {
+        const ok = await askConfirm('Salvar mesmo assim?', probs.map(p => '⚠ ' + escapeHtml(p.msg)).join('<br>'), 'Salvar mesmo assim', true);
+        if (!ok) return;
+      }
+
+      if (editId) {
+        const i = db.agendas.findIndex(a => a.id === editId);
+        if (i !== -1) db.agendas[i] = { ...db.agendas[i], chave, periodo, grupo, ciclo, nome, desc, url, status, tags };
+        showToast(`"${nome}" atualizada no rascunho.`, "success");
+      } else {
+        let id = `${periodo}-${chave}`;
+        if (db.agendas.some(a => a.id === id)) id += '-' + Date.now();
+        db.agendas.unshift({ id, chave, periodo, grupo, ciclo, nome, desc, tags, status, url });
+        showToast(`"${nome}" cadastrada em ${periodo} (rascunho).`, "success");
+      }
+      persistir();
+      clearAgendaForm();
+      wizardState.periodo = periodo;
+      renderTudo();
+      switchTab('consulta');
+    }
+
+    function clearAgendaForm() {
+      document.getElementById('editAgendaId').value = "";
+      document.getElementById('formTitle').innerText = "Cadastrar Nova Agenda ou Atualizar Link";
+      document.getElementById('btnSubmitForm').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Salvar no rascunho`;
+      ['formNome', 'formDesc', 'formUrlInput', 'formChave'].forEach(id => document.getElementById(id).value = "");
+      document.getElementById('formChave').dataset.manual = '';
+      document.getElementById('formCiclo').value = 'TRIMESTRAL';
+      document.getElementById('formCiclo').dataset.manual = '';
+      document.querySelectorAll('input[name="formTagItem"]').forEach(cb => cb.checked = false);
+      document.querySelector('input[name="formStatus"][value="PENDENTE"]').checked = true;
+      updateSmartUrlPreview();
+    }
+
+    function openNewAgendaForCurrentFilter() {
+      if (!exigirAdmin()) return;
+      clearAgendaForm();
+      document.getElementById('formPeriodo').value = wizardState.periodo;
+      if (wizardState.grupo !== 'TODOS') document.getElementById('formGrupo').value = wizardState.grupo;
+      if (wizardState.grupo === 'AGENDAS WEB PRESENCIAL') { document.getElementById('formCiclo').value = 'SEMESTRAL'; if (!temWeb(wizardState.periodo)) showToast(`Atenção: ${wizardState.periodo} não tem agendas WEB (só 1º e 3º trimestre).`, 'warn'); }
+      document.querySelectorAll('input[name="formTagItem"]').forEach(cb => cb.checked = wizardState.tags.includes(cb.value));
+      updateSmartUrlPreview();
+      switchTab('admin');
+      document.getElementById('blocoFormulario').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('formNome').focus();
+    }
+
+    function editAgenda(agendaId) {
+      if (!exigirAdmin()) return;
+      const a = db.agendas.find(x => x.id === agendaId);
+      if (!a) return;
+      switchTab('admin');
+      document.getElementById('editAgendaId').value = a.id;
+      document.getElementById('formTitle').innerText = `Editando: ${a.nome} (${a.periodo})`;
+      document.getElementById('btnSubmitForm').innerHTML = `<i class="fa-solid fa-check"></i> Salvar Alterações no rascunho`;
+      document.getElementById('formPeriodo').value = a.periodo;
+      document.getElementById('formGrupo').value = a.grupo;
+      document.getElementById('formNome').value = a.nome;
+      document.getElementById('formChave').value = a.chave;
+      document.getElementById('formChave').dataset.manual = '1';
+      document.getElementById('formDesc').value = a.desc;
+      document.getElementById('formCiclo').value = a.ciclo;
+      document.getElementById('formCiclo').dataset.manual = '1';
+      document.getElementById('formUrlInput').value = a.url;
+      document.querySelectorAll('input[name="formTagItem"]').forEach(cb => cb.checked = a.tags.includes(cb.value));
+      const r = document.querySelector(`input[name="formStatus"][value="${a.status === 'OK' ? 'OK' : 'PENDENTE'}"]`);
+      if (r) r.checked = true;
+      updateSmartUrlPreview();
+      document.getElementById('blocoFormulario').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function deleteAgenda(agendaId) {
+      if (!exigirAdmin()) return;
+      const idx = db.agendas.findIndex(a => a.id === agendaId);
+      if (idx === -1) return;
+      const a = db.agendas[idx];
+      const ok = await askConfirm('Excluir agenda?', `Excluir <strong>${escapeHtml(a.nome)}</strong> de ${escapeHtml(a.periodo)}?<br>Isso não apaga o arquivo HTML no GitHub, apenas tira o link do painel.`, 'Excluir', true);
+      if (!ok) return;
+      db.agendas.splice(idx, 1);
+      if (currentPreviewAgenda && currentPreviewAgenda.id === agendaId) currentPreviewAgenda = null;
+      persistir(); renderTudo();
+      showToast(`"${a.nome}" removida (rascunho).`, "info");
+    }
+
+    // ===================== ADMIN: VIRADA DE TRIMESTRE =====================
+    async function createAndClonePeriodo() {
+      if (!exigirAdmin()) return;
+      const novo = document.getElementById('newPeriodoName').value.trim().replace('_', '-').replace('/', '-');
+      const origem = document.getElementById('cloneFromPeriodo').value;
+      if (!periodoValido(novo)) { showToast("Use o formato AAAA-T, ex.: 2027-1.", "warn"); return; }
+      if (db.periodos.includes(novo)) { showToast(`O período ${novo} já existe!`, "warn"); return; }
+      const novoTemWeb = temWeb(novo);
+      // Trimestrais: copiadas do período de origem.
+      const trimestrais = agendasDoPeriodo(origem).filter(a => !ehSemestral(a));
+      // WEB: só entram no 1º/3º trimestre; vêm do último 1º/3º trimestre que tinha agendas WEB.
+      let webs = [];
+      if (novoTemWeb) {
+        const anteriores = db.periodos.filter(x => temWeb(x) && x.localeCompare(novo, undefined, { numeric: true }) < 0 && db.agendas.some(a => a.periodo === x && ehSemestral(a)));
+        if (anteriores.length) webs = db.agendas.filter(a => a.periodo === anteriores[0] && ehSemestral(a));
+      }
+      const fontes = [...trimestrais, ...webs];
+      const naoCopiadas = novoTemWeb ? 0 : agendasDoPeriodo(origem).filter(ehSemestral).length;
+      const ok = await askConfirm(`Criar ${novo}?`,
+        `Serão criadas <strong>${fontes.length}</strong> agendas a partir de <strong>${escapeHtml(origem)}</strong>, todas como <strong>Pendentes (amarelas)</strong>.` +
+        (naoCopiadas ? `<br><br>📅 ${naoCopiadas} agenda(s) WEB não serão copiadas: ${escapeHtml(novo)} não tem agendas WEB (só 1º e 3º trimestre).` : '') +
+        (webs.length ? `<br><br>📅 ${escapeHtml(novo)} inicia o semestre (${mesInicio(novo)}): ${webs.length} agendas WEB serão criadas a partir de ${escapeHtml(webs[0].periodo)}, com final <strong>_${escapeHtml(tokenSemestre(novo))}</strong>.` : '') +
+        (novoTemWeb && !webs.length ? `<br><br>⚠ ${escapeHtml(novo)} deveria ter agendas WEB, mas não há nenhuma anterior para copiar. Cadastre-as pelo formulário.` : ''),
+        'Criar');
+      if (!ok) return;
+
+      const tNew = tokenPeriodo(novo);
+      const revisar = [];
+      const clonadas = fontes.map(o => {
+        const sem = ehSemestral(o);
+        const pastaVelha = `AGENDAS_${tokenPeriodo(o.periodo)}/`;
+        const tokVelho = sem ? tokenSemestre(o.periodo) : tokenPeriodo(o.periodo);
+        const tokNovo = sem ? tokenSemestre(novo) : tNew;
+        let url = o.url.split(pastaVelha).join(`AGENDAS_${tNew}/`);
+        const ini = url.lastIndexOf('/') + 1;
+        url = url.slice(0, ini) + url.slice(ini).split(tokVelho).join(tokNovo);
+        const a = { ...clone(o), id: `${novo}-${o.chave}`, periodo: novo, url, status: 'PENDENTE',
+          nome: o.nome.split(o.periodo).join(novo), desc: o.desc.split(o.periodo).join(novo) };
+        const arqNovo = nomeArquivo(url).replace(/^AGENDAS_\d{4}_\d\//, '');
+        const sobras = (arqNovo.match(/\d{4}_[1-4]/g) || []).filter(t => t !== tokNovo);
+        (arqNovo.match(/_(\d{4})(?!_\d)/g) || []).map(x => x.slice(1)).filter(y => y !== ano(novo)).forEach(y => sobras.push('ano ' + y));
+        const motivo = url === o.url ? 'link não mudou (não segue o padrão do trimestre)'
+          : (sobras.length ? `ainda tem final de outro período (${sobras.join(', ')})` : '');
+        if (motivo) revisar.push({ a, motivo });
+        return a;
+      });
+      db.agendas = [...clonadas, ...db.agendas];
+      db.periodos = ordenarPeriodos([...db.periodos, novo]);
+      document.getElementById('newPeriodoName').value = "";
+      persistir();
+      wizardState.periodo = novo;
+      renderTudo();
+      document.getElementById('diagPeriodo').value = novo; renderDiagnostico();
+
+      document.getElementById('cloneRelatorio').innerHTML = `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2">
+          <div class="font-extrabold text-emerald-700">✔ ${clonadas.length} agendas criadas em ${escapeHtml(novo)} (amarelas).</div>
+          ${revisar.length ? `<div class="font-extrabold text-amber-800">⚠ ${revisar.length} link(s) precisam de revisão manual:</div>
+          <ul class="space-y-1">${revisar.map(r => `<li class="flex justify-between gap-2"><span><strong>${escapeHtml(r.a.nome)}</strong> — ${escapeHtml(r.motivo)}<br><span class="font-mono text-slate-500">${escapeHtml(nomeArquivo(r.a.url))}</span></span><button onclick="editAgenda(${arg(r.a.id)})" class="text-unisa font-bold shrink-0">Editar</button></li>`).join('')}</ul>` : ''}
+          <div class="text-slate-600">Próximo passo: suba os HTMLs novos no GitHub e use <strong>Testar se os links abrem</strong> no Diagnóstico. Quando estiver pronto, marque ⭐ ${escapeHtml(novo)} como período atual e publique.</div>
+        </div>`;
+      showToast(`Período ${novo} criado com ${clonadas.length} agendas.`, "success");
+    }
+
+    async function unlockAllInCurrentPeriodo() {
+      if (!exigirAdmin()) return;
+      const p = wizardState.periodo;
+      const pend = db.agendas.filter(a => a.periodo === p && a.status !== 'OK');
+      if (!pend.length) { showToast(`Nenhuma agenda pendente em ${p}.`, 'info'); return; }
+      const ok = await askConfirm(`Liberar ${pend.length} agendas de ${p}?`, 'Só confirme se TODAS as datas desses arquivos já foram revisadas. Liberar uma agenda com datas antigas é o erro mais difícil de perceber depois.', 'Liberar todas', true);
+      if (!ok) return;
+      pend.forEach(a => a.status = 'OK');
+      persistir(); renderTudo();
+      showToast(`${pend.length} agendas de ${p} liberadas (rascunho).`, "success");
+    }
+
+    function definirPeriodoAtual(p) {
+      if (!exigirAdmin()) return;
+      db.periodoAtual = p;
+      wizardState.periodo = p;
+      persistir(); renderTudo();
+      showToast(`${p} agora é o período atual da equipe (após publicar).`, 'success');
+    }
+
+    async function deletePeriodo(p) {
+      if (!exigirAdmin()) return;
+      if (db.periodos.length <= 1) { showToast("Mantenha pelo menos 1 período.", "warn"); return; }
+      if (p === db.periodoAtual) { showToast("Esse é o período atual. Marque outro com ⭐ antes de excluir.", "warn"); return; }
+      const n = db.agendas.filter(a => a.periodo === p).length;
+      const resp = await abrirModal({ titulo: `Excluir o período ${p}?`, texto: `Isso remove <strong>${n} agendas</strong> do painel. Para confirmar, digite <strong>${escapeHtml(p)}</strong>:`, input: true, okTexto: 'Excluir', perigo: true });
+      if (resp === null) return;
+      if (resp.trim() !== p) { showToast('Texto diferente — nada foi excluído.', 'info'); return; }
+      db.periodos = db.periodos.filter(x => x !== p);
+      db.agendas = db.agendas.filter(a => a.periodo !== p);
+      persistir(); renderTudo();
+      showToast(`Período ${p} removido (rascunho).`, "info");
+    }
+
+    // ===================== ADMIN: GRUPOS =====================
+    function addNewGrupo() {
+      if (!exigirAdmin()) return;
+      const input = document.getElementById('newGrupoName');
+      const val = input.value.trim().toUpperCase();
+      if (!val) { showToast("Digite o nome do novo grupo!", "warn"); return; }
+      if (db.grupos.includes(val)) { showToast("Esse grupo já existe!", "warn"); return; }
+      db.grupos.push(val); input.value = "";
+      persistir(); renderTudo();
+      showToast(`Grupo "${val}" adicionado.`, "success");
+    }
+    async function deleteGrupo(g) {
+      if (!exigirAdmin()) return;
+      const n = db.agendas.filter(a => a.grupo === g).length;
+      if (n > 0) { showToast(`Não é possível excluir: ${n} agendas usam "${g}".`, "warn"); return; }
+      if (!await askConfirm('Excluir grupo?', `Excluir o grupo <strong>${escapeHtml(g)}</strong>?`, 'Excluir', true)) return;
+      db.grupos = db.grupos.filter(x => x !== g);
+      persistir(); renderTudo();
+    }
+
+    function renderAdminLists() {
+      document.getElementById('adminPeriodosList').innerHTML = db.periodos.map(p => {
+        const total = db.agendas.filter(a => a.periodo === p).length;
+        const atual = p === db.periodoAtual;
+        return `<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl ${atual ? 'bg-amber-100 border-amber-300' : 'bg-slate-100 border-slate-200'} border text-xs font-bold text-slate-700">
+            <button onclick="definirPeriodoAtual(${arg(p)})" title="${atual ? 'Período atual da equipe' : 'Tornar período atual da equipe'}" class="${atual ? 'text-amber-500' : 'text-slate-300 hover:text-amber-500'}"><i class="fa-solid fa-star"></i></button>
+            <span>${escapeHtml(p)} <span class="text-slate-400">(${total})</span></span>
+            <button onclick="deletePeriodo(${arg(p)})" class="text-slate-400 hover:text-rose-600" title="Excluir período"><i class="fa-solid fa-xmark"></i></button>
+          </div>`;
+      }).join('');
+      document.getElementById('adminGruposList').innerHTML = db.grupos.map(g => {
+        const total = db.agendas.filter(a => a.grupo === g).length;
+        return `<div class="flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700">${escapeHtml(g)} <span class="text-slate-400 font-normal">(${total} links)</span></span>
+            <button onclick="deleteGrupo(${arg(g)})" class="text-slate-400 hover:text-rose-600 font-semibold">Excluir</button>
+          </div>`;
+      }).join('');
+    }
+
+    // ===================== PLANILHA ⇄ PAINEL =====================
+    async function importarLinksColados() {
+      if (!exigirAdmin()) return;
+      const p = document.getElementById('impPeriodo').value.trim().replace('_', '-').replace('/', '-');
+      if (!periodoValido(p)) { showToast('Informe o trimestre no formato AAAA-T (ex.: 2027-1).', 'warn'); return; }
+      const urls = [...new Set((document.getElementById('impEntrada').value.match(/https?:\/\/[^\s"]+/g) || []).map(u => u.trim()))];
+      if (!urls.length) { showToast('Nenhum link encontrado no texto colado.', 'warn'); return; }
+
+      // Modelo de cada agenda: a ocorrência mais recente com o mesmo nome-base de arquivo
+      const modelos = {};
+      [...db.agendas].sort((x, y) => y.periodo.localeCompare(x.periodo, undefined, { numeric: true }))
+        .forEach(a => { const b = baseDoArquivo(a.url); if (!modelos[b]) modelos[b] = a; });
+
+      const plano = { novos: [], alterados: [], iguais: [], desconhecidos: [], webForaDoPeriodo: [] };
+      const chavesVistas = new Set();
+      urls.forEach(url => {
+        const m = modelos[baseDoArquivo(url)];
+        if (!m) { plano.desconhecidos.push(url); return; }
+        if (ehSemestral(m) && !temWeb(p)) { plano.webForaDoPeriodo.push(url); return; }
+        if (chavesVistas.has(m.chave)) return;
+        chavesVistas.add(m.chave);
+        const existente = db.agendas.find(a => a.periodo === p && a.chave === m.chave);
+        if (existente && normalizarUrl(existente.url) === normalizarUrl(url)) plano.iguais.push(existente);
+        else if (existente) plano.alterados.push({ existente, url });
+        else plano.novos.push({ m, url });
+      });
+      const ausentes = db.agendas.filter(a => a.periodo === p && !chavesVistas.has(a.chave));
+
+      const ok = await askConfirm(`Aplicar links em ${p}?`,
+        `${urls.length} links encontrados:<br>• <strong>${plano.novos.length}</strong> agendas novas (entram amarelas)<br>• <strong>${plano.alterados.length}</strong> com link alterado (voltam para amarelo)<br>• <strong>${plano.iguais.length}</strong> sem mudança<br>• <strong>${plano.desconhecidos.length}</strong> não reconhecidas (não serão aplicadas)` +
+        (plano.webForaDoPeriodo.length ? `<br>• <strong>${plano.webForaDoPeriodo.length}</strong> agendas WEB ignoradas: ${p} não tem agendas WEB (só 1º e 3º trimestre)` : '') +
+        (db.periodos.includes(p) ? '' : `<br><br>O período <strong>${p}</strong> ainda não existe e será criado.`), 'Aplicar');
+      if (!ok) return;
+
+      plano.novos.forEach(({ m, url }) => db.agendas.unshift({ ...clone(m), id: `${p}-${m.chave}`, periodo: p, url, status: 'PENDENTE',
+        nome: m.nome.split(m.periodo).join(p), desc: m.desc.split(m.periodo).join(p) }));
+      plano.alterados.forEach(({ existente, url }) => { existente.url = url; existente.status = 'PENDENTE'; });
+      db.periodos = ordenarPeriodos([...db.periodos, p]);
+      persistir();
+      wizardState.periodo = p;
+      renderTudo();
+      document.getElementById('diagPeriodo').value = p; renderDiagnostico();
+
+      const li = (txt) => `<li class="font-mono break-all">${escapeHtml(txt)}</li>`;
+      document.getElementById('impRelatorio').innerHTML = `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2">
+          <div class="font-extrabold text-emerald-700">✔ ${plano.novos.length} novas · ${plano.alterados.length} alteradas · ${plano.iguais.length} sem mudança em ${escapeHtml(p)}</div>
+          ${plano.desconhecidos.length ? `<div class="font-extrabold text-rose-700">✖ Não reconhecidas (cadastre pelo formulário):</div><ul class="space-y-0.5">${plano.desconhecidos.map(u => li(nomeArquivo(u))).join('')}</ul>` : ''}
+          ${plano.webForaDoPeriodo.length ? `<div class="font-extrabold text-amber-800">⚠ Agendas WEB ignoradas (só 1º e 3º trimestre):</div><ul class="space-y-0.5">${plano.webForaDoPeriodo.map(u => li(nomeArquivo(u))).join('')}</ul>` : ''}
+          ${ausentes.length ? `<div class="font-extrabold text-amber-800">⚠ Estão no painel em ${escapeHtml(p)} mas não vieram na colagem (nada foi apagado):</div><ul class="space-y-0.5">${ausentes.map(a => li(a.nome)).join('')}</ul>` : ''}
+          <div class="text-slate-600">Rode o Diagnóstico e o teste de links abaixo antes de publicar.</div>
+        </div>`;
+      showToast(`Links aplicados em ${p} (rascunho).`, 'success');
+    }
+
+    async function copiarPeriodoFormatoPlanilha() {
+      const p = document.getElementById('expPeriodo').value;
+      const lista = agendasDoPeriodo(p);
+      const linhas = [`LINKS DAS AGENDAS GITHUB ${p} (TODAS)`, `Gerado pelo painel em ${new Date().toLocaleString('pt-BR')}`, ''];
+      db.grupos.forEach(g => {
+        const doGrupo = lista.filter(a => a.grupo === g);
+        if (!doGrupo.length) return;
+        linhas.push(g);
+        doGrupo.forEach(a => {
+          const obs = [a.status !== 'OK' ? 'FALTA ATUALIZAR' : 'ok', a.nome];
+          if (ehSemestral(a)) obs.push('WEB semestral');
+          linhas.push(`${a.url}\t${obs.join(' | ')}`);
+        });
+        linhas.push('');
+      });
+      const ok = await copyTextToClipboard(linhas.join('\n'));
+      showToast(ok ? `Aba de ${p} copiada (${lista.length} links). Cole na célula A1 de uma aba nova.` : 'Não foi possível copiar.', ok ? 'success' : 'warn');
+    }
+
+    // ===================== DIAGNÓSTICO =====================
+    function problemasDoPeriodo(p) {
+      const lista = [];
+      const ag = db.agendas.filter(a => a.periodo === p);
+      ag.forEach(a => {
+        problemasDaUrl(a.url, p, a.id, a.ciclo).forEach(x => lista.push({ ...x, a }));
+        if (/\bSD\b|SEM DOCENTE/.test(semAcento(a.nome)) && !a.tags.includes('SD')) lista.push({ nivel: 'aviso', msg: 'Nome diz SD, mas falta a etiqueta "Sem Docente (SD)".', a });
+        if (a.tags.includes('SD') && a.tags.includes('COM_DOCENTE')) lista.push({ nivel: 'erro', msg: 'Marcada como Com Docente E Sem Docente ao mesmo tempo.', a });
+        if (!a.desc || a.desc.length < 10) lista.push({ nivel: 'aviso', msg: 'Regra de uso vazia ou muito curta.', a });
+        const lk = resultadoLinks[a.url];
+        if (lk && lk.estado !== 'ok') lista.push({ nivel: lk.estado === 'quebrado' ? 'erro' : 'aviso', msg: lk.texto, a });
+      });
+      if (temWeb(p) && !ag.some(ehSemestral) && db.agendas.some(ehSemestral)) {
+        lista.push({ nivel: 'aviso', msg: `Nenhuma agenda WEB cadastrada em ${p}. Como ${p} começa em ${mesInicio(p)}, as agendas WEB (arquivos _${tokenSemestre(p)}) devem ser cadastradas aqui.`, a: null });
+      }
+      const porChave = {};
+      ag.forEach(a => (porChave[a.chave] = porChave[a.chave] || []).push(a));
+      Object.values(porChave).filter(v => v.length > 1).forEach(v => lista.push({ nivel: 'erro', msg: `Código "${v[0].chave}" repetido em ${v.length} agendas.`, a: v[1] }));
+      // A mesma URL aparece duas vezes: reporta só uma vez
+      const vistos = new Set();
+      return lista.filter(x => { const k = (x.a ? x.a.id : '') + x.msg; if (vistos.has(k)) return false; vistos.add(k); return true; })
+        .sort((x, y) => (x.nivel === 'erro' ? 0 : 1) - (y.nivel === 'erro' ? 0 : 1));
+    }
+
+    function renderDiagnostico() {
+      const el = document.getElementById('diagResultado');
+      if (!el || !db) return;
+      const p = document.getElementById('diagPeriodo').value || db.periodoAtual;
+      const probs = problemasDoPeriodo(p);
+      const total = agendasDoPeriodo(p).length;
+      const testados = agendasDoPeriodo(p).filter(a => resultadoLinks[a.url]).length;
+      const cab = `<div class="text-xs text-slate-500 mb-3">${total} agendas em <strong>${escapeHtml(p)}</strong> · links testados: ${testados}/${total}${testados < total ? ' (clique em "Testar se os links abrem")' : ''}</div>`;
+      if (!probs.length) { el.innerHTML = cab + `<div class="text-sm font-bold text-emerald-700">✔ Nenhum problema encontrado.</div>`; return; }
+      el.innerHTML = cab + `<div class="space-y-1.5 max-h-80 overflow-y-auto custom-scroll pr-1">` + probs.map(x => `
+        <div class="flex items-start justify-between gap-3 px-3 py-2 rounded-lg text-xs ${x.nivel === 'erro' ? 'bg-rose-50 text-rose-900' : 'bg-amber-50 text-amber-900'}">
+          <span><strong>${x.nivel === 'erro' ? '✖' : '⚠'} ${escapeHtml(x.a ? x.a.nome : 'Período ' + p)}</strong> — ${escapeHtml(x.msg)}${x.a ? `<br><span class="font-mono text-[10px] opacity-70">${escapeHtml(nomeArquivo(x.a.url))}</span>` : ''}</span>
+          ${x.a ? `<button onclick="editAgenda(${arg(x.a.id)})" class="shrink-0 font-bold underline">Editar</button>` : ''}
+        </div>`).join('') + `</div>`;
+    }
+
+    async function testarUrl(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+        if (res.ok) {
+          const lm = res.headers.get('last-modified');
+          return { estado: 'ok', status: res.status, modificado: lm ? new Date(lm).toLocaleDateString('pt-BR') : '' };
+        }
+        if (res.status === 404) return { estado: 'quebrado', status: 404, texto: 'Link quebrado (404): arquivo não existe no GitHub.' };
+        return { estado: 'duvida', status: res.status, texto: `O servidor respondeu ${res.status}.` };
+      } catch (e) {
+        return { estado: 'duvida', status: 0, texto: 'Não foi possível testar (sem internet ou bloqueio do navegador). Teste abrindo o link.' };
+      }
+    }
+
+    async function verificarLinks() {
+      const p = document.getElementById('diagPeriodo').value;
+      const urls = [...new Set(agendasDoPeriodo(p).map(a => a.url))];
+      const btn = document.getElementById('btnVerificarLinks');
+      btn.disabled = true;
+      let feitos = 0;
+      const fila = [...urls];
+      const trabalhador = async () => {
+        while (fila.length) {
+          const u = fila.shift();
+          resultadoLinks[u] = await testarUrl(u);
+          feitos++;
+          btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${feitos}/${urls.length}`;
+        }
+      };
+      await Promise.all(Array.from({ length: 6 }, trabalhador));
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-satellite-dish"></i> Testar se os links abrem`;
+      const quebrados = urls.filter(u => resultadoLinks[u].estado === 'quebrado').length;
+      renderDiagnostico(); renderCards();
+      showToast(quebrados ? `${quebrados} link(s) quebrado(s) em ${p}.` : `Todos os ${urls.length} links de ${p} abriram.`, quebrados ? 'warn' : 'success');
+    }
+
+    // ===================== PUBLICAR / IMPORTAR =====================
+    function baixarArquivo(conteudo, nome, tipo) {
+      const blob = new Blob([conteudo], { type: tipo });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = nome;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function publicarJson() {
+      if (!exigirAdmin()) return;
+      const p = db.periodoAtual;
+      const erros = problemasDoPeriodo(p).filter(x => x.nivel === 'erro');
+      if (erros.length) {
+        const ok = await askConfirm('Há erros no período atual', `O diagnóstico de <strong>${escapeHtml(p)}</strong> encontrou <strong>${erros.length} erro(s)</strong>. Recomendo corrigir antes. Publicar mesmo assim?`, 'Publicar mesmo assim', true);
+        if (!ok) return;
+      }
+      db.atualizadoEm = new Date().toISOString();
+      persistir();
+      baixarArquivo(JSON.stringify(db, null, 2), ARQUIVO_DADOS, 'application/json');
+      await askConfirm('Arquivo agendas.json baixado', `Agora suba o <code>agendas.json</code> no GitHub, na mesma pasta deste painel, substituindo o anterior (<em>Add file → Upload files → Commit</em>).<br><br>Quando a nova versão estiver no ar, o rascunho deste navegador é descartado automaticamente.`, 'Entendi');
+    }
+
+    async function descartarRascunho() {
+      if (!await askConfirm('Descartar alterações?', 'Todas as alterações não publicadas serão perdidas e o painel volta para a versão que a equipe vê.', 'Descartar', true)) return;
+      apagarRascunho();
+      db = clone(publicado);
+      renderTudo();
+      showToast('Rascunho descartado.', 'info');
+    }
+
+    function aplicarImportacao(dados, origem) {
+      db = normalizarBanco(dados);
+      persistir();
+      wizardState.periodo = db.periodoAtual;
+      renderTudo();
+      showToast(`Dados importados de ${origem} para o rascunho. Revise e publique.`, 'success');
+    }
+
+    function importJsonBackup(event) {
+      if (!exigirAdmin()) return;
+      const file = event.target.files[0];
+      event.target.value = '';
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const dados = JSON.parse(e.target.result);
+          if (!dados || !Array.isArray(dados.agendas)) { showToast("Arquivo JSON inválido.", "warn"); return; }
+          if (!await askConfirm('Importar arquivo?', `O arquivo tem <strong>${dados.agendas.length}</strong> agendas e vai substituir o rascunho atual.`, 'Importar')) return;
+          aplicarImportacao(dados, file.name);
+        } catch (err) { showToast("Erro ao ler o arquivo JSON.", "warn"); }
+      };
+      reader.readAsText(file);
+    }
+
+    async function importarDadosVersaoAntiga() {
+      if (!exigirAdmin()) return;
+      let dados = null;
+      try { dados = JSON.parse(localStorage.getItem(CHAVE_VERSAO_ANTIGA)); } catch (e) {}
+      if (!dados || !Array.isArray(dados.agendas)) { showToast('Não há dados válidos da versão antiga.', 'warn'); return; }
+      if (!await askConfirm('Recuperar dados da versão antiga?', `Este navegador tem <strong>${dados.agendas.length}</strong> agendas salvas pela versão anterior do painel (que nunca foram publicadas no arquivo). Elas vão substituir o rascunho atual para você revisar e publicar.`, 'Recuperar')) return;
+      aplicarImportacao(dados, 'versão antiga');
+      try { localStorage.removeItem(CHAVE_VERSAO_ANTIGA); } catch (e) {}
+      atualizarFaixas();
+    }
+
+    // ===================== TOAST =====================
+    function showToast(message, type = "success", tempo = 3600) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const colors = { success: "bg-emerald-700 text-white border-emerald-500", warn: "bg-amber-400 text-slate-950 border-amber-600", info: "bg-slate-800 text-white border-slate-600" };
+      toast.className = `toast pointer-events-auto max-w-sm px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm font-bold transition-all duration-300 ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, tempo);
+    }
+
+    document.addEventListener('input', (e) => { if (e.target.id === 'formChave') e.target.dataset.manual = '1'; });
+    window.addEventListener('load', initApp);
+  </script>
+</body>
+</html>
