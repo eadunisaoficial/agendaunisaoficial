@@ -2597,22 +2597,54 @@
       const pubPorId = Object.fromEntries(publicado.agendas.map(a => [a.id, a]));
       const alteradas = db.agendas.filter(a => a.conteudo && JSON.stringify(a.conteudo) !== JSON.stringify((pubPorId[a.id] || {}).conteudo));
       const nDados = contarDiferencas();
-      const blocos = alteradas.map(a => {
+      const infos = alteradas.map(a => {
         const pubC = (pubPorId[a.id] || {}).conteudo;
         const orig = ct.originais[caminhoDoArquivo(a)];
-        let r;
+        let r, editada = true;
         if (!pubC && orig) { // primeira vez: compara com o arquivo como está no GitHub
           const mud = resumoConteudo(JSON.parse(orig.importado), a.conteudo).filter(x => x !== 'ajustes de texto');
-          r = ['primeira vez: a agenda passa a ler as datas do agendas.json', ...mud];
+          editada = mud.length > 0;
+          r = editada ? ['primeira vez: a agenda passa a ler as datas do agendas.json', ...mud]
+                      : ['sem alteração de datas ou textos — só passaria a ler as datas do agendas.json (pode ficar para depois)'];
         } else r = resumoConteudo(pubC, a.conteudo);
-        return `<div class="border-l-4 border-indigo-400 pl-2 mb-2"><div class="font-bold text-slate-800">${escapeHtml(a.nome)} <span class="text-slate-400 font-normal">(${escapeHtml(a.periodo)})</span></div><ul class="text-xs text-slate-600 list-disc list-inside">${r.slice(0, 6).map(x => `<li>${escapeHtml(x)}</li>`).join('')}${r.length > 6 ? `<li>+ ${r.length - 6} alteração(ões)</li>` : ''}</ul></div>`;
-      }).join('');
-      const ok1 = await abrirModal({ titulo: '1/2 · Revise as alterações', okTexto: 'Continuar',
-        texto: `<p class="mb-2">Será gravado no GitHub (<code>${GH.dono}/${GH.repo}</code>, branch <code>${GH.branch}</code>):</p>
-          <p class="mb-2">• <strong>agendas.json</strong>: dados do painel (${nDados} alteração(ões) no total)</p>
-          ${alteradas.length ? `<p class="mb-1">• <strong>${alteradas.length} agenda(s) HTML</strong> com o conteúdo abaixo:</p><div class="mt-1">${blocos}</div>` : '<p>• Nenhuma agenda HTML precisa mudar.</p>'}
+        return { a, r, editada };
+      });
+      const nEditadas = infos.filter(x => x.editada).length;
+      const blocos = infos.map(({ a, r, editada }) => `
+        <label class="flex items-start gap-2 border-l-4 ${editada ? 'border-indigo-500' : 'border-slate-300'} pl-2 mb-2 cursor-pointer">
+          <input type="checkbox" class="ghSel mt-1" data-id="${escapeHtml(a.id)}" data-editada="${editada ? 1 : 0}" ${editada ? 'checked' : ''}>
+          <span><span class="font-bold ${editada ? 'text-slate-800' : 'text-slate-500'}">${escapeHtml(a.nome)}</span> <span class="text-slate-400">(${escapeHtml(a.periodo)})</span>
+          <ul class="text-xs ${editada ? 'text-slate-600' : 'text-slate-400'} list-disc list-inside">${r.slice(0, 6).map(x => `<li>${escapeHtml(x)}</li>`).join('')}${r.length > 6 ? `<li>+ ${r.length - 6} alteração(ões)</li>` : ''}</ul></span>
+        </label>`).join('');
+      const marcar = (modo) => `document.querySelectorAll('#modalTexto .ghSel').forEach(c => c.checked = ${modo === 'editadas' ? "c.dataset.editada === '1'" : modo === 'todas' ? 'true' : 'false'})`;
+      const ok1 = await abrirModal({ titulo: '1/2 · Escolha o que gravar', okTexto: 'Continuar',
+        texto: `<p class="mb-2">Destino: <code>${GH.dono}/${GH.repo}</code>, branch <code>${GH.branch}</code>.</p>
+          ${alteradas.length ? `
+          <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-2.5 mb-2 text-xs text-indigo-950">
+            <strong>Só as agendas marcadas serão gravadas.</strong> Vêm marcadas apenas as que você editou (${nEditadas} de ${alteradas.length}).
+            As desmarcadas <strong>não são tocadas</strong> no GitHub e continuam no seu rascunho para outro dia.
+            <div class="mt-1.5 flex flex-wrap gap-2 font-bold">
+              <button type="button" onclick="${marcar('editadas')}" class="underline">Só as editadas</button>
+              <button type="button" onclick="${marcar('todas')}" class="underline">Marcar todas</button>
+              <button type="button" onclick="${marcar('nenhuma')}" class="underline">Desmarcar todas</button>
+            </div>
+          </div>
+          <div class="mt-1">${blocos}</div>` : '<p>• Nenhuma agenda HTML precisa mudar.</p>'}
+          <p class="mb-1 mt-2">• <strong>agendas.json</strong> (dados do painel) também é gravado, levando só o conteúdo das agendas marcadas.</p>
           <p class="text-xs text-slate-500 mt-2">Na próxima etapa você informa o token e confere a lista final de arquivos.</p>` });
       if (!ok1) return;
+      const selecionadas = new Set(Array.from(document.querySelectorAll('#modalTexto .ghSel:checked')).map(c => c.dataset.id));
+      const escolhidas = alteradas.filter(a => selecionadas.has(a.id));
+      const adiadas = alteradas.length - escolhidas.length;
+      // Versão a gravar: agendas não marcadas mantêm no GitHub o conteúdo que já está publicado
+      const dbParaSalvar = clone(db);
+      dbParaSalvar.agendas.forEach(x => {
+        if (!x.conteudo || selecionadas.has(x.id) || !alteradas.some(a => a.id === x.id)) return;
+        const pubC = (pubPorId[x.id] || {}).conteudo;
+        if (pubC) x.conteudo = clone(pubC); else delete x.conteudo;
+      });
+      const semData = (o) => JSON.stringify({ ...o, atualizadoEm: null });
+      if (semData(dbParaSalvar) === semData(publicado)) { showToast('Nenhuma agenda marcada e nenhuma outra alteração: nada para gravar.', 'info'); return; }
 
       // ETAPA 2 — token (digitado agora, nunca salvo)
       let token = await abrirModal({ titulo: 'Token do GitHub', input: true, okTexto: 'Verificar',
@@ -2640,7 +2672,7 @@
         // Monta os arquivos a partir do que está no GitHub agora
         progresso(`Lendo ${alteradas.length} agenda(s) no GitHub...`);
         const arquivos = [], avisos = [], linhasArq = [];
-        const fila = [...alteradas];
+        const fila = [...escolhidas];
         const trabalhar = async () => {
           while (fila.length) {
             const a = fila.shift();
@@ -2656,16 +2688,17 @@
         await Promise.all(Array.from({ length: 5 }, trabalhar));
         const motorRemoto = await lerArquivoApi(token, 'agenda-dinamica.js');
         if (motorRemoto !== MOTOR_FONTE) { arquivos.push({ caminho: 'agenda-dinamica.js', texto: MOTOR_FONTE }); linhasArq.push(`<li><code>agenda-dinamica.js</code> <span class="text-slate-500">— ${motorRemoto == null ? 'arquivo novo' : 'versão atualizada'}</span></li>`); }
-        const novoDb = clone(db); novoDb.atualizadoEm = new Date().toISOString();
+        const novoDb = dbParaSalvar; novoDb.atualizadoEm = new Date().toISOString();
         arquivos.unshift({ caminho: ARQUIVO_DADOS, texto: JSON.stringify(novoDb, null, 2) });
         linhasArq.unshift(`<li><code>${ARQUIVO_DADOS}</code> <span class="text-slate-500">— dados do painel</span></li>`);
 
         // ETAPA 3 — confirmação final
-        const nomes = alteradas.slice(0, 4).map(a => a.nome).join(', ') + (alteradas.length > 4 ? ` e mais ${alteradas.length - 4}` : '');
-        const msgPadrao = alteradas.length ? `Atualiza agendas pelo painel: ${nomes}` : 'Atualiza dados do painel de agendas';
+        const nomes = escolhidas.slice(0, 4).map(a => a.nome).join(', ') + (escolhidas.length > 4 ? ` e mais ${escolhidas.length - 4}` : '');
+        const msgPadrao = escolhidas.length ? `Atualiza agendas pelo painel: ${nomes}` : 'Atualiza dados do painel de agendas';
         const msg = await abrirModal({ titulo: '2/2 · Confirmar gravação no GitHub', okTexto: 'Gravar no GitHub', perigo: true,
           texto: `<p class="mb-1"><strong>${arquivos.length}</strong> arquivo(s) serão gravados em <code>${GH.dono}/${GH.repo}</code> (<code>${GH.branch}</code>) num único registro:</p>
             <ul class="text-xs list-disc list-inside mb-2 max-h-40 overflow-y-auto">${linhasArq.join('')}</ul>
+            ${adiadas ? `<div class="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded p-2 mb-2">${adiadas} agenda(s) desmarcada(s) <strong>não serão tocadas</strong> e continuam no seu rascunho.</div>` : ''}
             ${avisos.length ? `<div class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded p-2 mb-2">⚠ ${avisos.map(escapeHtml).join('<br>⚠ ')}</div>` : ''}
             <label class="block text-xs font-bold text-slate-600 mt-2">Descrição da alteração (aparece no histórico do GitHub)</label>
             <input id="ghMensagem" value="${escapeHtml(msgPadrao)}" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm">
@@ -2681,13 +2714,14 @@
 
         // Sucesso: a versão gravada passa a ser a "publicada"
         db.atualizadoEm = novoDb.atualizadoEm;
-        publicado = clone(db);
+        publicado = clone(novoDb);
         origemDados = 'salvoRecente';
         apagarRascunho();
+        if (JSON.stringify(db) !== JSON.stringify(publicado)) salvarRascunho(); // o que ficou desmarcado continua como rascunho
         try { localStorage.setItem(CHAVE_ULTIMO_SALVO, JSON.stringify({ em: new Date().toISOString(), db: publicado })); } catch (e) {}
-        alteradas.forEach(a => { const c = caminhoDoArquivo(a); const f = arquivos.find(x => x.caminho === c); if (f) { const o = { texto: f.texto, importado: JSON.stringify(a.conteudo), em: new Date().toISOString() }; ct.originais[c] = o; guardarOriginal(c, o); } });
+        escolhidas.forEach(a => { const c = caminhoDoArquivo(a); const f = arquivos.find(x => x.caminho === c); if (f) { const o = { texto: f.texto, importado: JSON.stringify(a.conteudo), em: new Date().toISOString() }; ct.originais[c] = o; guardarOriginal(c, o); } });
         renderTudo();
-        await askConfirm('✔ Salvo no GitHub', `${arquivos.length} arquivo(s) gravado(s) com sucesso.<br><br>As agendas mostram as novas datas em <strong>1 a 2 minutos</strong> (tempo do GitHub Pages publicar).<br><br><a href="https://github.com/${GH.dono}/${GH.repo}/commit/${escapeHtml(commit.sha)}" target="_blank" rel="noopener" class="text-unisa font-bold underline">Ver este registro no GitHub</a>`, 'Fechar');
+        await askConfirm('✔ Salvo no GitHub', `${arquivos.length} arquivo(s) gravado(s) com sucesso.${adiadas ? `<br>${adiadas} agenda(s) ficaram no rascunho para depois.` : ''}<br><br>As agendas mostram as novas datas em <strong>1 a 2 minutos</strong> (tempo do GitHub Pages publicar).<br><br><a href="https://github.com/${GH.dono}/${GH.repo}/commit/${escapeHtml(commit.sha)}" target="_blank" rel="noopener" class="text-unisa font-bold underline">Ver este registro no GitHub</a>`, 'Fechar');
       } catch (e) {
         await askConfirm('Não foi possível salvar', `${escapeHtml(mensagemErroGitHub(e))}<br><br><span class="text-xs">Nenhum arquivo foi alterado. Seu rascunho continua salvo neste navegador.</span>`, 'Fechar', true);
       } finally {
