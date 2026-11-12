@@ -1,6 +1,6 @@
 {
   "versao": 3,
-  "atualizadoEm": "2026-11-12T13:10:00.863Z",
+  "atualizadoEm": "2026-11-12T13:21:33.650Z",
   "periodoAtual": "2026-4",
   "periodos": [
     "2027-1",
@@ -38,8 +38,8 @@
         "subtitulo": "teste - 2026/4",
         "itens": [
           {
-            "data": "testando2",
-            "texto": "Início das aulas",
+            "data": "testando3a",
+            "texto": "Início das aulaaaa",
             "destaque": false,
             "negrito": false,
             "oculto": false
@@ -84,7 +84,7 @@
               "texto": "CLIQUE AQUI PARA REALIZAR A PROVA",
               "inicio": "09/11",
               "fim": "15/11",
-              "oculto": true
+              "oculto": false
             }
           },
           {
