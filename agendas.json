@@ -1,6 +1,6 @@
 {
   "versao": 3,
-  "atualizadoEm": "2026-11-12T16:29:39.273Z",
+  "atualizadoEm": "2026-11-12T16:32:31.418Z",
   "periodoAtual": "2026-4",
   "periodos": [
     "2026-4",
@@ -37,7 +37,7 @@
         "subtitulo": "teste - 2026/4",
         "itens": [
           {
-            "data": "testando autmo",
+            "data": "fefas",
             "texto": "Início das aulaaaa",
             "destaque": false,
             "negrito": false,
@@ -45,10 +45,10 @@
           },
           {
             "data": "13/10 a 19/10",
-            "texto": "1ª Aula ao Vivo",
+            "texto": "testte",
             "destaque": false,
             "negrito": false,
-            "oculto": true
+            "oculto": false
           },
           {
             "data": "20/10 a 26/10",
