@@ -1,6 +1,6 @@
 {
   "versao": 3,
-  "atualizadoEm": "2026-11-12T13:04:25.973Z",
+  "atualizadoEm": "2026-11-12T13:10:00.863Z",
   "periodoAtual": "2026-4",
   "periodos": [
     "2027-1",
@@ -38,7 +38,7 @@
         "subtitulo": "teste - 2026/4",
         "itens": [
           {
-            "data": "testando",
+            "data": "testando2",
             "texto": "Início das aulas",
             "destaque": false,
             "negrito": false,
