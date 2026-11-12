@@ -78,7 +78,8 @@
     <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2">
       <span><i class="fa-solid fa-pen-ruler mr-1"></i> <span id="faixaRascunhoTexto">Você tem alterações ainda não publicadas para a equipe.</span></span>
       <span class="flex flex-wrap gap-2">
-        <button onclick="publicarJson()" class="bg-slate-900 text-white px-3 py-1 rounded-lg hover:bg-slate-700 transition"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Publicar (baixar agendas.json)</button>
+        <button onclick="salvarNoGitHub()" class="bg-slate-900 text-white px-3 py-1 rounded-lg hover:bg-slate-700 transition"><i class="fa-brands fa-github mr-1"></i>Salvar no GitHub</button>
+        <button onclick="publicarJson()" class="bg-white/60 px-3 py-1 rounded-lg hover:bg-white transition" title="Alternativa manual: baixar o agendas.json e subir você mesmo"><i class="fa-solid fa-download mr-1"></i>Baixar agendas.json</button>
         <button onclick="descartarRascunho()" class="bg-white/60 px-3 py-1 rounded-lg hover:bg-white transition">Descartar alterações</button>
       </span>
     </div>
@@ -301,11 +302,12 @@
         <div class="space-y-1">
           <h2 class="text-base sm:text-lg font-extrabold">Publicar para a equipe</h2>
           <p class="text-xs sm:text-sm text-emerald-100 max-w-3xl">
-            Suas alterações ficam num <strong>rascunho</strong> só neste navegador. A equipe só vê depois que você clica em <strong>Publicar</strong> e sobe o arquivo <code>agendas.json</code> no GitHub (substituindo o anterior, na mesma pasta deste painel).
+            Suas alterações ficam num <strong>rascunho</strong> só neste navegador. A equipe só vê depois que você clica em <strong>Salvar no GitHub</strong>: o painel mostra o que mudou, pede o seu token (que não é guardado) e grava o <code>agendas.json</code> e as agendas alteradas direto no repositório.
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-          <button onclick="publicarJson()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-lg transition"><i class="fa-solid fa-cloud-arrow-up"></i> Publicar (baixar agendas.json)</button>
+          <button onclick="salvarNoGitHub()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-lg transition"><i class="fa-brands fa-github"></i> Salvar no GitHub</button>
+          <button onclick="publicarJson()" class="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-3.5 py-3 rounded-xl border border-white/15 transition" title="Alternativa manual"><i class="fa-solid fa-download"></i> Baixar agendas.json</button>
           <label class="cursor-pointer bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-3.5 py-3 rounded-xl border border-white/15 transition"><i class="fa-solid fa-upload"></i> Importar JSON
             <input type="file" accept=".json" onchange="importJsonBackup(event)" class="hidden">
           </label>
@@ -537,9 +539,16 @@
 
       <div id="ctComoFunciona" class="hidden bg-white border border-indigo-200 rounded-2xl p-5 text-sm text-slate-700 grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div>
-          <h3 class="font-extrabold text-indigo-900 mb-2">Primeira vez (migração, uma vez por período)</h3>
+          <h3 class="font-extrabold text-indigo-900 mb-2">Com o GitHub conectado (recomendado)</h3>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs sm:text-sm mb-4">
+            <li>Escolha o período e clique em <strong>Carregar agendas do GitHub</strong> (não precisa de token; só na primeira vez de cada agenda).</li>
+            <li>Edite as agendas (uma a uma ou em lote).</li>
+            <li>Clique em <strong>Salvar no GitHub</strong>: revise as alterações → cole o token → confira a lista de arquivos → marque "Conferi" → <strong>Gravar</strong>.</li>
+            <li>Em 1 a 2 minutos as agendas mostram as novas datas. Na primeira gravação, cada agenda recebe também a linha que a faz ler o agendas.json.</li>
+          </ol>
+          <h3 class="font-extrabold text-indigo-900 mb-2">Sem conexão com o GitHub (alternativa manual)</h3>
           <ol class="list-decimal list-inside space-y-1.5 text-xs sm:text-sm">
-            <li>Escolha o período e clique em <strong>Importar HTMLs</strong>. Selecione todos os arquivos .html da pasta (ex.: <code>AGENDAS_2026_4</code>).</li>
+            <li>Clique em <strong>Importar do computador</strong> e selecione os arquivos .html da pasta (ex.: <code>AGENDAS_2026_4</code>).</li>
             <li>O painel lê as datas, textos, botões e itens ocultos de cada agenda.</li>
             <li>Clique em <strong>Baixar arquivos do período (.zip)</strong>. O ZIP traz os mesmos HTMLs com <strong>uma linha a mais</strong> e o arquivo <code>agenda-dinamica.js</code>.</li>
             <li>Descompacte e suba no GitHub: <code>agenda-dinamica.js</code> na raiz (junto do agendas.json) e os HTMLs na pasta do período, substituindo os atuais.</li>
@@ -553,6 +562,7 @@
             <li><strong>Várias agendas:</strong> marque as caixinhas e use <strong>Alterar em lote</strong> (trocar uma data em todas, mudar a data de "Divulgação de notas", ocultar um item, deslocar o calendário...).</li>
             <li><strong>Ocultar/mostrar:</strong> o olho em cada item ou botão. Item oculto não aparece para o aluno, mas fica guardado.</li>
             <li>Salve publicando o <strong>agendas.json</strong> no GitHub, como você já faz.</li>
+            <li><strong>Baixar arquivos atualizados:</strong> no ícone <i class="fa-solid fa-download"></i> de cada agenda (um .html), em <strong>Baixar marcadas</strong> (as que você marcar) ou em <strong>Baixar arquivos do período</strong>. Os arquivos saem com as datas atuais gravadas, servindo de cópia de segurança caso o JSON falhe.</li>
             <li><strong>Segurança:</strong> se o agendas.json não carregar, a agenda mostra o conteúdo gravado no próprio arquivo HTML.</li>
           </ul>
         </div>
@@ -562,10 +572,13 @@
       <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap items-center gap-2.5">
         <label class="text-xs font-bold text-slate-600">Período:</label>
         <select id="ctPeriodo" onchange="ct.periodo=this.value; ct.atual=null; ct.sel.clear(); renderConteudo()" class="px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold"></select>
-        <label class="cursor-pointer px-3.5 py-2 bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-extrabold rounded-xl"><i class="fa-solid fa-file-import"></i> Importar HTMLs
+        <button onclick="carregarPeriodoDoGitHub()" class="px-3.5 py-2 bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-extrabold rounded-xl" title="Lê as agendas direto do repositório (não precisa de token)"><i class="fa-brands fa-github"></i> Carregar agendas do GitHub</button>
+        <button onclick="salvarNoGitHub()" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-xl"><i class="fa-solid fa-cloud-arrow-up"></i> Salvar no GitHub</button>
+        <label class="cursor-pointer px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl" title="Alternativa: importar arquivos do seu computador"><i class="fa-solid fa-file-import"></i> Importar do computador
           <input type="file" accept=".html,.htm" multiple onchange="importarHtmlsAgendas(event)" class="hidden">
         </label>
-        <button onclick="baixarZipPeriodo()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-extrabold rounded-xl"><i class="fa-solid fa-file-zipper"></i> Baixar arquivos do período (.zip)</button>
+        <button onclick="baixarZipPeriodo()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-extrabold rounded-xl" title="Todas as agendas do período com conteúdo"><i class="fa-solid fa-file-zipper"></i> Baixar arquivos do período (.zip)</button>
+        <button onclick="baixarZipSelecionadas()" class="px-3.5 py-2 bg-slate-600 hover:bg-slate-500 text-white text-xs font-extrabold rounded-xl" title="Só as agendas marcadas na lista"><i class="fa-solid fa-square-check"></i> Baixar marcadas (.zip) <span id="ctQtdSelBtn"></span></button>
         <button onclick="baixarMotor()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl"><i class="fa-brands fa-js"></i> Baixar agenda-dinamica.js</button>
         <span id="ctResumo" class="text-xs text-slate-500 ml-auto"></span>
       </div>
@@ -661,8 +674,7 @@
             <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-lg">4</div><h3 class="text-base font-extrabold text-slate-900">(Admin) Publicar alterações</h3></div>
             <ol class="text-xs sm:text-sm text-slate-700 space-y-2 list-decimal list-inside leading-relaxed">
               <li>Tudo que você muda fica em <strong>rascunho</strong> (faixa amarela no topo). A equipe ainda não vê.</li>
-              <li>Clique em <strong>Publicar (baixar agendas.json)</strong>.</li>
-              <li>No GitHub, entre na pasta deste painel → <em>Add file → Upload files</em> → arraste o <code>agendas.json</code> → <em>Commit</em>.</li>
+              <li>Clique em <strong>Salvar no GitHub</strong>, revise, cole o token e confirme. (Alternativa manual: <strong>Baixar agendas.json</strong> e subir pelo site do GitHub.)</li>
               <li>Em 1 a 2 minutos a equipe vê os dados novos (basta recarregar). O rascunho some sozinho quando a versão publicada chega.</li>
               <li>Se errar algo, o histórico do GitHub guarda todas as versões do <code>agendas.json</code>.</li>
             </ol>
@@ -674,9 +686,9 @@
 
   <!-- MODAL GENÉRICO -->
   <div id="modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full p-6 space-y-4">
       <h3 id="modalTitulo" class="text-base font-extrabold text-slate-900"></h3>
-      <div id="modalTexto" class="text-sm text-slate-600 leading-relaxed"></div>
+      <div id="modalTexto" class="text-sm text-slate-600 leading-relaxed max-h-[60vh] overflow-y-auto pr-1"></div>
       <input id="modalInput" type="password" class="hidden w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm">
       <div class="flex justify-end gap-2 pt-2">
         <button id="modalCancelar" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-600 text-sm font-semibold hover:bg-slate-100">Cancelar</button>
@@ -1078,12 +1090,20 @@
 
     async function initApp() {
       publicado = await carregarPublicado();
+      try {
+        const salvo = JSON.parse(localStorage.getItem(CHAVE_ULTIMO_SALVO) || 'null');
+        if (salvo && salvo.db && salvo.db.atualizadoEm) {
+          if (!publicado.atualizadoEm || salvo.db.atualizadoEm > publicado.atualizadoEm) { publicado = normalizarBanco(salvo.db); origemDados = 'salvoRecente'; }
+          else localStorage.removeItem(CHAVE_ULTIMO_SALVO);
+        }
+      } catch (e) {}
       try { isAdmin = sessionStorage.getItem(CHAVE_SESSAO_ADMIN) === '1'; } catch (e) { isAdmin = false; }
       definirDadosDaTela();
       wizardState.periodo = db.periodoAtual;
       aplicarModo();
       switchTab('consulta');
       renderTudo();
+      carregarOriginais();
     }
 
     function definirDadosDaTela() {
@@ -1117,7 +1137,9 @@
 
     function atualizarFaixas() {
       const t = document.getElementById('faixaDadosTexto');
-      if (origemDados === 'json') {
+      if (origemDados === 'salvoRecente') {
+        t.innerHTML = `<i class="fa-brands fa-github text-emerald-400 mr-1"></i> Versão salva no GitHub em <strong>${escapeHtml(formatarData(publicado.atualizadoEm))}</strong>. O GitHub Pages pode levar 1–2 min para publicar; até lá este navegador mostra a versão salva.`;
+      } else if (origemDados === 'json') {
         t.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Dados publicados em <strong>${escapeHtml(formatarData(publicado.atualizadoEm))}</strong> · Período atual da equipe: <strong>${escapeHtml(publicado.periodoAtual)}</strong>`;
       } else {
         t.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i> Não foi possível ler o <code>${ARQUIVO_DADOS}</code>. Usando dados embutidos de <strong>${escapeHtml(formatarData(publicado.atualizadoEm))}</strong> (podem estar desatualizados). Abra o painel pelo link do GitHub Pages.`;
@@ -1186,7 +1208,7 @@
     }
 
     // ===================== MODAL =====================
-    function abrirModal({ titulo, texto, input = false, okTexto = 'Confirmar', perigo = false }) {
+    function abrirModal({ titulo, texto, input = false, okTexto = 'Confirmar', perigo = false, validar = null }) {
       return new Promise(resolve => {
         const m = document.getElementById('modal');
         const inp = document.getElementById('modalInput');
@@ -1205,7 +1227,11 @@
           ok.onclick = cancel.onclick = null; inp.onkeydown = null;
           resolve(valor);
         };
-        ok.onclick = () => fechar(input ? inp.value : true);
+        ok.onclick = () => {
+          const erro = validar ? validar() : '';
+          if (erro) { showToast(erro, 'warn'); return; }
+          fechar(input ? inp.value : true);
+        };
         cancel.onclick = () => fechar(input ? null : false);
         inp.onkeydown = (e) => { if (e.key === 'Enter') fechar(inp.value); if (e.key === 'Escape') fechar(null); };
       });
@@ -1870,7 +1896,12 @@
         `${plano.length} arquivo(s) reconhecido(s)${jaTem ? `; <strong>${jaTem}</strong> já têm conteúdo no painel e serão substituídas` : ''}.` +
         (erros.length ? `<br><br>⚠ ${erros.length} arquivo(s) ignorado(s) (detalhes no relatório).` : ''), 'Importar');
       if (!ok) return;
-      plano.forEach(p => { p.agenda.conteudo = p.conteudo; ct.originais[p.agenda.id] = { texto: p.texto, importado: JSON.stringify(p.conteudo) }; });
+      plano.forEach(p => {
+        p.agenda.conteudo = p.conteudo;
+        const orig = { texto: p.texto, importado: JSON.stringify(p.conteudo), em: new Date().toISOString() };
+        ct.originais[caminhoDoArquivo(p.agenda)] = orig;
+        guardarOriginal(caminhoDoArquivo(p.agenda), orig);
+      });
       persistir();
       document.getElementById('ctRelatorio').innerHTML = relatorioHtml(`✔ ${plano.length} agenda(s) importada(s) em ${ct.periodo}`,
         [...plano.filter(p => p.avisos.length).map(p => `${p.agenda.nome}: ${p.avisos.join('; ')}`)], erros,
@@ -1922,48 +1953,89 @@
     function linhaMotor(caminho) { return `<script src="${'../'.repeat(caminho.split('/').length - 1)}agenda-dinamica.js" data-agenda-unisa><\/script>`; }
 
     function htmlFinalDaAgenda(a) {
-      const caminho = caminhoDoArquivo(a);
-      const linha = linhaMotor(caminho);
-      const orig = ct.originais[a.id];
-      if (orig) {
-        let texto = orig.texto;
-        if (JSON.stringify(a.conteudo) !== orig.importado) {
-          // conteúdo alterado: grava as datas novas também no próprio arquivo (reserva caso o JSON falhe)
-          const doc = new DOMParser().parseFromString(texto, 'text/html');
-          const cont = doc.querySelector('.container');
-          const img = cont.querySelector('header img');
-          const scripts = Array.from(cont.querySelectorAll('script')); // alguns modelos têm o script dentro do container
-          cont.innerHTML = window.AgendaUnisa.containerHtml(a.conteudo, img && img.getAttribute('src'));
-          scripts.forEach(sc => cont.appendChild(sc));
-          texto = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
-        }
-        if (/agenda-dinamica\.js/.test(texto)) return texto;
-        const i = texto.toLowerCase().lastIndexOf('<\/body>');
-        return i >= 0 ? texto.slice(0, i) + linha + '\n' + texto.slice(i) : texto + '\n' + linha;
-      }
-      return window.AgendaUnisa.paginaCompleta(a.conteudo, { caminhoMotor: linha.match(/src="([^"]+)"/)[1] });
+      const orig = ct.originais[caminhoDoArquivo(a)];
+      const g = gerarHtmlAgenda(a, orig ? orig.texto : null);
+      return g.erro ? gerarHtmlAgenda(a, null).texto : g.texto;
     }
 
-    async function baixarZipPeriodo() {
+    // HTML original de cada agenda importada, guardado no navegador (IndexedDB) para downloads futuros
+    function abrirBancoLocal() {
+      return new Promise((res, rej) => {
+        if (!window.indexedDB) return rej(new Error('IndexedDB indisponível'));
+        const r = indexedDB.open('UNISA_AGENDAS', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('originais');
+        r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+      });
+    }
+    async function guardarOriginal(caminho, valor) {
+      try {
+        const d = await abrirBancoLocal();
+        await new Promise((res, rej) => { const tx = d.transaction('originais', 'readwrite'); tx.objectStore('originais').put(valor, caminho); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+      } catch (e) { console.warn('Não foi possível guardar o HTML original:', e); }
+    }
+    async function carregarOriginais() {
+      try {
+        const d = await abrirBancoLocal();
+        const todos = await new Promise((res, rej) => {
+          const out = {}; const rq = d.transaction('originais').objectStore('originais').openCursor();
+          rq.onsuccess = () => { const c = rq.result; if (c) { out[c.key] = c.value; c.continue(); } else res(out); };
+          rq.onerror = () => rej(rq.error);
+        });
+        Object.assign(ct.originais, todos);
+        if (document.getElementById('ctLista')) renderListaConteudo();
+      } catch (e) { console.warn('Originais não carregados:', e); }
+    }
+
+    function baixarBlob(blob, nome) {
+      const url = URL.createObjectURL(blob);
+      const el = document.createElement('a'); el.href = url; el.download = nome;
+      document.body.appendChild(el); el.click(); el.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    // Uma agenda: baixa direto o .html (com as datas atuais gravadas no arquivo)
+    function baixarAgendaUnica(id) {
       if (!exigirAdmin()) return;
-      const lista = listaPeriodoCt();
+      const a = agendaPorId(id);
+      if (!a || !a.conteudo) { showToast('Esta agenda ainda não tem conteúdo editável.', 'warn'); return; }
+      const caminho = caminhoDoArquivo(a);
+      const nome = caminho.split('/').pop();
+      baixarArquivo(htmlFinalDaAgenda(a), nome, 'text/html;charset=utf-8');
+      const pasta = caminho.includes('/') ? caminho.slice(0, caminho.lastIndexOf('/')) : 'raiz';
+      showToast(`${nome} baixado (${ct.originais[caminho] ? 'seu HTML original com as datas atuais' : 'modelo padrão com as datas atuais'}). Suba na pasta ${pasta} do GitHub.`, 'success', 6000);
+    }
+
+    // Várias agendas: ZIP com as pastas certas + agenda-dinamica.js
+    async function baixarAgendasZip(lista, nomeZip, titulo) {
+      if (!exigirAdmin()) return;
       const comConteudo = lista.filter(a => a.conteudo);
       const sem = lista.filter(a => !a.conteudo);
-      if (!comConteudo.length) { showToast(`Nenhuma agenda de ${ct.periodo} tem conteúdo. Importe os HTMLs primeiro.`, 'warn'); return; }
-      const originais = comConteudo.filter(a => ct.originais[a.id]).length;
-      const ok = await askConfirm(`Gerar arquivos de ${ct.periodo}?`,
-        `<strong>${comConteudo.length}</strong> agendas no ZIP (${originais} a partir dos arquivos importados agora, mantendo o HTML original + 1 linha; ${comConteudo.length - originais} geradas pelo modelo padrão).` +
-        (sem.length ? `<br>⚠ ${sem.length} sem conteúdo ficam de fora.` : '') +
-        `<br><br>O ZIP também traz o <code>agenda-dinamica.js</code> (vai na raiz do repositório, junto do agendas.json).`, 'Gerar ZIP');
+      if (!comConteudo.length) { showToast('Nenhuma das agendas escolhidas tem conteúdo editável. Importe os HTMLs primeiro.', 'warn'); return; }
+      const originais = comConteudo.filter(a => ct.originais[caminhoDoArquivo(a)]).length;
+      const alteradas = comConteudo.filter(a => { const o = ct.originais[caminhoDoArquivo(a)]; return o && o.importado !== JSON.stringify(a.conteudo); }).length;
+      const pastas = [...new Set(comConteudo.map(a => { const c = caminhoDoArquivo(a); return c.includes('/') ? c.slice(0, c.lastIndexOf('/')) : 'raiz'; }))];
+      const ok = await askConfirm(titulo,
+        `<strong>${comConteudo.length}</strong> agenda(s) no ZIP, todas com as <strong>datas atuais do painel</strong> gravadas no arquivo.<br>` +
+        `• ${originais} a partir do seu HTML original${alteradas ? ` (${alteradas} com datas alteradas desde a importação)` : ''}<br>` +
+        `• ${comConteudo.length - originais} geradas pelo modelo padrão (mesmo visual)<br>` +
+        `Pasta(s): <code>${escapeHtml(pastas.join(', '))}</code>` +
+        (sem.length ? `<br>⚠ ${sem.length} sem conteúdo ficam de fora: ${escapeHtml(sem.slice(0, 5).map(a => a.nome).join(', '))}${sem.length > 5 ? '…' : ''}` : '') +
+        `<br><br>O ZIP também traz o <code>agenda-dinamica.js</code> (fica na raiz do repositório; só precisa subir de novo se ele mudar).`, 'Gerar ZIP');
       if (!ok) return;
       const arquivos = [{ nome: 'agenda-dinamica.js', texto: MOTOR_FONTE }];
       const vistos = new Set();
       comConteudo.forEach(a => { const c = caminhoDoArquivo(a); if (vistos.has(c)) return; vistos.add(c); arquivos.push({ nome: c, texto: htmlFinalDaAgenda(a) }); });
-      const blob = gerarZip(arquivos);
-      const url = URL.createObjectURL(blob);
-      const el = document.createElement('a'); el.href = url; el.download = `agendas_${ct.periodo}.zip`;
-      document.body.appendChild(el); el.click(); el.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
-      showToast(`ZIP com ${arquivos.length - 1} agendas gerado.`, 'success');
+      baixarBlob(gerarZip(arquivos), nomeZip);
+      showToast(`ZIP com ${arquivos.length - 1} agenda(s) gerado.`, 'success');
+    }
+
+    function baixarZipPeriodo() {
+      return baixarAgendasZip(listaPeriodoCt(), `agendas_${ct.periodo}.zip`, `Baixar todas as agendas de ${ct.periodo}?`);
+    }
+    function baixarZipSelecionadas() {
+      const lista = [...ct.sel].map(agendaPorId).filter(Boolean);
+      if (!lista.length) { showToast('Marque na lista as agendas que deseja baixar.', 'warn'); return; }
+      const periodos = [...new Set(lista.map(a => a.periodo))];
+      return baixarAgendasZip(lista, `agendas_${periodos.join('_')}_selecionadas.zip`, `Baixar ${lista.length} agenda(s) marcada(s)?`);
     }
 
     function baixarMotor() { baixarArquivo(MOTOR_FONTE, 'agenda-dinamica.js', 'text/javascript'); }
@@ -1996,14 +2068,18 @@
       document.getElementById('ctResumo').innerHTML = `${total.filter(a => a.conteudo).length} de ${total.length} agendas com conteúdo editável em <strong>${escapeHtml(ct.periodo)}</strong>`;
       document.getElementById('ctLista').innerHTML = lista.map(a => `
         <div class="flex items-center gap-2 px-3 py-2 ${ct.atual === a.id ? 'bg-blue-50' : 'hover:bg-slate-50'}">
-          <input type="checkbox" ${ct.sel.has(a.id) ? 'checked' : ''} onchange="this.checked ? ct.sel.add(${arg(a.id)}) : ct.sel.delete(${arg(a.id)}); renderAreaConteudo(); document.getElementById('ctQtdSel').innerText='('+ct.sel.size+')'">
+          <input type="checkbox" ${ct.sel.has(a.id) ? 'checked' : ''} onchange="this.checked ? ct.sel.add(${arg(a.id)}) : ct.sel.delete(${arg(a.id)}); renderAreaConteudo(); document.getElementById('ctQtdSel').innerText='('+ct.sel.size+')'; document.getElementById('ctQtdSelBtn').innerText='('+ct.sel.size+')'">
           <button onclick="ct.atual=${arg(a.id)}; ct.modo='editar'; renderListaConteudo(); renderAreaConteudo()" class="flex-1 text-left min-w-0">
             <div class="text-xs font-bold text-slate-800 truncate">${escapeHtml(a.nome)}</div>
             <div class="text-[10px] font-mono text-slate-400 truncate">${escapeHtml(nomeArquivo(a.url).split('/').pop())}</div>
           </button>
-          ${a.conteudo ? `<span title="Conteúdo editável" class="text-emerald-600 text-xs"><i class="fa-solid fa-circle-check"></i></span>` : `<span title="Sem conteúdo: importe o HTML" class="text-slate-300 text-xs"><i class="fa-regular fa-circle"></i></span>`}
+          ${a.conteudo ? `
+            ${ct.originais[caminhoDoArquivo(a)] ? `<span title="HTML original guardado neste navegador: o arquivo baixado mantém o seu original" class="text-slate-400 text-[10px]"><i class="fa-regular fa-file-code"></i></span>` : ''}
+            <button onclick="baixarAgendaUnica(${arg(a.id)})" title="Baixar esta agenda (.html)" class="text-slate-400 hover:text-unisa text-xs"><i class="fa-solid fa-download"></i></button>
+            <span title="Conteúdo editável" class="text-emerald-600 text-xs"><i class="fa-solid fa-circle-check"></i></span>` : `<span title="Sem conteúdo: importe o HTML" class="text-slate-300 text-xs"><i class="fa-regular fa-circle"></i></span>`}
         </div>`).join('') || '<div class="p-4 text-xs text-slate-500">Nenhuma agenda.</div>';
       document.getElementById('ctQtdSel').innerText = `(${ct.sel.size})`;
+      document.getElementById('ctQtdSelBtn').innerText = `(${ct.sel.size})`;
     }
 
     function renderAreaConteudo() {
@@ -2061,7 +2137,8 @@
           <h3 class="font-extrabold text-slate-900">${escapeHtml(a.nome)} <span class="text-slate-400 font-normal">(${escapeHtml(a.periodo)})</span></h3>
           <p class="text-slate-600">Esta agenda ainda não tem conteúdo editável. Opções:</p>
           <ul class="list-disc list-inside text-slate-700 space-y-1">
-            <li>Clique em <strong>Importar HTMLs</strong> e selecione o arquivo <code>${escapeHtml(nomeArquivo(a.url).split('/').pop())}</code>.</li>
+            <li><button onclick="carregarDoGitHub([${arg(a.id)}]).then(() => { ct.atual = ${arg(a.id)}; renderAreaConteudo(); })" class="px-3 py-1.5 bg-indigo-700 hover:bg-indigo-600 text-white text-xs font-extrabold rounded-lg"><i class="fa-brands fa-github"></i> Carregar do GitHub</button> (lê <code>${escapeHtml(caminhoDoArquivo(a))}</code> direto do repositório)</li>
+            <li>ou <strong>Importar do computador</strong> e selecionar o arquivo <code>${escapeHtml(nomeArquivo(a.url).split('/').pop())}</code>.</li>
             ${mesma ? `<li><button onclick="copiarConteudoDe(${arg(a.id)}, ${arg(mesma.id)})" class="text-unisa font-bold underline">Copiar o conteúdo de ${escapeHtml(mesma.nome)} (${escapeHtml(mesma.periodo)})</button> e depois ajustar as datas.</li>` : ''}
             ${outras.length ? `<li>Copiar de outra agenda: <select onchange="if(this.value) copiarConteudoDe(${arg(a.id)}, this.value)" class="${inp} text-xs"><option value="">escolha...</option>${outras.map(x => `<option value="${escapeHtml(x.id)}">${escapeHtml(x.periodo + ' · ' + x.nome)}</option>`).join('')}</select></li>` : ''}
           </ul></div>`;
@@ -2074,7 +2151,10 @@
         <div class="2xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="bg-unisa text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
             <div class="min-w-0"><div class="text-sm font-extrabold truncate">${escapeHtml(a.nome)}</div><div class="text-[11px] font-mono text-blue-100 truncate">${escapeHtml(nomeArquivo(a.url))}</div></div>
-            <label class="text-xs font-bold flex items-center gap-1.5 bg-white/10 px-2.5 py-1.5 rounded-lg" title="Desligado: a agenda mostra o conteúdo gravado no próprio arquivo HTML"><input type="checkbox" ${c.ativo !== false ? 'checked' : ''} onchange="setCampo('ativo', this.checked, true)"> Usar conteúdo do painel</label>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="baixarAgendaUnica(${arg(a.id)})" class="text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-2.5 py-1.5 rounded-lg" title="Baixa o arquivo .html desta agenda com as datas atuais"><i class="fa-solid fa-download"></i> Baixar esta agenda (.html)</button>
+              <label class="text-xs font-bold flex items-center gap-1.5 bg-white/10 px-2.5 py-1.5 rounded-lg" title="Desligado: a agenda mostra o conteúdo gravado no próprio arquivo HTML"><input type="checkbox" ${c.ativo !== false ? 'checked' : ''} onchange="setCampo('ativo', this.checked, true)"> Usar conteúdo do painel</label>
+            </div>
           </div>
           <div class="p-4 space-y-5">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2333,6 +2413,287 @@
       simulacao.forEach(x => { x.a.conteudo = x.c; });
       persistir(); renderListaConteudo();
       showToast(`${total} campo(s) alterado(s) em ${simulacao.length} agenda(s) (rascunho).`, 'success');
+    }
+
+    // ===================== CONEXÃO COM O GITHUB =====================
+    // Leitura: pública (sem token). Gravação: um único commit via API, com o token digitado na hora.
+    // O token NUNCA é salvo: fica numa variável local só durante a gravação e é descartado em seguida.
+    const GH = { dono: 'eadunisaoficial', repo: 'agendaunisaoficial', branch: 'main' };
+    const GH_API = 'https://api.github.com';
+    const GH_RAW = `https://raw.githubusercontent.com/${GH.dono}/${GH.repo}/${GH.branch}/`;
+    const CHAVE_ULTIMO_SALVO = 'UNISA_AGENDAS_ULTIMO_SALVO';
+    const caminhoUrl = (c) => c.split('/').map(encodeURIComponent).join('/');
+
+    async function lerArquivoPublico(caminho) {
+      const r = await fetch(GH_RAW + caminhoUrl(caminho) + '?t=' + Date.now(), { cache: 'no-store' });
+      if (r.status === 404) return null;
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    }
+
+    class ErroGitHub extends Error { constructor(msg, status) { super(msg); this.status = status; } }
+    async function gh(token, metodo, rota, corpo) {
+      let r;
+      try {
+        r = await fetch(`${GH_API}/repos/${GH.dono}/${GH.repo}${rota}`, {
+          method: metodo, cache: 'no-store',
+          headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(corpo ? { 'Content-Type': 'application/json' } : {}) },
+          body: corpo ? JSON.stringify(corpo) : undefined
+        });
+      } catch (e) { throw new ErroGitHub('Sem conexão com o GitHub. Verifique a internet.', 0); }
+      if (!r.ok) {
+        let msg = ''; try { msg = (await r.json()).message || ''; } catch (e) {}
+        throw new ErroGitHub(msg || 'HTTP ' + r.status, r.status);
+      }
+      return r.status === 204 ? null : r.json();
+    }
+    function base64ParaTexto(b64) {
+      const bin = atob(String(b64 || '').replace(/\s/g, ''));
+      return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+    }
+    async function lerArquivoApi(token, caminho) {
+      try {
+        const j = await gh(token, 'GET', `/contents/${caminhoUrl(caminho)}?ref=${GH.branch}`);
+        if (j.content) return base64ParaTexto(j.content);
+        const blob = await gh(token, 'GET', `/git/blobs/${j.sha}`); // arquivos > 1 MB
+        return base64ParaTexto(blob.content);
+      } catch (e) { if (e.status === 404) return null; throw e; }
+    }
+    async function gravarCommit(token, arquivos, mensagem) {
+      const ref = await gh(token, 'GET', `/git/ref/heads/${GH.branch}`);
+      const base = ref.object.sha;
+      const commitBase = await gh(token, 'GET', `/git/commits/${base}`);
+      const arvore = await gh(token, 'POST', '/git/trees', { base_tree: commitBase.tree.sha, tree: arquivos.map(a => ({ path: a.caminho, mode: '100644', type: 'blob', content: a.texto })) });
+      const novo = await gh(token, 'POST', '/git/commits', { message: mensagem, tree: arvore.sha, parents: [base] });
+      await gh(token, 'PATCH', `/git/refs/heads/${GH.branch}`, { sha: novo.sha, force: false }); // falha se alguém gravou no meio
+      return novo;
+    }
+    function mensagemErroGitHub(e) {
+      if (e.status === 401) return 'Token inválido ou expirado. Gere um novo token no GitHub.';
+      if (e.status === 403) return 'O token não tem permissão de escrita neste repositório (precisa de "Contents: Read and write" em agendaunisaoficial).';
+      if (e.status === 404) return 'Repositório não encontrado para este token. Confira se o token tem acesso ao repositório agendaunisaoficial.';
+      if (e.status === 409 || e.status === 422) return 'O GitHub recebeu outra alteração durante a gravação. Nada foi alterado. Recarregue o painel e tente de novo.';
+      return e.message || 'Erro desconhecido.';
+    }
+
+    // ---------- gerar o HTML final de uma agenda a partir do arquivo atual ----------
+    // textoAtual = arquivo como está no repositório (ou null se ainda não existe)
+    function gerarHtmlAgenda(a, textoAtual) {
+      const caminho = caminhoDoArquivo(a);
+      const linha = linhaMotor(caminho);
+      if (textoAtual == null) return { texto: window.AgendaUnisa.paginaCompleta(a.conteudo, { caminhoMotor: linha.match(/src="([^"]+)"/)[1] }), modo: 'novo (modelo padrão)' };
+      const lido = importarHtmlAgenda(textoAtual);
+      if (lido.erro) return { erro: 'arquivo no GitHub com estrutura diferente do modelo: ' + lido.erro };
+      let texto = textoAtual, modo = 'só adiciona a linha do motor';
+      if (JSON.stringify({ ...lido.conteudo, ativo: true }) !== JSON.stringify({ ...a.conteudo, ativo: true })) {
+        // grava as datas atuais também dentro do próprio arquivo (reserva caso o JSON falhe)
+        const doc = new DOMParser().parseFromString(textoAtual, 'text/html');
+        const cont = doc.querySelector('.container');
+        const img = cont.querySelector('header img');
+        const scripts = Array.from(cont.querySelectorAll('script'));
+        cont.innerHTML = window.AgendaUnisa.containerHtml(a.conteudo, img && img.getAttribute('src'));
+        scripts.forEach(sc => cont.appendChild(sc));
+        texto = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+        modo = 'datas atualizadas no arquivo';
+      }
+      if (!/agenda-dinamica\.js/.test(texto)) {
+        const i = texto.toLowerCase().lastIndexOf('<\/body>');
+        texto = i >= 0 ? texto.slice(0, i) + linha + '\n' + texto.slice(i) : texto + '\n' + linha;
+      } else if (modo === 'só adiciona a linha do motor') {
+        modo = 'sem mudança no arquivo';
+      }
+      return { texto, modo };
+    }
+
+    // ---------- carregar agendas do GitHub (sem importar arquivos) ----------
+    async function carregarDoGitHub(ids, silencioso) {
+      if (!exigirAdmin()) return;
+      const lista = ids.map(agendaPorId).filter(a => a && /\.html?$/i.test(a.url) && a.url.startsWith(BASE_GITHUB_URL));
+      if (!lista.length) return;
+      const ok = [], erros = [];
+      let feitos = 0;
+      const fila = [...lista];
+      const trabalhar = async () => {
+        while (fila.length) {
+          const a = fila.shift();
+          const caminho = caminhoDoArquivo(a);
+          try {
+            const texto = await lerArquivoPublico(caminho);
+            if (texto == null) { erros.push(`${a.nome}: arquivo ${caminho} não existe no GitHub`); continue; }
+            const r = importarHtmlAgenda(texto);
+            if (r.erro) { erros.push(`${a.nome}: ${r.erro}`); continue; }
+            a.conteudo = r.conteudo;
+            const orig = { texto, importado: JSON.stringify(r.conteudo), em: new Date().toISOString() };
+            ct.originais[caminho] = orig; guardarOriginal(caminho, orig);
+            ok.push(a);
+          } catch (e) { erros.push(`${a.nome}: não foi possível ler (${e.message})`); }
+          finally { feitos++; if (!silencioso) document.getElementById('ctResumo').innerText = `Carregando do GitHub... ${feitos}/${lista.length}`; }
+        }
+      };
+      await Promise.all(Array.from({ length: 6 }, trabalhar));
+      persistir();
+      if (!silencioso || erros.length) document.getElementById('ctRelatorio').innerHTML = relatorioHtml(`✔ ${ok.length} agenda(s) carregada(s) do GitHub`, [], erros, ok.length ? 'Agora é só editar. Quando terminar, clique em <strong>Salvar no GitHub</strong>.' : '');
+      renderConteudo();
+      return ok;
+    }
+    async function carregarPeriodoDoGitHub() {
+      const faltam = listaPeriodoCt().filter(a => !a.conteudo);
+      if (!faltam.length) { showToast(`Todas as agendas de ${ct.periodo} já estão carregadas.`, 'info'); return; }
+      if (!await askConfirm(`Carregar ${faltam.length} agenda(s) de ${ct.periodo}?`, `O painel vai ler os arquivos direto do GitHub (não precisa de token) e preparar o conteúdo para edição.<br><span class="text-xs">Na primeira gravação, cada arquivo recebe a linha que faz a agenda ler o agendas.json.</span>`, 'Carregar')) return;
+      await carregarDoGitHub(faltam.map(a => a.id));
+    }
+
+    // ---------- resumo das diferenças de conteúdo ----------
+    function resumoConteudo(antes, depois) {
+      if (!antes) return ['primeira vez: a agenda passa a ler as datas do agendas.json'];
+      const linhas = [];
+      const chaveIt = (it) => textoPuro(it.texto).toLowerCase();
+      const comparar = (la, lb, rot) => {
+        const A = la || [], B = lb || [];
+        const usados = new Set();
+        B.forEach(b => {
+          const i = A.findIndex((x, k) => !usados.has(k) && chaveIt(x) === chaveIt(b));
+          if (i < 0) { linhas.push(`${rot}novo item: ${b.data} — ${textoPuro(b.texto)}`); return; }
+          usados.add(i); const a = A[i]; const nome = textoPuro(b.texto) || '(sem texto)';
+          if (a.data !== b.data) linhas.push(`${rot}${nome}: ${a.data} → ${b.data}`);
+          if (!!a.oculto !== !!b.oculto) linhas.push(`${rot}${nome}: ${b.oculto ? 'ocultado' : 'voltou a aparecer'}`);
+          if (!!a.destaque !== !!b.destaque || !!a.negrito !== !!b.negrito) linhas.push(`${rot}${nome}: formatação alterada`);
+          const ba = a.botao || null, bb = b.botao || null;
+          if (JSON.stringify(ba) !== JSON.stringify(bb)) {
+            if (!ba) linhas.push(`${rot}${nome}: botão adicionado`);
+            else if (!bb) linhas.push(`${rot}${nome}: botão removido`);
+            else {
+              if (ba.inicio !== bb.inicio || ba.fim !== bb.fim) linhas.push(`${rot}${nome}: botão ${ba.inicio}–${ba.fim} → ${bb.inicio}–${bb.fim}`);
+              if (!!ba.oculto !== !!bb.oculto) linhas.push(`${rot}${nome}: botão ${bb.oculto ? 'ocultado' : 'visível'}`);
+              if (ba.texto !== bb.texto || ba.param !== bb.param) linhas.push(`${rot}${nome}: texto/link do botão alterado`);
+            }
+          }
+        });
+        A.forEach((a, k) => { if (!usados.has(k)) linhas.push(`${rot}item removido: ${a.data} — ${textoPuro(a.texto)}`); });
+        if (A.length === B.length && A.some((a, k) => chaveIt(a) !== chaveIt(B[k])) && !linhas.length) linhas.push(`${rot}ordem dos itens alterada`);
+      };
+      if (antes.titulo !== depois.titulo || antes.subtitulo !== depois.subtitulo) linhas.push(`título/subtítulo: "${depois.subtitulo}"`);
+      if ((antes.ativo !== false) !== (depois.ativo !== false)) linhas.push(depois.ativo === false ? 'deixou de usar o conteúdo do painel' : 'passou a usar o conteúdo do painel');
+      comparar(antes.itens, depois.itens, '');
+      if (JSON.stringify(antes.dicas) !== JSON.stringify(depois.dicas)) {
+        if (!antes.dicas || !depois.dicas) linhas.push(depois.dicas ? 'bloco de dicas criado' : 'bloco de dicas removido');
+        else { if (!!antes.dicas.oculto !== !!depois.dicas.oculto) linhas.push(`dicas: bloco ${depois.dicas.oculto ? 'ocultado' : 'visível'}`); comparar(antes.dicas.itens, depois.dicas.itens, 'dicas · '); }
+      }
+      if (JSON.stringify(antes.rodape) !== JSON.stringify(depois.rodape)) linhas.push('rodapé alterado');
+      return linhas.length ? linhas : ['ajustes de texto'];
+    }
+
+    // ---------- SALVAR NO GITHUB ----------
+    let salvandoGitHub = false;
+    async function salvarNoGitHub() {
+      if (!exigirAdmin() || salvandoGitHub) return;
+      if (!temAlteracoes()) { showToast('Não há alterações para salvar.', 'info'); return; }
+
+      // Diagnóstico do período atual
+      const errosDiag = problemasDoPeriodo(db.periodoAtual).filter(x => x.nivel === 'erro');
+      if (errosDiag.length && !await askConfirm('Há erros no período atual', `O diagnóstico de <strong>${escapeHtml(db.periodoAtual)}</strong> encontrou <strong>${errosDiag.length} erro(s)</strong> (aba Gerenciar). Recomendo corrigir antes. Continuar mesmo assim?`, 'Continuar mesmo assim', true)) return;
+
+      // ETAPA 1 — revisão do que mudou
+      const pubPorId = Object.fromEntries(publicado.agendas.map(a => [a.id, a]));
+      const alteradas = db.agendas.filter(a => a.conteudo && JSON.stringify(a.conteudo) !== JSON.stringify((pubPorId[a.id] || {}).conteudo));
+      const nDados = contarDiferencas();
+      const blocos = alteradas.map(a => {
+        const pubC = (pubPorId[a.id] || {}).conteudo;
+        const orig = ct.originais[caminhoDoArquivo(a)];
+        let r;
+        if (!pubC && orig) { // primeira vez: compara com o arquivo como está no GitHub
+          const mud = resumoConteudo(JSON.parse(orig.importado), a.conteudo).filter(x => x !== 'ajustes de texto');
+          r = ['primeira vez: a agenda passa a ler as datas do agendas.json', ...mud];
+        } else r = resumoConteudo(pubC, a.conteudo);
+        return `<div class="border-l-4 border-indigo-400 pl-2 mb-2"><div class="font-bold text-slate-800">${escapeHtml(a.nome)} <span class="text-slate-400 font-normal">(${escapeHtml(a.periodo)})</span></div><ul class="text-xs text-slate-600 list-disc list-inside">${r.slice(0, 6).map(x => `<li>${escapeHtml(x)}</li>`).join('')}${r.length > 6 ? `<li>+ ${r.length - 6} alteração(ões)</li>` : ''}</ul></div>`;
+      }).join('');
+      const ok1 = await abrirModal({ titulo: '1/2 · Revise as alterações', okTexto: 'Continuar',
+        texto: `<p class="mb-2">Será gravado no GitHub (<code>${GH.dono}/${GH.repo}</code>, branch <code>${GH.branch}</code>):</p>
+          <p class="mb-2">• <strong>agendas.json</strong>: dados do painel (${nDados} alteração(ões) no total)</p>
+          ${alteradas.length ? `<p class="mb-1">• <strong>${alteradas.length} agenda(s) HTML</strong> com o conteúdo abaixo:</p><div class="mt-1">${blocos}</div>` : '<p>• Nenhuma agenda HTML precisa mudar.</p>'}
+          <p class="text-xs text-slate-500 mt-2">Na próxima etapa você informa o token e confere a lista final de arquivos.</p>` });
+      if (!ok1) return;
+
+      // ETAPA 2 — token (digitado agora, nunca salvo)
+      let token = await abrirModal({ titulo: 'Token do GitHub', input: true, okTexto: 'Verificar',
+        texto: `Cole o seu <strong>token do GitHub</strong> (começa com <code>github_pat_</code>).<br><span class="text-xs">Ele não é salvo em lugar nenhum: é usado só nesta gravação e descartado em seguida.</span>` });
+      if (token === null) return;
+      token = token.trim();
+      if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(token)) { showToast('Esse não parece um token do GitHub (deve começar com github_pat_).', 'warn'); return; }
+
+      salvandoGitHub = true;
+      const progresso = (t) => showToast(t, 'info', 2500);
+      try {
+        progresso('Verificando o token e o repositório...');
+        const info = await gh(token, 'GET', '');
+        if (info.permissions && !info.permissions.push) throw new ErroGitHub('sem permissão', 403);
+
+        // Conflito: alguém gravou o agendas.json depois que este painel foi carregado?
+        const jsonRemoto = await lerArquivoApi(token, ARQUIVO_DADOS);
+        let remoto = null; try { remoto = jsonRemoto ? JSON.parse(jsonRemoto) : null; } catch (e) {}
+        const baseLocal = (lerRascunho() || {}).base || publicado.atualizadoEm || '';
+        if (remoto && remoto.atualizadoEm && baseLocal && remoto.atualizadoEm > baseLocal && remoto.atualizadoEm !== publicado.atualizadoEm) {
+          const forcar = await askConfirm('⚠ O GitHub tem uma versão mais nova', `O <code>agendas.json</code> no GitHub foi salvo em <strong>${escapeHtml(formatarData(remoto.atualizadoEm))}</strong>, depois da versão em que você começou a editar (${escapeHtml(formatarData(baseLocal))}).<br><br>Salvar agora vai <strong>sobrescrever</strong> o que foi feito lá. O recomendado é cancelar, baixar seu rascunho (Gerenciar → Publicar) por segurança e recarregar o painel.`, 'Sobrescrever mesmo assim', true);
+          if (!forcar) return;
+        }
+
+        // Monta os arquivos a partir do que está no GitHub agora
+        progresso(`Lendo ${alteradas.length} agenda(s) no GitHub...`);
+        const arquivos = [], avisos = [], linhasArq = [];
+        const fila = [...alteradas];
+        const trabalhar = async () => {
+          while (fila.length) {
+            const a = fila.shift();
+            const caminho = caminhoDoArquivo(a);
+            const atual = await lerArquivoApi(token, caminho);
+            const g = gerarHtmlAgenda(a, atual);
+            if (g.erro) { avisos.push(`${a.nome}: ${g.erro} (o agendas.json é salvo, o arquivo não)`); continue; }
+            if (g.modo === 'sem mudança no arquivo') continue;
+            arquivos.push({ caminho, texto: g.texto });
+            linhasArq.push(`<li><code>${escapeHtml(caminho)}</code> <span class="text-slate-500">— ${atual == null ? 'arquivo novo' : escapeHtml(g.modo)}</span></li>`);
+          }
+        };
+        await Promise.all(Array.from({ length: 5 }, trabalhar));
+        const motorRemoto = await lerArquivoApi(token, 'agenda-dinamica.js');
+        if (motorRemoto !== MOTOR_FONTE) { arquivos.push({ caminho: 'agenda-dinamica.js', texto: MOTOR_FONTE }); linhasArq.push(`<li><code>agenda-dinamica.js</code> <span class="text-slate-500">— ${motorRemoto == null ? 'arquivo novo' : 'versão atualizada'}</span></li>`); }
+        const novoDb = clone(db); novoDb.atualizadoEm = new Date().toISOString();
+        arquivos.unshift({ caminho: ARQUIVO_DADOS, texto: JSON.stringify(novoDb, null, 2) });
+        linhasArq.unshift(`<li><code>${ARQUIVO_DADOS}</code> <span class="text-slate-500">— dados do painel</span></li>`);
+
+        // ETAPA 3 — confirmação final
+        const nomes = alteradas.slice(0, 4).map(a => a.nome).join(', ') + (alteradas.length > 4 ? ` e mais ${alteradas.length - 4}` : '');
+        const msgPadrao = alteradas.length ? `Atualiza agendas pelo painel: ${nomes}` : 'Atualiza dados do painel de agendas';
+        const msg = await abrirModal({ titulo: '2/2 · Confirmar gravação no GitHub', okTexto: 'Gravar no GitHub', perigo: true,
+          texto: `<p class="mb-1"><strong>${arquivos.length}</strong> arquivo(s) serão gravados em <code>${GH.dono}/${GH.repo}</code> (<code>${GH.branch}</code>) num único registro:</p>
+            <ul class="text-xs list-disc list-inside mb-2 max-h-40 overflow-y-auto">${linhasArq.join('')}</ul>
+            ${avisos.length ? `<div class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded p-2 mb-2">⚠ ${avisos.map(escapeHtml).join('<br>⚠ ')}</div>` : ''}
+            <label class="block text-xs font-bold text-slate-600 mt-2">Descrição da alteração (aparece no histórico do GitHub)</label>
+            <input id="ghMensagem" value="${escapeHtml(msgPadrao)}" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm">
+            <label class="flex items-start gap-2 mt-3 text-sm font-bold text-slate-800"><input type="checkbox" id="ghConferi" class="mt-1"> Conferi as alterações e quero gravar no GitHub agora.</label>
+            <p class="text-[11px] text-slate-500 mt-2">Alunos e equipe veem as mudanças em 1 a 2 minutos. Tudo fica no histórico do GitHub e pode ser revertido.</p>`,
+          validar: () => document.getElementById('ghConferi').checked ? '' : 'Marque "Conferi as alterações" para gravar.' });
+        if (!msg) return;
+        const mensagem = (document.getElementById('ghMensagem').value || msgPadrao).trim();
+
+        progresso('Gravando no GitHub...');
+        const commit = await gravarCommit(token, arquivos, mensagem);
+        token = null;
+
+        // Sucesso: a versão gravada passa a ser a "publicada"
+        db.atualizadoEm = novoDb.atualizadoEm;
+        publicado = clone(db);
+        origemDados = 'salvoRecente';
+        apagarRascunho();
+        try { localStorage.setItem(CHAVE_ULTIMO_SALVO, JSON.stringify({ em: new Date().toISOString(), db: publicado })); } catch (e) {}
+        alteradas.forEach(a => { const c = caminhoDoArquivo(a); const f = arquivos.find(x => x.caminho === c); if (f) { const o = { texto: f.texto, importado: JSON.stringify(a.conteudo), em: new Date().toISOString() }; ct.originais[c] = o; guardarOriginal(c, o); } });
+        renderTudo();
+        await askConfirm('✔ Salvo no GitHub', `${arquivos.length} arquivo(s) gravado(s) com sucesso.<br><br>As agendas mostram as novas datas em <strong>1 a 2 minutos</strong> (tempo do GitHub Pages publicar).<br><br><a href="https://github.com/${GH.dono}/${GH.repo}/commit/${escapeHtml(commit.sha)}" target="_blank" rel="noopener" class="text-unisa font-bold underline">Ver este registro no GitHub</a>`, 'Fechar');
+      } catch (e) {
+        await askConfirm('Não foi possível salvar', `${escapeHtml(mensagemErroGitHub(e))}<br><br><span class="text-xs">Nenhum arquivo foi alterado. Seu rascunho continua salvo neste navegador.</span>`, 'Fechar', true);
+      } finally {
+        token = null;
+        salvandoGitHub = false;
+      }
     }
 
     // ===================== CONFERIR PLANILHA =====================
