@@ -1,6 +1,6 @@
 {
   "versao": 3,
-  "atualizadoEm": "2026-11-13T13:07:08.395Z",
+  "atualizadoEm": "2026-11-13T18:16:26.971Z",
   "periodoAtual": "2026-4",
   "periodos": [
     "2026-4",
@@ -17,6 +17,22 @@
     "PÁGINAS DE AULAS AO VIVO"
   ],
   "agendas": [
+    {
+      "id": "2026-3-web-extensao-sem-ativs-2026-2-html",
+      "chave": "web-extensao-sem-ativs-2026-2-html",
+      "periodo": "2026-3",
+      "grupo": "AGENDAS WEB PRESENCIAL",
+      "ciclo": "SEMESTRAL",
+      "nome": "PROJETO DE EXTENSÃO WEB",
+      "desc": "Utilizar nas disciplina denominadas de PROJETO DE EXTENSÃO do presencial, pois possui somente o periodo de realização do projeto",
+      "tags": [
+        "SD",
+        "COMUM",
+        "EXTENSAO"
+      ],
+      "status": "OK",
+      "url": "https://eadunisaoficial.github.io/agendaunisaoficial/AGENDAS_2026_3/WEB_EXTENSÃO_SEM_ATIVS_2026_2.html"
+    },
     {
       "id": "2026-4-teste-2026-4",
       "chave": "teste-2026-4",
