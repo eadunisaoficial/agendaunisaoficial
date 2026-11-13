@@ -1,6 +1,6 @@
 {
   "versao": 3,
-  "atualizadoEm": "2026-11-13T12:55:44.651Z",
+  "atualizadoEm": "2026-11-13T13:07:08.395Z",
   "periodoAtual": "2026-4",
   "periodos": [
     "2026-4",
@@ -37,9 +37,9 @@
         "subtitulo": "teste - 2026/4",
         "itens": [
           {
-            "data": "teste agenda",
-            "texto": "Início das aulaaaa",
-            "destaque": true,
+            "data": "amanda",
+            "texto": "pedro",
+            "destaque": false,
             "negrito": false,
             "oculto": false
           },
